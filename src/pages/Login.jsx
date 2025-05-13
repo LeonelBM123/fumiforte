@@ -22,19 +22,15 @@ function Login() {
       });
 
       if (response.ok) {
-        
-        /*
-            //verificar si el usuario es gerente, si es gerente mandar a AdminHome
-            //sino, mandar al userHome  
-
-            if (data.rol === "Gerente") {
-                navigate("/adminhome");
-            } else {
-                navigate("/userhome");
-            }
-        */ 
+      const data = await response.json();
+      
+      // Accedemos al arreglo de authorities y verificamos si contiene "Gerente"
+      if (data.authorities && data.authorities.includes("Gerente")) {
         navigate("/adminlayout");
       } else {
+        navigate("/userhome");
+      }
+    } else {
         const errorData = await response.json();
         setErrorMsg(errorData.error || "Credenciales inválidas");
       }

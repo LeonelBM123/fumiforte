@@ -13,7 +13,7 @@ function Register() {
   });
 
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // ⬅️ para redireccionar
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -53,8 +53,21 @@ function Register() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        setError(errorData.message || "Error al registrar usuario.");
+        const errorText = await response.text();
+        try {
+          const errorData = JSON.parse(errorText);
+
+          if (
+            errorData.message?.toLowerCase().includes("correo") ||
+            errorData.message?.toLowerCase().includes("duplicate")
+          ) {
+            setError("El correo ya está registrado.");
+          } else {
+            setError(errorData.message || "Error al registrar usuario.");
+          }
+        } catch {
+          setError("Error al registrar usuario.");
+        }
       } else {
         alert("Registro exitoso!");
         navigate("/");
