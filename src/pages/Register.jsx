@@ -1,26 +1,28 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./../styles/Register.css";
 
 function Register() {
   const [form, setForm] = useState({
-    nombre: "",
-    password: "",
-    confirmPassword: "",
+    nombreCompleto: "",
+    contraseña: "",
+    confirmarContraseña: "",
     telefono: "",
     direccion: "",
     correo: "",
   });
 
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // ⬅️ para redireccionar
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (form.password !== form.confirmPassword) {
+    if (form.contraseña !== form.confirmarContraseña) {
       setError("Las contraseñas no coinciden.");
       return;
     }
@@ -33,8 +35,34 @@ function Register() {
     }
 
     setError("");
-    console.log("Registro enviado:", form);
-    // Aquí iría el fetch para registrar
+
+    try {
+      const response = await fetch("http://localhost:8081/registro", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombreCompleto: form.nombreCompleto,
+          contraseña: form.contraseña,
+          telefono: form.telefono,
+          direccion: form.direccion,
+          correo: form.correo,
+          rol: "Cliente",
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.message || "Error al registrar usuario.");
+      } else {
+        alert("Registro exitoso!");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+      setError("No se pudo conectar al servidor.");
+    }
   };
 
   return (
@@ -43,9 +71,9 @@ function Register() {
         <div className="register-box">
           <h2>Registro de Usuario</h2>
           <form onSubmit={handleSubmit}>
-            <input type="text" name="nombre" placeholder="Nombre completo" value={form.nombre} onChange={handleChange} />
-            <input type="password" name="password" placeholder="Contraseña" value={form.password} onChange={handleChange} />
-            <input type="password" name="confirmPassword" placeholder="Confirmar contraseña" value={form.confirmPassword} onChange={handleChange} />
+            <input type="text" name="nombreCompleto" placeholder="Nombre completo" value={form.nombreCompleto} onChange={handleChange} />
+            <input type="password" name="contraseña" placeholder="Contraseña" value={form.contraseña} onChange={handleChange} />
+            <input type="password" name="confirmarContraseña" placeholder="Confirmar contraseña" value={form.confirmarContraseña} onChange={handleChange} />
             <input type="text" name="telefono" placeholder="Teléfono" value={form.telefono} onChange={handleChange} />
             <input type="text" name="direccion" placeholder="Dirección" value={form.direccion} onChange={handleChange} />
             <input type="email" name="correo" placeholder="Correo" value={form.correo} onChange={handleChange} />

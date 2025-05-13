@@ -33,7 +33,7 @@ function Login() {
                 navigate("/userhome");
             }
         */ 
-        navigate("/adminhome");
+        navigate("/adminlayout");
       } else {
         const errorData = await response.json();
         setErrorMsg(errorData.error || "Credenciales inválidas");

@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "../styles/AdminHome.css";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import "../styles/AdminLayout.css";
 import logo from "../assets/fumiforte-logo.png"; // asegurate que exista la imagen
 
-function AdminHome() {
+function AdminLayout() {
   const [activeSection, setActiveSection] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleMainView = () => {
+    navigate("/adminlayout");
     setActiveSection(null);
   };
 
   const handleNavigation = (section) => {
-    navigate(section); // ejemplo: "/gestionar-usuario"
+    navigate(`/adminlayout/${section}`);
+    setActiveSection(section);
   };
 
   return (
@@ -27,46 +30,52 @@ function AdminHome() {
         <div className="menu-group">
           <details>
             <summary>Gestionar Usuario</summary>
-            <button onClick={() => handleNavigation("/gestionar-usuario")}>
+            <button onClick={() => handleNavigation("gestionar-usuario?view=registrar")}>
               Registrar Trabajador
             </button>
-            <button>Dar de baja Trabajador</button>
+            <button onClick={() => handleNavigation("gestionar-usuario?view=baja")}>
+              Dar de baja Trabajador
+            </button>
           </details>
 
           <details>
             <summary>Gestionar Proveedor</summary>
-            <button>Registrar Proveedor</button>
+            <button onClick={() => handleNavigation("gestionar-proveedor")}>
+              Registrar Proveedor
+            </button>
             <button>Dar de baja Proveedor</button>
           </details>
 
           <details>
             <summary>Gestionar Plaga</summary>
-            <button>Registrar Plaga</button>
+            <button onClick={() => handleNavigation("gestionar-plaga")}>
+              Registrar Plaga
+            </button>
             <button>Eliminar Plaga</button>
           </details>
 
           <details>
             <summary>Gestionar Inventario</summary>
-            <button>Registrar Compra</button>
+            <button onClick={() => handleNavigation("gestionar-inventario")}>
+              Registrar Compra
+            </button>
           </details>
 
           <details>
             <summary>Gestionar Bitacora</summary>
-            <button>Ver Bitácora</button>
+            <button onClick={() => handleNavigation("gestionar-bitacora")}>
+              Ver Bitácora
+            </button>
           </details>
         </div>
       </aside>
 
       <main className="main-content">
-        {activeSection === null ? (
-          <h2>Bienvenido al panel de administrador</h2>
-        ) : (
-          // Aquí se puede mostrar algo si querés en la vista principal
-          <></>
-        )}
+        {/* Usamos el Outlet con un 'key' dinámico para forzar el renderizado */}
+        <Outlet key={location.pathname} />
       </main>
     </div>
   );
 }
 
-export default AdminHome;
+export default AdminLayout;
