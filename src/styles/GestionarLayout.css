@@ -18,7 +18,7 @@ html, body {
 }
 
 /* Contenedor principal */
-.gestionar-usuario-container {
+.gestionar-layout-container {
   flex-grow: 1; /* ocupa el espacio disponible */
   padding: 1.5rem;
   background-color: #ffffff;
@@ -30,8 +30,8 @@ html, body {
   overflow-x: auto;
 }
 
-.gestionar-usuario-container h1,
-.gestionar-usuario-container h2 {
+.gestionar-layout-container h1,
+.gestionar-layout-container h2 {
   word-break: break-word;
   max-width: 100%;
   overflow-wrap: break-word;

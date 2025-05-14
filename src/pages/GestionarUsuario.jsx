@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../styles/GestionarUsuario.css";
+import "../styles/GestionarLayout.css";
 
 function GestionarUsuario() {
   const [modo, setModo] = useState("lista");
