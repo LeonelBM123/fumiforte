@@ -1,10 +1,13 @@
+
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/GestionarUsuario.css";
 
 function GestionarUsuario() {
   const [modo, setModo] = useState("lista");
   const [usuarios, setUsuarios] = useState([]);
   const [form, setForm] = useState({
+    idUsuario: "",
     nombreCompleto: "",
     contraseña: "",
     confirmarContraseña: "",
@@ -17,15 +20,18 @@ function GestionarUsuario() {
 
   useEffect(() => {
     obtenerUsuarios();
-    console.log("Usuarios que llegaron del backend:", usuarios);
-
   }, []);
 
   const obtenerUsuarios = async () => {
   try {
 
     const response = await fetch("http://localhost:8081/gerente/usuarios", {
-  
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        
     });
 
     if (!response.ok) {
@@ -61,6 +67,7 @@ function GestionarUsuario() {
     try {
       const response = await fetch("http://localhost:8081/registro", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -125,6 +132,7 @@ function GestionarUsuario() {
             <table>
               <thead>
                 <tr>
+                  <th>Id Usuario</th>
                   <th>Nombre Completo</th>
                   <th>Teléfono</th>
                   <th>Dirección</th>
@@ -136,6 +144,7 @@ function GestionarUsuario() {
               <tbody>
                 {usuarios.map((usuario) => (
                   <tr key={usuario.idUsuario}>
+                    <td>{usuario.idUsuario}</td>
                     <td>{usuario.nombreCompleto}</td>
                     <td>{usuario.telefono}</td>
                     <td>{usuario.direccion}</td>

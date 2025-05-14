@@ -5,6 +5,9 @@ html, body {
   background-color: #e6ffe6;
   min-height: 100vh;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 * {
@@ -15,12 +18,12 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
+  padding: 0rem;
   background-color: #e6ffe6;
   height: 100vh;
   box-sizing: border-box;
   max-width: none;
-  width: 76vw; /* Aquí usamos el 70% del viewport de ancho */
+  width: 76vw; /* Usamos el 76% del ancho del viewport */
 }
 
 .formulario-registro {
@@ -31,23 +34,19 @@ html, body {
   height: fit-content;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-left: 5px solid #a3e635;
-
-  /* Lo nuevo: ocupa el 70% del ancho de la pantalla */
   max-width: none;
   width: 70vw; /* Aquí usamos el 70% del viewport de ancho */
 }
 
-
 h1 {
   color: #065f46;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem; /* Reducimos el margen inferior */
 }
-
 
 .formulario-registro h2 {
   text-align: center;
   color: #065f46;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem; /* Reducimos el margen inferior */
 }
 
 .formulario-registro form {
@@ -70,14 +69,14 @@ h1 {
 }
 
 .formulario-registro button {
-  padding: 0.75rem;
+  padding: 0.5rem;
   background-color: #65a30d;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   transition: background-color 0.3s;
 }
 
@@ -98,4 +97,64 @@ h1 {
 
 .success {
   color: #16a34a;
+}
+
+/* Estilos para la tabla */
+.tabla-usuarios {
+  width: 100%;
+  margin-top: 20px;
+  overflow-x: auto;
+  border-radius: 10px;
+  max-height: 1000px;
+  overflow-y: auto; 
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid #a3e635;
+}
+
+table th {
+  background-color: #a3e635;
+  color: white;
+  font-weight: bold;
+  position: sticky;
+  top: 0; 
+  z-index: 1; 
+}
+
+table td {
+  color: #065f46;
+}
+
+table tr:nth-child(even) {
+  background-color: #f1f8f1;
+}
+
+table tr:hover {
+  background-color: #d4f1d4;
+}
+
+table button {
+  padding: 0.5rem 1rem;
+  background-color: #65a30d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+table button:hover {
+  background-color: #4d7c0f;
 }
