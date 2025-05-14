@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/GestionarUsuario.css";
@@ -17,33 +16,33 @@ function GestionarUsuario() {
   });
   const [error, setError] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [usuarioEditado, setUsuarioEditado] = useState(null); 
 
   useEffect(() => {
     obtenerUsuarios();
   }, []);
 
   const obtenerUsuarios = async () => {
-  try {
-
-    const response = await fetch("http://localhost:8081/gerente/usuarios", {
+    try {
+      const response = await fetch("http://localhost:8081/gerente/usuarios", {
         method: "GET",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        
-    });
+      });
 
-    if (!response.ok) {
-      throw new Error(`HTTP status ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP status ${response.status}`);
+      }
+
+      const data = await response.json();
+      setUsuarios(data);
+    } catch (error) {
+      console.error("Error al obtener usuarios:", error);
     }
-
-    const data = await response.json();
-    setUsuarios(data);
-  } catch (error) {
-    console.error("Error al obtener usuarios:", error);
-  }
-};
+  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -116,6 +115,69 @@ function GestionarUsuario() {
     }
   };
 
+  const handleEditar = (usuario) => {
+    setUsuarioEditado(usuario);
+    setModalVisible(true); // Mostrar el modal de edición
+    setForm({
+      idUsuario: usuario.idUsuario,
+      nombreCompleto: usuario.nombreCompleto,
+      contraseña: "", // No editable
+      confirmarContraseña: "", // No editable
+      telefono: usuario.telefono,
+      direccion: usuario.direccion,
+      correo: usuario.correo,
+      rol: usuario.rol,
+    });
+  };
+
+  const handleConfirmarEdicion = async () => {
+  const {
+    idUsuario,
+    nombreCompleto,
+    telefono,
+    direccion,
+    correo,
+    contraseña,
+    rol,
+  } = form;
+
+  try {
+    const response = await axios.put(
+      `http://localhost:8081/usuarios/${idUsuario}`,
+      {
+        nombreCompleto,
+        telefono,
+        direccion,
+        correo,
+        contraseña, // Se manda aunque no se muestre en el formulario
+        rol,        // Igual, se manda pero no se edita
+      },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      setMensaje("Usuario actualizado exitosamente.");
+      setModalVisible(false);
+      obtenerUsuarios();
+    } else {
+      setError("Hubo un error al actualizar el usuario.");
+    }
+  } catch (error) {
+    console.error("Error al actualizar el usuario:", error);
+    if (error.response) {
+      console.error("Detalles del error del backend:", error.response.data);
+      setError(error.response.data.message || "No se pudo actualizar el usuario.");
+    } else {
+      setError("No se pudo conectar al servidor.");
+    }
+  }
+};
+
   return (
     <div className="gestionar-usuario-container">
       <h1 style={{ marginBottom: "10px" }}>Gestionar Usuario</h1>
@@ -151,7 +213,7 @@ function GestionarUsuario() {
                     <td>{usuario.correo}</td>
                     <td>{usuario.rol}</td>
                     <td>
-                      <button>Editar</button>
+                      <button onClick={() => handleEditar(usuario)}>Editar</button>
                       <button>Eliminar</button>
                     </td>
                   </tr>
@@ -219,6 +281,52 @@ function GestionarUsuario() {
           </form>
           {error && <p className="error">{error}</p>}
           {mensaje && <p className="success">{mensaje}</p>}
+        </div>
+      )}
+
+      {modalVisible && (
+        <div className="modal-overlay">
+          <div className="modal-container">
+            <h2>Editar Usuario</h2>
+            <form className="formulario-registro">
+              <input
+                type="text"
+                name="nombreCompleto"
+                placeholder="Nombre completo"
+                value={form.nombreCompleto}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                name="telefono"
+                placeholder="Teléfono"
+                value={form.telefono}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                name="direccion"
+                placeholder="Dirección"
+                value={form.direccion}
+                onChange={handleChange}
+              />
+              <input
+                type="email"
+                name="correo"
+                placeholder="Correo electrónico"
+                value={form.correo}
+                onChange={handleChange}
+              />
+              <div className="modal-buttons">
+                <button type="button" onClick={handleConfirmarEdicion}>
+                  Confirmar
+                </button>
+                <button type="button" onClick={() => setModalVisible(false)}>
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </div>
