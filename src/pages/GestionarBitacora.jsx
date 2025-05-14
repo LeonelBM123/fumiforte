@@ -29,25 +29,27 @@ function GestionarBitacora() {
 
   return (
     <div className="gestionar-layout-container">
-      <h1 style={{ marginBottom: "10px" }}>Gestionar Bitácora</h1>
+      <h1 style={{ marginBottom: "10px" }}>Bitácora del Sistema</h1>
 
       <div className="tabla-bitacoras" style={{ maxHeight: "70vh", overflowY: "auto" }}>
         <table>
           <thead>
             <tr>
-              <th>Id Bitácora</th>
+              <th>ID</th>
               <th>Acción</th>
               <th>Fecha y Hora</th>
               <th>IP</th>
+              <th>ID Usuario</th>
             </tr>
           </thead>
           <tbody>
-            {bitacoras.map((bitacora) => (
-              <tr key={bitacora.IdBitacora}>
-                <td>{bitacora.IdBitacora}</td>
-                <td>{bitacora.Accion}</td>
-                <td>{bitacora.FechaHora}</td>
-                <td>{bitacora.IP}</td>
+            {bitacoras.map((b) => (
+              <tr key={b.idBitacora}>
+                <td>{b.idBitacora}</td>
+                <td>{b.accion}</td>
+                <td>{new Date(b.fechaHora).toLocaleString()}</td>
+                <td>{b.ip}</td>
+                <td>{b.usuario}</td>
               </tr>
             ))}
           </tbody>
@@ -58,4 +60,3 @@ function GestionarBitacora() {
 }
 
 export default GestionarBitacora;
-
