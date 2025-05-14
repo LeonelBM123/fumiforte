@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import "../styles/AdminLayout.css";
-import logo from "../assets/fumiforte-logo.png"; // asegurate que exista la imagen
+import logo from "../assets/fumiforte-logo.png";
+import perfil from "../assets/perfil.png"; // Asegúrate de tener esta imagen
 
 function AdminLayout() {
   const [activeSection, setActiveSection] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -18,8 +20,40 @@ function AdminLayout() {
     setActiveSection(section);
   };
 
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  const handleLogout = () => {
+    // lógica de logout
+    navigate("/");
+  };
+
+  const handleEditProfile = () => {
+    // lógica de editar perfil (puedes cambiar la ruta aquí)
+    alert("Función aún no implementada");
+  };
+
   return (
     <div className="admin-container">
+      {/* Barra superior */}
+      <header className="topbar">
+        <div className="topbar-right">
+          <img
+            src={perfil}
+            alt="Perfil"
+            className="profile-pic"
+            onClick={toggleDropdown}
+          />
+          {showDropdown && (
+            <div className="dropdown-menu">
+              <button onClick={handleEditProfile}>Editar Perfil</button>
+              <button onClick={handleLogout}>Cerrar Sesión</button>
+            </div>
+          )}
+        </div>
+      </header>
+
       <aside className="sidebar">
         <img
           src={logo}
@@ -71,7 +105,6 @@ function AdminLayout() {
       </aside>
 
       <main className="main-content">
-        {/* Usamos el Outlet con un 'key' dinámico para forzar el renderizado */}
         <Outlet key={location.pathname} />
       </main>
     </div>

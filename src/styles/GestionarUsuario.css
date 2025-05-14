@@ -107,3 +107,9 @@ html, body {
 * {
   box-sizing: border-box;
 }
+
+.success {
+  color: green;
+  margin-top: 10px;
+  font-weight: bold;
+}
