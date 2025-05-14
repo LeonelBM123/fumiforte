@@ -25,7 +25,12 @@ function GestionarUsuario() {
   try {
 
     const response = await fetch("http://localhost:8081/gerente/usuarios", {
-  
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        
     });
 
     if (!response.ok) {
@@ -61,6 +66,7 @@ function GestionarUsuario() {
     try {
       const response = await fetch("http://localhost:8081/registro", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
