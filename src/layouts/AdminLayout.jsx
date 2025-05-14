@@ -30,7 +30,6 @@ function AdminLayout() {
   };
 
   const handleEditProfile = () => {
-    // lógica de editar perfil (puedes cambiar la ruta aquí)
     alert("Función aún no implementada");
   };
 
@@ -63,42 +62,29 @@ function AdminLayout() {
         />
         <div className="menu-group">
           <details>
-            <summary>Gestionar Usuario</summary>
-            <button onClick={() => handleNavigation("gestionar-usuario?view=registrar")}>
-              Registrar Trabajador
-            </button>
-            <button onClick={() => handleNavigation("gestionar-usuario?view=baja")}>
-              Dar de baja Trabajador
-            </button>
-          </details>
-
-          <details>
-            <summary>Gestionar Proveedor</summary>
-            <button onClick={() => handleNavigation("gestionar-proveedor")}>
-              Registrar Proveedor
-            </button>
-            <button>Dar de baja Proveedor</button>
-          </details>
-
-          <details>
-            <summary>Gestionar Plaga</summary>
-            <button onClick={() => handleNavigation("gestionar-plaga")}>
-              Registrar Plaga
-            </button>
-            <button>Eliminar Plaga</button>
-          </details>
-
-          <details>
-            <summary>Gestionar Inventario</summary>
-            <button onClick={() => handleNavigation("gestionar-inventario")}>
-              Registrar Compra
-            </button>
-          </details>
-
-          <details>
-            <summary>Gestionar Bitacora</summary>
+            <summary>Autentificación y Seguridad</summary>
             <button onClick={() => handleNavigation("gestionar-bitacora")}>
-              Ver Bitácora
+              Gestionar Bitácora del sistema
+            </button>
+          </details>
+
+          <details>
+            <summary>Gestión de Clientes y Trabajadores</summary>
+            <button onClick={() => handleNavigation("gestionar-usuario")}>
+              Gestionar Usuario
+            </button>
+          </details>
+
+          <details>
+            <summary>Inventario y Proveedores</summary>
+            <button onClick={() => handleNavigation("gestionar-proveedor")}>
+              Gestionar Proveedor
+            </button>
+            <button onClick={() => handleNavigation("gestionar-plaga")}>
+              Gestionar Plaga
+            </button>
+            <button onClick={() => handleNavigation("gestionar-inventario")}>
+              Gestionar Inventario
             </button>
           </details>
         </div>

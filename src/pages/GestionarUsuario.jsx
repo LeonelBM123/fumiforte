@@ -1,20 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import "../styles/GestionarUsuario.css";
 
 function GestionarUsuario() {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const view = queryParams.get("view") || "registrar";
-
-  const [modo, setModo] = useState(view);
-  const [listaTrabajadores, setListaTrabajadores] = useState([
-    { id: 1, nombre: "Carlos Perez" },
-    { id: 2, nombre: "Lucia Gomez" },
-    { id: 3, nombre: "Mario Rojas" },
-  ]);
-
-  const [seleccionados, setSeleccionados] = useState([]);
+  const [modo, setModo] = useState("lista");
+  const [usuarios, setUsuarios] = useState([]);
   const [form, setForm] = useState({
     nombreCompleto: "",
     contraseña: "",
@@ -23,24 +12,32 @@ function GestionarUsuario() {
     direccion: "",
     correo: "",
   });
-
   const [error, setError] = useState("");
   const [mensaje, setMensaje] = useState("");
 
   useEffect(() => {
-    setModo(view);
-  }, [view]);
+    obtenerUsuarios();
+    console.log("Usuarios que llegaron del backend:", usuarios);
 
-  const toggleSeleccion = (id) => {
-    setSeleccionados((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
+  }, []);
 
-  const darDeBaja = () => {
-    alert("Trabajadores dados de baja: " + seleccionados.join(", "));
-    // Aquí podrías enviar una petición al backend
-  };
+  const obtenerUsuarios = async () => {
+  try {
+
+    const response = await fetch("http://localhost:8081/gerente/usuarios", {
+  
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP status ${response.status}`);
+    }
+
+    const data = await response.json();
+    setUsuarios(data);
+  } catch (error) {
+    console.error("Error al obtener usuarios:", error);
+  }
+};
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -51,19 +48,15 @@ function GestionarUsuario() {
 
     if (form.contraseña !== form.confirmarContraseña) {
       setError("Las contraseñas no coinciden.");
-      setMensaje("");
       return;
     }
 
     for (let key in form) {
       if (form[key].trim() === "") {
         setError("Todos los campos son obligatorios.");
-        setMensaje("");
         return;
       }
     }
-
-    setError("");
 
     try {
       const response = await fetch("http://localhost:8081/registro", {
@@ -93,10 +86,8 @@ function GestionarUsuario() {
           } else {
             setError(errorData.message || "Error al registrar trabajador.");
           }
-          setMensaje("");
         } catch {
           setError("Error al registrar trabajador.");
-          setMensaje("");
         }
       } else {
         setMensaje("¡Trabajador registrado exitosamente!");
@@ -109,17 +100,58 @@ function GestionarUsuario() {
           direccion: "",
           correo: "",
         });
+        setModo("lista");
+        obtenerUsuarios();
       }
     } catch (error) {
       console.error("Error de red:", error);
       setError("No se pudo conectar al servidor.");
-      setMensaje("");
     }
   };
 
   return (
     <div className="gestionar-usuario-container">
-      {modo === "registrar" ? (
+      <h1 style={{ marginBottom: "10px" }}>Gestionar Usuario</h1>
+      {modo === "lista" ? (
+        <>
+          <button
+            style={{ marginBottom: "20px" }}
+            onClick={() => setModo("registrar")}
+          >
+            + Registrar Trabajador
+          </button>
+
+          <div className="tabla-usuarios" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre Completo</th>
+                  <th>Teléfono</th>
+                  <th>Dirección</th>
+                  <th>Correo</th>
+                  <th>Rol</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {usuarios.map((usuario) => (
+                  <tr key={usuario.idUsuario}>
+                    <td>{usuario.nombreCompleto}</td>
+                    <td>{usuario.telefono}</td>
+                    <td>{usuario.direccion}</td>
+                    <td>{usuario.correo}</td>
+                    <td>{usuario.rol}</td>
+                    <td>
+                      <button>Editar</button>
+                      <button>Eliminar</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      ) : (
         <div className="formulario-registro">
           <h2>Registrar nuevo trabajador</h2>
           <form onSubmit={handleSubmit}>
@@ -172,28 +204,12 @@ function GestionarUsuario() {
               required
             />
             <button type="submit">Registrar</button>
+            <button type="button" onClick={() => setModo("lista")}>
+              Cancelar
+            </button>
           </form>
           {error && <p className="error">{error}</p>}
           {mensaje && <p className="success">{mensaje}</p>}
-        </div>
-      ) : (
-        <div className="lista-trabajadores">
-          <h2>Lista de trabajadores</h2>
-          <ul>
-            {listaTrabajadores.map((t) => (
-              <li key={t.id}>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={seleccionados.includes(t.id)}
-                    onChange={() => toggleSeleccion(t.id)}
-                  />
-                  {t.nombre}
-                </label>
-              </li>
-            ))}
-          </ul>
-          <button onClick={darDeBaja}>Dar de baja seleccionados</button>
         </div>
       )}
     </div>
