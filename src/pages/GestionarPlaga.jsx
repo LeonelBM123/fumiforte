@@ -17,27 +17,25 @@ function GestionarPlaga() {
   const [plagaEditado, setPlagaEditado] = useState(null);
   const [plagaAEliminar, setPlagaAEliminar] = useState(null);
   const [modalEliminarVisible, setModalEliminarVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     obtenerPlagas();
   }, []);
 
   const obtenerPlagas = async () => {
+    setLoading(true);
     try {
-      const response = await fetch("http://localhost:8081/gerente/plagas", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await axios.get("http://localhost:8081/gerente/plagas", {
+        withCredentials: true,
       });
 
-      if (!response.ok) throw new Error(`HTTP status ${response.status}`);
-
-      const data = await response.json();
-      setPlagas(data);
+      setPlagas(response.data);
     } catch (error) {
       console.error("Error al obtener plagas:", error);
+      setError("No se pudieron cargar las plagas.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,31 +63,23 @@ function GestionarPlaga() {
     }
 
     try {
-      const response = await fetch("http://localhost:8081/nueva_plaga", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cleanedForm),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        try {
-          const errorData = JSON.parse(errorText);
-          setError(errorData.message || "Error al registrar Plaga.");
-        } catch {
-          setError("Error al registrar Plaga.");
+      const response = await axios.post(
+        "http://localhost:8081/nueva_plaga",
+        cleanedForm,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
         }
-      } else {
-        setMensaje("¡Plaga registrada exitosamente!");
-        setError("");
-        setForm({ idPlaga: "", nombre: "", descripcion: "", recomendaciones: "" });
-        setModo("lista");
-        obtenerPlagas();
-      }
+      );
+
+      setMensaje("¡Plaga registrada exitosamente!");
+      setError("");
+      setForm({ idPlaga: "", nombre: "", descripcion: "", recomendaciones: "" });
+      setModo("lista");
+      obtenerPlagas();
     } catch (error) {
-      console.error("Error de red:", error);
-      setError("No se pudo conectar al servidor.");
+      console.error("Error al registrar plaga:", error);
+      setError("No se pudo registrar la plaga.");
     }
   };
 
@@ -161,43 +151,51 @@ function GestionarPlaga() {
     }
   };
 
-  return (
+   return (
     <div className="gestionar-layout-container">
       <h1 style={{ marginBottom: "10px" }}>Gestionar Plaga</h1>
-      {modo === "lista" ? (
-        <>
-          <button style={{ marginBottom: "20px" }} onClick={() => setModo("registrar")}>
-            + Registrar Plaga
-          </button>
 
-          <div className="tabla-plagas" style={{ maxHeight: "70vh", overflowY: "auto" }}>
-            <table>
-              <thead>
-                <tr>
-                  <th>Id Plaga</th>
-                  <th>Nombre</th>
-                  <th>Descripcion</th>
-                  <th>Recomendaciones</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {plagas.map((plaga) => (
-                  <tr key={plaga.idPlaga}>
-                    <td>{plaga.idPlaga}</td>
-                    <td>{plaga.nombre}</td>
-                    <td>{plaga.descripcion}</td>
-                    <td>{plaga.recomendaciones}</td>
-                    <td>
-                      <button onClick={() => handleEditar(plaga)}>Editar</button>
-                      <button onClick={() => handleEliminar(plaga)}>Eliminar</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {modo === "lista" ? (
+        loading ? (
+          <div className="loader-container">
+            <div className="spinner"></div>
+            <p>Cargando plagas...</p>
           </div>
-        </>
+        ) : (
+          <>
+            <button style={{ marginBottom: "20px" }} onClick={() => setModo("registrar")}>
+              + Registrar Plaga
+            </button>
+
+            <div className="tabla-plagas" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Id Plaga</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Recomendaciones</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {plagas.map((plaga) => (
+                    <tr key={plaga.idPlaga}>
+                      <td>{plaga.idPlaga}</td>
+                      <td>{plaga.nombre}</td>
+                      <td>{plaga.descripcion}</td>
+                      <td>{plaga.recomendaciones}</td>
+                      <td>
+                        <button onClick={() => handleEditar(plaga)}>Editar</button>
+                        <button onClick={() => handleEliminar(plaga)}>Eliminar</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )
       ) : (
         <div className="formulario-registro">
           <h2>Registrar nueva plaga</h2>

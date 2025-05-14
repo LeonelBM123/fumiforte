@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/GestionarLayout.css";
+import "../styles/Loader.css";
 
 function GestionarUsuario() {
   const [modo, setModo] = useState("lista");
@@ -20,31 +21,36 @@ function GestionarUsuario() {
   const [usuarioEditado, setUsuarioEditado] = useState(null);
   const [usuarioAEliminar, setUsuarioAEliminar] = useState(null);
   const [modalEliminarVisible, setModalEliminarVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     obtenerUsuarios();
   }, []);
 
   const obtenerUsuarios = async () => {
-    try {
-      const response = await fetch("http://localhost:8081/gerente/usuarios", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  try {
+    setLoading(true);
+    const response = await fetch("http://localhost:8081/gerente/usuarios", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-      if (!response.ok) {
-        throw new Error(`HTTP status ${response.status}`);
-      }
-
-      const data = await response.json();
-      setUsuarios(data);
-    } catch (error) {
-      console.error("Error al obtener usuarios:", error);
+    if (!response.ok) {
+      throw new Error(`HTTP status ${response.status}`);
     }
-  };
+
+    const data = await response.json();
+    setUsuarios(data);
+  } catch (error) {
+    console.error("Error al obtener usuarios:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -197,50 +203,55 @@ function GestionarUsuario() {
   };
 
   return (
-    <div className="gestionar-usuario-container">
+    <div className="gestionar-layout-container">
       <h1 style={{ marginBottom: "10px" }}>Gestionar Usuario</h1>
-      {modo === "lista" ? (
-        <>
-          <button
-            style={{ marginBottom: "20px" }}
-            onClick={() => setModo("registrar")}
-          >
-            + Registrar Trabajador
-          </button>
+      {loading ? (
+  <div className="loader-container">
+    <div className="spinner"></div>
+    <p>Cargando usuarios...</p>
+  </div>
+) : modo === "lista" ? (
+  <>
+    <button
+      style={{ marginBottom: "20px" }}
+      onClick={() => setModo("registrar")}
+    >
+      + Registrar Trabajador
+    </button>
 
-          <div className="tabla-usuarios" style={{ maxHeight: "70vh", overflowY: "auto" }}>
-            <table>
-              <thead>
-                <tr>
-                  <th>Id Usuario</th>
-                  <th>Nombre Completo</th>
-                  <th>Teléfono</th>
-                  <th>Dirección</th>
-                  <th>Correo</th>
-                  <th>Rol</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {usuarios.map((usuario) => (
-                  <tr key={usuario.idUsuario}>
-                    <td>{usuario.idUsuario}</td>
-                    <td>{usuario.nombreCompleto}</td>
-                    <td>{usuario.telefono}</td>
-                    <td>{usuario.direccion}</td>
-                    <td>{usuario.correo}</td>
-                    <td>{usuario.rol}</td>
-                    <td>
-                      <button onClick={() => handleEditar(usuario)}>Editar</button>
-                      <button onClick={() => handleEliminar(usuario)}>Eliminar</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      ) : (
+    <div className="tabla-usuarios" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+      <table>
+        <thead>
+          <tr>
+            <th>Id Usuario</th>
+            <th>Nombre Completo</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {usuarios.map((usuario) => (
+            <tr key={usuario.idUsuario}>
+              <td>{usuario.idUsuario}</td>
+              <td>{usuario.nombreCompleto}</td>
+              <td>{usuario.telefono}</td>
+              <td>{usuario.direccion}</td>
+              <td>{usuario.correo}</td>
+              <td>{usuario.rol}</td>
+              <td>
+                <button onClick={() => handleEditar(usuario)}>Editar</button>
+                <button onClick={() => handleEliminar(usuario)}>Eliminar</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </>
+) : (
         <div className="formulario-registro">
           <h2>Registrar nuevo trabajador</h2>
           <form onSubmit={handleSubmit}>

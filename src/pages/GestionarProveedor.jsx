@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/GestionarLayout.css";
+import "../styles/Loader.css";
 
 function GestionarProveedor() {
   const [modo, setModo] = useState("lista");
   const [proveedores, setProveedores] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [form, setForm] = useState({
     idProveedor: "",
     nombre: "",
@@ -26,12 +28,11 @@ function GestionarProveedor() {
 
   const obtenerProveedores = async () => {
     try {
+      setLoading(true);
       const response = await fetch("http://localhost:8081/gerente/proveedores", {
         method: "GET",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
 
       if (!response.ok) throw new Error(`HTTP status ${response.status}`);
@@ -40,6 +41,8 @@ function GestionarProveedor() {
       setProveedores(data);
     } catch (error) {
       console.error("Error al obtener proveedores:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,7 +59,7 @@ function GestionarProveedor() {
   });
 
   const validarCampos = ({ nombre, telefono, direccion, correo, estado }) => {
-    return nombre !== "" && telefono !== "" && direccion !== "" && correo !== "" && estado !== "";
+    return nombre && telefono && direccion && correo && estado;
   };
 
   const handleSubmit = async (e) => {
@@ -170,44 +173,52 @@ function GestionarProveedor() {
   return (
     <div className="gestionar-layout-container">
       <h1 style={{ marginBottom: "10px" }}>Gestionar Proveedor</h1>
-      {modo === "lista" ? (
-        <>
-          <button style={{ marginBottom: "20px" }} onClick={() => setModo("registrar")}>
-            + Registrar Proveedor
-          </button>
 
-          <div className="tabla-proveedores" style={{ maxHeight: "70vh", overflowY: "auto" }}>
-            <table>
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Nombre</th>
-                  <th>Teléfono</th>
-                  <th>Dirección</th>
-                  <th>Correo</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {proveedores.map((prov) => (
-                  <tr key={prov.idProveedor}>
-                    <td>{prov.idProveedor}</td>
-                    <td>{prov.nombre}</td>
-                    <td>{prov.telefono}</td>
-                    <td>{prov.direccion}</td>
-                    <td>{prov.correo}</td>
-                    <td>{prov.estado}</td>
-                    <td>
-                      <button onClick={() => handleEditar(prov)}>Editar</button>
-                      <button onClick={() => handleEliminar(prov)}>Eliminar</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {modo === "lista" ? (
+        loading ? (
+          <div className="loader-container">
+            <div className="spinner"></div>
+            <p>Cargando proveedores...</p>
           </div>
-        </>
+        ) : (
+          <>
+            <button style={{ marginBottom: "20px" }} onClick={() => setModo("registrar")}>
+              + Registrar Proveedor
+            </button>
+
+            <div className="tabla-proveedores" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
+                    <th>Correo</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {proveedores.map((prov) => (
+                    <tr key={prov.idProveedor}>
+                      <td>{prov.idProveedor}</td>
+                      <td>{prov.nombre}</td>
+                      <td>{prov.telefono}</td>
+                      <td>{prov.direccion}</td>
+                      <td>{prov.correo}</td>
+                      <td>{prov.estado}</td>
+                      <td>
+                        <button onClick={() => handleEditar(prov)}>Editar</button>
+                        <button onClick={() => handleEliminar(prov)}>Eliminar</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )
       ) : (
         <div className="formulario-registro">
           <h2>Registrar nuevo proveedor</h2>
