@@ -17,7 +17,9 @@ function GestionarUsuario() {
   const [error, setError] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [usuarioEditado, setUsuarioEditado] = useState(null); 
+  const [usuarioEditado, setUsuarioEditado] = useState(null);
+  const [usuarioAEliminar, setUsuarioAEliminar] = useState(null);
+  const [modalEliminarVisible, setModalEliminarVisible] = useState(false);
 
   useEffect(() => {
     obtenerUsuarios();
@@ -117,12 +119,12 @@ function GestionarUsuario() {
 
   const handleEditar = (usuario) => {
     setUsuarioEditado(usuario);
-    setModalVisible(true); // Mostrar el modal de edición
+    setModalVisible(true);
     setForm({
       idUsuario: usuario.idUsuario,
       nombreCompleto: usuario.nombreCompleto,
-      contraseña: "", // No editable
-      confirmarContraseña: "", // No editable
+      contraseña: "",
+      confirmarContraseña: "",
       telefono: usuario.telefono,
       direccion: usuario.direccion,
       correo: usuario.correo,
@@ -130,53 +132,69 @@ function GestionarUsuario() {
     });
   };
 
-  const handleConfirmarEdicion = async () => {
-  const {
-    idUsuario,
-    nombreCompleto,
-    telefono,
-    direccion,
-    correo,
-    contraseña,
-    rol,
-  } = form;
+  const handleEliminar = (usuario) => {
+    setUsuarioAEliminar(usuario);
+    setModalEliminarVisible(true);
+  };
 
-  try {
-    const response = await axios.put(
-      `http://localhost:8081/usuarios/${idUsuario}`,
-      {
-        nombreCompleto,
-        telefono,
-        direccion,
-        correo,
-        contraseña, // Se manda aunque no se muestre en el formulario
-        rol,        // Igual, se manda pero no se edita
-      },
-      {
+  const confirmarEliminarUsuario = async () => {
+    if (!usuarioAEliminar) return;
+
+    try {
+      await axios.delete(`http://localhost:8081/usuarios/${usuarioAEliminar.idUsuario}`, {
         withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (response.status === 200) {
-      setMensaje("Usuario actualizado exitosamente.");
-      setModalVisible(false);
+      });
+      setMensaje("Usuario eliminado exitosamente.");
+      setModalEliminarVisible(false);
       obtenerUsuarios();
-    } else {
-      setError("Hubo un error al actualizar el usuario.");
+    } catch (error) {
+      console.error("Error al eliminar usuario:", error);
+      setError("No se pudo eliminar el usuario.");
     }
-  } catch (error) {
-    console.error("Error al actualizar el usuario:", error);
-    if (error.response) {
-      console.error("Detalles del error del backend:", error.response.data);
-      setError(error.response.data.message || "No se pudo actualizar el usuario.");
-    } else {
-      setError("No se pudo conectar al servidor.");
+  };
+
+  const handleConfirmarEdicion = async () => {
+    const {
+      idUsuario,
+      nombreCompleto,
+      telefono,
+      direccion,
+      correo,
+      contraseña,
+      rol,
+    } = form;
+
+    try {
+      const response = await axios.put(
+        `http://localhost:8081/usuarios/${idUsuario}`,
+        {
+          nombreCompleto,
+          telefono,
+          direccion,
+          correo,
+          contraseña,
+          rol,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setMensaje("Usuario actualizado exitosamente.");
+        setModalVisible(false);
+        obtenerUsuarios();
+      } else {
+        setError("Hubo un error al actualizar el usuario.");
+      }
+    } catch (error) {
+      console.error("Error al actualizar el usuario:", error);
+      setError("No se pudo actualizar el usuario.");
     }
-  }
-};
+  };
 
   return (
     <div className="gestionar-usuario-container">
@@ -214,7 +232,7 @@ function GestionarUsuario() {
                     <td>{usuario.rol}</td>
                     <td>
                       <button onClick={() => handleEditar(usuario)}>Editar</button>
-                      <button>Eliminar</button>
+                      <button onClick={() => handleEliminar(usuario)}>Eliminar</button>
                     </td>
                   </tr>
                 ))}
@@ -284,6 +302,7 @@ function GestionarUsuario() {
         </div>
       )}
 
+      {/* Modal de edición */}
       {modalVisible && (
         <div className="modal-overlay">
           <div className="modal-container">
@@ -326,6 +345,19 @@ function GestionarUsuario() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de confirmación para eliminar */}
+      {modalEliminarVisible && (
+        <div className="modal-overlay">
+          <div className="modal-container">
+            <h2>¿Confirmar eliminar usuario?</h2>
+            <div className="modal-buttons">
+              <button onClick={confirmarEliminarUsuario}>Confirmar</button>
+              <button onClick={() => setModalEliminarVisible(false)}>Cancelar</button>
+            </div>
           </div>
         </div>
       )}
