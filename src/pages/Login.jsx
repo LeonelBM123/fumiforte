@@ -28,7 +28,7 @@ function Login() {
       if (data.authorities && data.authorities.includes("Gerente")) {
         navigate("/adminlayout");
       } else {
-        navigate("/userhome");
+        navigate("/userlayout");
       }
     } else {
         const errorData = await response.json();

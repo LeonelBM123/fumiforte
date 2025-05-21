@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import UserHome from "./pages/UserHome";
+import UserLayout from "./layouts/UserLayout";
 import Register from './pages/Register';
 import AdminLayout from "./layouts/AdminLayout";
 import GestionarUsuario from "./pages/GestionarUsuario";
@@ -8,6 +8,7 @@ import GestionarProveedor from "./pages/GestionarProveedor";
 import GestionarPlaga from "./pages/GestionarPlaga";
 import GestionarBitacora from "./pages/GestionarBitacora";
 import GestionarInventario from "./pages/GestionarInventario";
+import SolicitarServicioFumigacion from "./pages/SolicitarServicioFumigacion";
 
 function App() {
   return (
@@ -19,7 +20,9 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         {/* Rutas dentro del diseño de usuario */}
-        <Route path="/userhome" element={<UserHome />} />
+        <Route path="/userlayout" element={<UserLayout />}>
+          <Route path="solicitar-servicio-fumigacion" element={<SolicitarServicioFumigacion />} />
+        </Route>
 
         {/* Rutas dentro del diseño de administrador */}
         <Route path="/adminlayout" element={<AdminLayout />}>

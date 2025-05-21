@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import "../styles/AdminLayout.css";
+import "../styles/UserLayout.css";
 import logo from "../assets/fumiforte-logo.png";
 import perfil from "../assets/perfil.png";
 
-function AdminLayout() {
+function UserLayout() {
   const [activeSection, setActiveSection] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleMainView = () => {
-    navigate("/adminlayout");
+    navigate("/userlayout");
     setActiveSection(null);
   };
 
   const handleNavigation = (section) => {
-    navigate(`/adminlayout/${section}`);
+    navigate(`/userlayout/${section}`);
     setActiveSection(section);
   };
 
@@ -34,7 +34,7 @@ function AdminLayout() {
   };
 
   return (
-    <div className="admin-container">
+    <div className="user-container">
       {/* Barra superior */}
       <header className="topbar">
         <div className="topbar-right">
@@ -62,29 +62,9 @@ function AdminLayout() {
         />
         <div className="menu-group">
           <details>
-            <summary>Autentificación y Seguridad</summary>
-            <button onClick={() => handleNavigation("gestionar-bitacora")}>
-              Gestionar Bitácora del sistema
-            </button>
-          </details>
-
-          <details>
-            <summary>Gestión de Clientes y Trabajadores</summary>
-            <button onClick={() => handleNavigation("gestionar-usuario")}>
-              Gestionar Usuario
-            </button>
-          </details>
-
-          <details>
-            <summary>Inventario y Proveedores</summary>
-            <button onClick={() => handleNavigation("gestionar-proveedor")}>
-              Gestionar Proveedor
-            </button>
-            <button onClick={() => handleNavigation("gestionar-plaga")}>
-              Gestionar Plaga
-            </button>
-            <button onClick={() => handleNavigation("gestionar-inventario")}>
-              Gestionar Inventario
+            <summary>Servicios de Fumigación</summary>
+            <button onClick={() => handleNavigation("solicitar-servicio-fumigacion")}>
+              Solicitar Servicio de Fumigación
             </button>
           </details>
         </div>
@@ -97,4 +77,4 @@ function AdminLayout() {
   );
 }
 
-export default AdminLayout;
+export default UserLayout;
