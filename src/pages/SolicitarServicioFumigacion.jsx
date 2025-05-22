@@ -52,20 +52,15 @@ function SolicitarServicioFumigacion() {
 
     const datosSolicitud = {
       descripcion: form.descripcion,
-      ubicacion_gps: `${gps.lat},${gps.lng}`,
-      direccion_escrita: form.direccion,
-      estado: "pendiente",
-      monto_pendiente_cotizacion: 0.0,
-      cantidad_sesiones: 0,
-      id_cliente: 13, // Aquí va el ID del cliente (debería venir de sesión idealmente)
-      id_gerente: null,
-      requiere_certificado: requiereCertificado ? "si" : "no",
-      id_certificado: null
+      ubicacionGps: `${gps.lat},${gps.lng}`,
+      direccionEscrita: form.direccion, 
+      requiereCertificado: requiereCertificado ? "si" : "no",
     };
 
     try {
       const response = await fetch("http://localhost:8081/solicitud_servicio", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },

@@ -22,6 +22,7 @@ function GestionarInventario() {
   const [modalEliminarVisible, setModalEliminarVisible] = useState(false);
   const [loading, setLoading] = useState(true); // Estado para el loader
 
+  
   useEffect(() => {
     obtenerProductos();
   }, []);
