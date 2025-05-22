@@ -56,6 +56,7 @@ body {
   border: 2px solid #a3e635;
   border-radius: 5px;
   font-size: 1rem;
+  resize: none;
 }
 
 .solicitud-box button {
@@ -81,4 +82,9 @@ body {
 
 .map-section {
   margin-bottom: 15px;
+}
+.checkbox-section {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: #065f46;
 }

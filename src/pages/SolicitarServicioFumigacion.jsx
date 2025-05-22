@@ -23,13 +23,17 @@ function LocationSelector({ position, setPosition }) {
   return position ? <Marker position={position} /> : null;
 }
 
+// ...imports y configuración de Leaflet igual que antes
+
 function SolicitarServicioFumigacion() {
   const [form, setForm] = useState({
     descripcion: "",
     direccion: "",
+    requiere_certificado: "no"
   });
   const [gps, setGps] = useState(null);
   const [error, setError] = useState("");
+  const [requiereCertificado, setRequiereCertificado] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -46,24 +50,33 @@ function SolicitarServicioFumigacion() {
 
     setError("");
 
+    const datosSolicitud = {
+      descripcion: form.descripcion,
+      ubicacion_gps: `${gps.lat},${gps.lng}`,
+      direccion_escrita: form.direccion,
+      estado: "pendiente",
+      monto_pendiente_cotizacion: 0.0,
+      cantidad_sesiones: 0,
+      id_cliente: 13, // Aquí va el ID del cliente (debería venir de sesión idealmente)
+      id_gerente: null,
+      requiere_certificado: requiereCertificado ? "si" : "no",
+      id_certificado: null
+    };
+
     try {
-      const response = await fetch("http://localhost:8081/solicitar-servicio", {
+      const response = await fetch("http://localhost:8081/solicitud_servicio", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          descripcion: form.descripcion,
-          direccion: form.direccion,
-          ubicacionGps: `${gps.lat},${gps.lng}`,
-        }),
+        body: JSON.stringify(datosSolicitud),
       });
 
       if (!response.ok) {
         const errorText = await response.text();
         setError(errorText || "Error al enviar la solicitud.");
       } else {
-        alert("¡Solicitud enviada!");
+        alert("¡Solicitud enviada con éxito!");
         navigate("/userlayout");
       }
     } catch (err) {
@@ -96,6 +109,20 @@ function SolicitarServicioFumigacion() {
               value={form.direccion}
               onChange={handleChange}
             />
+
+            <div className="checkbox-section">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={form.requiere_certificado === "si"}
+                  onChange={(e) =>
+                    setForm({ ...form, requiere_certificado: e.target.checked ? "si" : "no" })
+                  }
+                />
+                Requiere certificado
+              </label>
+            </div>
+
             <div className="map-section">
               <label>Selecciona tu ubicación en el mapa:</label>
               <MapContainer

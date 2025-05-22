@@ -24,6 +24,9 @@ function Login() {
       if (response.ok) {
       const data = await response.json();
       
+      // Guarda el id del usuario en localStorage
+      localStorage.setItem("id_cliente", data.id_usuario);
+
       // Accedemos al arreglo de authorities y verificamos si contiene "Gerente"
       if (data.authorities && data.authorities.includes("Gerente")) {
         navigate("/adminlayout");
