@@ -9,6 +9,7 @@ import GestionarPlaga from "./pages/GestionarPlaga";
 import GestionarBitacora from "./pages/GestionarBitacora";
 import GestionarInventario from "./pages/GestionarInventario";
 import SolicitarServicioFumigacion from "./pages/SolicitarServicioFumigacion";
+import SolicitudesList from "./pages/GestionarSolicitudServicio";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="gestionar-proveedor" element={<GestionarProveedor/>} />
           <Route path="gestionar-inventario" element={<GestionarInventario />} />
           <Route path="gestionar-bitacora" element={<GestionarBitacora />} />
+          <Route path="solicitudes" element={<SolicitudesList />} />
         </Route>        
       </Routes>
     </BrowserRouter>
