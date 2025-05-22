@@ -10,6 +10,9 @@ function Register() {
     telefono: "",
     direccion: "",
     correo: "",
+    tipoCliente: "",
+    razonSocial: "",
+    nit: "",
   });
 
   const [error, setError] = useState("");
@@ -36,6 +39,7 @@ function Register() {
 
     setError("");
 
+
     try {
       const response = await fetch("http://localhost:8081/registro", {
         method: "POST",
@@ -54,24 +58,35 @@ function Register() {
 
       if (!response.ok) {
         const errorText = await response.text();
-        try {
-          const errorData = JSON.parse(errorText);
-
-          if (
-            errorData.message?.toLowerCase().includes("correo") ||
-            errorData.message?.toLowerCase().includes("duplicate")
-          ) {
-            setError("El correo ya está registrado.");
-          } else {
-            setError(errorData.message || "Error al registrar usuario.");
-          }
-        } catch {
-          setError("Error al registrar usuario.");
-        }
-      } else {
-        alert("Registro exitoso!");
-        navigate("/");
+        setError(errorText || "Error al registrar usuario.");
+        return;
       }
+
+      const nuevoUsuario = await response.json();
+      const idUsuario = nuevoUsuario.idUsuario;
+    
+      const clienteResponse = await fetch("http://localhost:8081/registro_cliente", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          idCliente: idUsuario,
+          tipoCliente: form.tipoCliente,
+          razonSocial: form.razonSocial,
+          nit: form.nit,
+        }),
+      });
+
+      if (!clienteResponse.ok) {
+        const errorText = await clienteResponse.text();
+        setError(errorText || "Error al registrar cliente.");
+        return;
+      }
+
+      alert("¡Registro exitoso!");
+      navigate("/");
+
     } catch (error) {
       console.error("Error de red:", error);
       setError("No se pudo conectar al servidor.");
@@ -90,6 +105,9 @@ function Register() {
             <input type="text" name="telefono" placeholder="Teléfono" value={form.telefono} onChange={handleChange} />
             <input type="text" name="direccion" placeholder="Dirección" value={form.direccion} onChange={handleChange} />
             <input type="email" name="correo" placeholder="Correo" value={form.correo} onChange={handleChange} />
+            <input type="text" name="tipoCliente" placeholder="Tipo de Cliente" value={form.tipoCliente} onChange={handleChange} />
+            <input type="text" name="razonSocial" placeholder="Razón Social" value={form.razonSocial} onChange={handleChange} />
+            <input type="text" name="nit" placeholder="NIT" value={form.nit} onChange={handleChange} />
             <button type="submit">Registrarse</button>
           </form>
           {error && <p className="error">{error}</p>}
