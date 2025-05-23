@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import "../styles/CardsSolicitudes.css"
-// Configuración del ícono para React-Leaflet
+import "../styles/CardsSolicitudes.css";
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -15,7 +15,9 @@ L.Icon.Default.mergeOptions({
 });
 
 const SolicitudCard = ({ solicitud }) => {
-  // ⚠️ Validación de props
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({ ...solicitud });
+
   if (!solicitud) {
     return null;
   }
@@ -39,9 +41,7 @@ const SolicitudCard = ({ solicitud }) => {
   } catch (e) {
     return (
       <div className="solicitud-card">
-        <h2 className="text-lg font-semibold mb-2">
-          Solicitud #{idSolicitudServicio}
-        </h2>
+        <h2>Solicitud #{idSolicitudServicio}</h2>
         <p className="text-red-500">Ubicación inválida</p>
       </div>
     );
@@ -50,51 +50,181 @@ const SolicitudCard = ({ solicitud }) => {
   if (isNaN(lat) || isNaN(lng)) {
     return (
       <div className="solicitud-card">
-        <h2 className="text-lg font-semibold mb-2">
-          Solicitud #{idSolicitudServicio}
-        </h2>
+        <h2>Solicitud #{idSolicitudServicio}</h2>
         <p className="text-red-500">Coordenadas inválidas</p>
       </div>
     );
   }
 
+  // Maneja cambios en inputs del formulario
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Enviar PUT al backend
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:8081/solicitudes/${idSolicitudServicio}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error("Error al actualizar la solicitud");
+
+      alert("Solicitud actualizada correctamente");
+      setShowModal(false);
+    } catch (error) {
+      console.error(error);
+      alert("Ocurrió un error al guardar los cambios");
+    }
+  };
+
   return (
-    <div className="solicitud-card">
-      <h2 className="text-lg font-semibold mb-2">
-        Solicitud #{idSolicitudServicio}
-      </h2>
-      <p className="estado">
-        <strong>Estado:</strong> {estado}
-      </p>
-      <p className="text-sm text-gray-600 mb-1">
-        <strong>Dirección:</strong> {direccionEscrita}
-      </p>
-      <div className="map-container">
-        <MapContainer
+    <>
+      <div className="solicitud-card">
+        <h2>Solicitud #{idSolicitudServicio}</h2>
+        <p className="estado">
+          <strong>Estado:</strong> {estado}
+        </p>
+        <p>
+          <strong>Dirección:</strong> {direccionEscrita}
+        </p>
+        <div className="map-container">
+          <MapContainer
             center={[lat, lng]}
             zoom={13}
             scrollWheelZoom={false}
             style={{ height: "200px", width: "100%", borderRadius: "8px" }}
-        >
+          >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <Marker position={[lat, lng]}>
-            <Popup>
+              <Popup>
                 {direccionEscrita} <br /> Estado: {estado}
-            </Popup>
+              </Popup>
             </Marker>
-        </MapContainer>
-      </div>
-      
+          </MapContainer>
+        </div>
 
-      <p className="text-sm text-gray-600 mt-2">
-        <strong>Certificado:</strong>{" "}
-        {String(requiereCertificado).toLowerCase() === "si" ? "Sí" : "No"}
-      </p>
-       <div className="actions">
-        <div></div> {/* Espacio vacío para alinear a la derecha */}
-        <button className="action-button">Gestionar</button>
+        <p className="mt-2">
+          <strong>Certificado:</strong>{" "}
+          {String(requiereCertificado).toLowerCase() === "si" ? "Sí" : "No"}
+        </p>
+        <div className="actions">
+          <button className="action-button" onClick={() => setShowModal(true)}>
+            Gestionar
+          </button>
+        </div>
       </div>
-    </div>
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Editar Solicitud #{idSolicitudServicio}</h2>
+            <form className="edit-form" onSubmit={handleSubmit}>
+              <label>
+                Descripción:
+                <input
+                  type="text"
+                  name="descripcion"
+                  value={formData.descripcion || ""}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+
+              <label>
+                Dirección Escrita:
+                <input
+                  type="text"
+                  name="direccionEscrita"
+                  value={formData.direccionEscrita || ""}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+
+              <label>
+                Ubicación GPS:
+                <input
+                  type="text"
+                  name="ubicacionGps"
+                  value={formData.ubicacionGps || ""}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+
+              <label>
+                Estado:
+                <select
+                  name="estado"
+                  value={formData.estado || "Pendiente"}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="Pendiente">Pendiente</option>
+                  <option value="Aprobado">Aprobado</option>
+                  <option value="Rechazado">Rechazado</option>
+                </select>
+              </label>
+
+              <label>
+                Monto Pendiente Cotización:
+                <input
+                  type="number"
+                  name="montoPendienteCotizacion"
+                  value={formData.montoPendienteCotizacion || ""}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+
+              <label>
+                Cantidad de Sesiones:
+                <input
+                  type="number"
+                  name="cantidadSesiones"
+                  value={formData.cantidadSesiones || ""}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+
+              <label>
+                ¿Requiere Certificado?
+                <select
+                  name="requiereCertificado"
+                  value={formData.requiereCertificado || "no"}
+                  onChange={handleChange}
+                >
+                  <option value="si">Sí</option>
+                  <option value="no">No</option>
+                </select>
+              </label>
+
+              <div className="modal-buttons">
+                <button type="submit" className="save-button">
+                  Guardar Cambios
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="close-button"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
