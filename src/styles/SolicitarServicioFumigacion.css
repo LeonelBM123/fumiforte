@@ -88,3 +88,18 @@ body {
   font-size: 0.95rem;
   color: #065f46;
 }
+
+@media (max-width: 600px) {
+  .solicitud-box {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .solicitud-container {
+    padding: 10px;
+  }
+
+  .map-section {
+    margin-bottom: 10px;
+  }
+}
