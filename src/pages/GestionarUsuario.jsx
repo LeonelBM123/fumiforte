@@ -146,17 +146,32 @@ function GestionarUsuario() {
   const confirmarEliminarUsuario = async () => {
     if (!usuarioAEliminar) return;
 
-    try {
-      await axios.delete(`http://localhost:8081/usuarios/${usuarioAEliminar.idUsuario}`, {
-        withCredentials: true,
-      });
-      setMensaje("Usuario eliminado exitosamente.");
-      setModalEliminarVisible(false);
-      obtenerUsuarios();
-    } catch (error) {
-      console.error("Error al eliminar usuario:", error);
-      setError("No se pudo eliminar el usuario.");
-    }
+      try {
+        const response = await axios.put(
+          `http://localhost:8081/usuarios/${usuarioAEliminar.idUsuario}/estado`,
+          {
+            ...usuarioAEliminar,
+            estado: "Inactivo", 
+          },
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setMensaje("Usuario marcado como inactivo exitosamente.");
+          setModalEliminarVisible(false);
+          obtenerUsuarios();
+        } else {
+          setError("Hubo un error al actualizar el estado del usuario.");
+        }
+        } catch (error) {
+          console.error("Error al actualizar el estado del usuario:", error);
+          setError("No se pudo actualizar el estado del usuario.");
+        };
   };
 
   const handleConfirmarEdicion = async () => {
@@ -229,6 +244,7 @@ function GestionarUsuario() {
             <th>Dirección</th>
             <th>Correo</th>
             <th>Rol</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -241,6 +257,7 @@ function GestionarUsuario() {
               <td>{usuario.direccion}</td>
               <td>{usuario.correo}</td>
               <td>{usuario.rol}</td>
+              <td>{usuario.estado}</td>
               <td>
                 <button onClick={() => handleEditar(usuario)}>Editar</button>
                 <button onClick={() => handleEliminar(usuario)}>Eliminar</button>
