@@ -53,6 +53,7 @@ function Register() {
           direccion: form.direccion,
           correo: form.correo,
           rol: "Cliente",
+          estado: "Activo",
         }),
       });
 

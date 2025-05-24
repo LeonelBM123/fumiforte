@@ -106,6 +106,9 @@ function AdminLayout() {
             <button onClick={() => handleNavigation("solicitudes")}>
               Ver Solicitudes de Servicio
             </button>
+            <button onClick={() => handleNavigation("gestionar-certificado")}>
+              Gestionar Certificados
+            </button>
           </details>
           <details>
             <summary>Autentificación y Seguridad</summary>

@@ -22,9 +22,8 @@ function GestionarBitacora() {
       });
 
       if (!response.ok) throw new Error(`HTTP status ${response.status}`);
-
-      const data = await response.json();
       setBitacoras(data);
+      
     } catch (error) {
       console.error("Error al obtener bitácoras:", error);
     } finally {
