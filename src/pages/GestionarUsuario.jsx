@@ -14,7 +14,9 @@ function GestionarUsuario() {
     telefono: "",
     direccion: "",
     correo: "",
+    especialidad: "",
   });
+
   const [error, setError] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
@@ -64,64 +66,97 @@ function GestionarUsuario() {
       return;
     }
 
-    for (let key in form) {
-      if (form[key].trim() === "") {
+    const camposObligatorios = [
+      "nombreCompleto",
+      "contraseña",
+      "confirmarContraseña",
+      "telefono",
+      "direccion",
+      "correo",
+      "especialidad"
+    ];
+
+    for (let campo of camposObligatorios) {
+      if (!form[campo] || form[campo].trim() === "") {
         setError("Todos los campos son obligatorios.");
         return;
       }
     }
 
     try {
-      const response = await fetch("http://localhost:8081/registro", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          nombreCompleto: form.nombreCompleto,
-          contraseña: form.contraseña,
-          telefono: form.telefono,
-          direccion: form.direccion,
-          correo: form.correo,
-          rol: "Trabajador",
-        }),
-      });
+    // Paso 1: Registrar usuario
+    const responseUsuario = await fetch("http://localhost:8081/registro", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nombreCompleto: form.nombreCompleto,
+        contraseña: form.contraseña,
+        telefono: form.telefono,
+        direccion: form.direccion,
+        correo: form.correo,
+        especialidad: form.especialidad,
+        rol: "Trabajador",
+        estado: "Activo",
+      }),
+    });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        try {
-          const errorData = JSON.parse(errorText);
-          if (
-            errorData.message?.toLowerCase().includes("correo") ||
-            errorData.message?.toLowerCase().includes("duplicate")
-          ) {
-            setError("El correo ya está registrado.");
-          } else {
-            setError(errorData.message || "Error al registrar trabajador.");
-          }
-        } catch {
-          setError("Error al registrar trabajador.");
+    if (!responseUsuario.ok) {
+      const errorText = await responseUsuario.text();
+      try {
+        const errorData = JSON.parse(errorText);
+        if (
+          errorData.message?.toLowerCase().includes("correo") ||
+          errorData.message?.toLowerCase().includes("duplicate")
+        ) {
+          setError("El correo ya está registrado.");
+        } else {
+          setError(errorData.message || "Error al registrar trabajador.");
         }
-      } else {
-        setMensaje("¡Trabajador registrado exitosamente!");
-        setError("");
-        setForm({
-          nombreCompleto: "",
-          contraseña: "",
-          confirmarContraseña: "",
-          telefono: "",
-          direccion: "",
-          correo: "",
-        });
-        setModo("lista");
-        obtenerUsuarios();
+      } catch {
+        setError("Error al registrar trabajador.");
       }
-    } catch (error) {
-      console.error("Error de red:", error);
-      setError("No se pudo conectar al servidor.");
+      return; // Salimos porque hubo error
     }
-  };
+
+    const nuevoUsuario = await responseUsuario.json();
+
+    // Paso 2: Registrar trabajador (la especialidad es un campo extra que asumimos en el form)
+    const responseTrabajador = await fetch("http://localhost:8081/registro_trabajador", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        idTrabajador: nuevoUsuario.idUsuario,
+        especialidad: form.especialidad,      
+      }),
+    });
+
+    if (!responseTrabajador.ok) {
+      const errorText = await responseTrabajador.text();
+      setError(errorText || "Error al registrar trabajador.");
+      return;
+    }
+
+    setMensaje("¡Trabajador registrado exitosamente!");
+    setError("");
+    setForm({
+      nombreCompleto: "",
+      contraseña: "",
+      confirmarContraseña: "",
+      telefono: "",
+      direccion: "",
+      correo: "",
+      especialidad: "",
+    });
+    setModo("lista");
+    obtenerUsuarios();
+
+  } catch (error) {
+    console.error("Error de red:", error);
+    setError("No se pudo conectar al servidor.");
+  }
+};
 
   const handleEditar = (usuario) => {
     setUsuarioEditado(usuario);
@@ -135,6 +170,7 @@ function GestionarUsuario() {
       direccion: usuario.direccion,
       correo: usuario.correo,
       rol: usuario.rol,
+      estado: usuario.estado,
     });
   };
 
@@ -147,31 +183,16 @@ function GestionarUsuario() {
     if (!usuarioAEliminar) return;
 
       try {
-        const response = await axios.put(
-          `http://localhost:8081/usuarios/${usuarioAEliminar.idUsuario}/estado`,
-          {
-            ...usuarioAEliminar,
-            estado: "Inactivo", 
-          },
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (response.status === 200) {
-          setMensaje("Usuario marcado como inactivo exitosamente.");
-          setModalEliminarVisible(false);
-          obtenerUsuarios();
-        } else {
-          setError("Hubo un error al actualizar el estado del usuario.");
-        }
-        } catch (error) {
-          console.error("Error al actualizar el estado del usuario:", error);
-          setError("No se pudo actualizar el estado del usuario.");
-        };
+      await axios.delete(`http://localhost:8081/usuarios/${usuarioAEliminar.idUsuario}`, {
+        withCredentials: true,
+      });
+      setMensaje("Usuario eliminado exitosamente.");
+      setModalEliminarVisible(false);
+      obtenerUsuarios();
+    } catch (error) {
+      console.error("Error al eliminar usuario:", error);
+      setError("No se pudo eliminar el usuario.");
+    }
   };
 
   const handleConfirmarEdicion = async () => {
@@ -183,6 +204,7 @@ function GestionarUsuario() {
       correo,
       contraseña,
       rol,
+      estado,
     } = form;
 
     try {
@@ -195,6 +217,7 @@ function GestionarUsuario() {
           correo,
           contraseña,
           rol,
+          estado,
         },
         {
           withCredentials: true,
@@ -269,66 +292,74 @@ function GestionarUsuario() {
     </div>
   </>
 ) : (
-        <div className="formulario-registro">
-          <h2>Registrar nuevo trabajador</h2>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="nombreCompleto"
-              placeholder="Nombre completo"
-              value={form.nombreCompleto}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="password"
-              name="contraseña"
-              placeholder="Contraseña"
-              value={form.contraseña}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="password"
-              name="confirmarContraseña"
-              placeholder="Confirmar contraseña"
-              value={form.confirmarContraseña}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="text"
-              name="telefono"
-              placeholder="Teléfono"
-              value={form.telefono}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="text"
-              name="direccion"
-              placeholder="Dirección"
-              value={form.direccion}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="email"
-              name="correo"
-              placeholder="Correo electrónico"
-              value={form.correo}
-              onChange={handleChange}
-              required
-            />
-            <button type="submit">Registrar</button>
-            <button type="button" onClick={() => setModo("lista")}>
-              Cancelar
-            </button>
-          </form>
-          {error && <p className="error">{error}</p>}
-          {mensaje && <p className="success">{mensaje}</p>}
-        </div>
-      )}
+          <div className="formulario-registro">
+            <h2>Registrar nuevo trabajador</h2>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="nombreCompleto"
+                placeholder="Nombre completo"
+                value={form.nombreCompleto}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="password"
+                name="contraseña"
+                placeholder="Contraseña"
+                value={form.contraseña}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="password"
+                name="confirmarContraseña"
+                placeholder="Confirmar contraseña"
+                value={form.confirmarContraseña}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="telefono"
+                placeholder="Teléfono"
+                value={form.telefono}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="direccion"
+                placeholder="Dirección"
+                value={form.direccion}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="email"
+                name="correo"
+                placeholder="Correo electrónico"
+                value={form.correo}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="especialidad"
+                placeholder="Especialidad"
+                value={form.especialidad}
+                onChange={handleChange}
+                required
+              />
+              <button type="submit">Registrar</button>
+              <button type="button" onClick={() => setModo("lista")}>
+                Cancelar
+              </button>
+            </form>
+            {error && <p className="error">{error}</p>}
+            {mensaje && <p className="success">{mensaje}</p>}
+          </div>
+        )}
 
       {/* Modal de edición */}
       {modalVisible && (
@@ -364,6 +395,16 @@ function GestionarUsuario() {
                 value={form.correo}
                 onChange={handleChange}
               />
+              <select
+                name="estado"
+                value={form.estado}
+                onChange={handleChange}
+                required
+              >
+                <option value="">-- Selecciona un estado --</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
               <div className="modal-buttons">
                 <button type="button" onClick={handleConfirmarEdicion}>
                   Confirmar
