@@ -5,7 +5,8 @@ body {
   height: 100%;
   width: 100%;
   font-family: Arial, sans-serif;
-  background-color: #e6ffe6;
+  /* cambiar */
+  background-color: var(--fumiforte-bg);;
 }
 
 .solicitud-container {

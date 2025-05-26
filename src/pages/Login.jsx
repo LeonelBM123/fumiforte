@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
-import logo from "../assets/fumiforte-logo.png"; // asegúrate de tener esta imagen
+import logo from "../assets/fumiforte-logo.png";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -22,18 +22,18 @@ function Login() {
       });
 
       if (response.ok) {
-      const data = await response.json();
-      
-      // Guarda el id del usuario en localStorage
-      localStorage.setItem("id_cliente", data.id_usuario);
+        const data = await response.json();
 
-      // Accedemos al arreglo de authorities y verificamos si contiene "Gerente"
-      if (data.authorities && data.authorities.includes("Gerente")) {
-        navigate("/adminlayout");
+        // Guarda el id del usuario en localStorage
+        localStorage.setItem("id_cliente", data.id_usuario);
+
+        // Accedemos al arreglo de authorities y verificamos si contiene "Gerente"
+        if (data.authorities && data.authorities.includes("Gerente")) {
+          navigate("/adminlayout");
+        } else {
+          navigate("/userlayout");
+        }
       } else {
-        navigate("/userlayout");
-      }
-    } else {
         const errorData = await response.json();
         setErrorMsg(errorData.error || "Credenciales inválidas");
       }
@@ -44,39 +44,46 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <img src={logo} alt="Fumiforte Logo" className="logo" />
-
-      <div className="login-content">
-        <div className="carousel">
-          {/* Aquí va el carrusel, por ahora dejamos imagen o texto estático */}
-          <p className="carousel-placeholder">Aquí va el carrusel de imágenes 🍃</p>
-        </div>
-
-        <div className="login-box">
-          <h2>Iniciar Sesión</h2>
+    <div className="login-bg">
+      <div className="glass-card">
+        <img src={logo} alt="Fumiforte Logo" className="logo-modern" />
+        <div className="login-box-modern">
+          <h2>Bienvenido a Fumiforte</h2>
+          <p className="subtitle">Inicia sesión para continuar</p>
           <form onSubmit={handleLogin}>
-            <label>Usuario:</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-            <label>Contraseña:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <button type="submit">Ingresar</button>
+            <div className="input-group">
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                placeholder="Usuario"
+                autoFocus
+              />
+            </div>
+            <div className="input-group">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Contraseña"
+              />
+            </div>
+            <button type="submit" className="modern-btn">
+              Ingresar
+            </button>
           </form>
-          {errorMsg && <p className="error">{errorMsg}</p>}
-
-          <p className="register-link">
+          {errorMsg && <p className="error-modern">{errorMsg}</p>}
+          <p className="register-link-modern">
             ¿No tienes cuenta? <a href="/register">Regístrate aquí</a>
           </p>
+        </div>
+      </div>
+      <div className="carousel-modern">
+        <div className="carousel-content">
+          <h3>¡Protege tu espacio!</h3>
+          <p>Soluciones ecológicas y profesionales en control de plagas.</p>
         </div>
       </div>
     </div>
