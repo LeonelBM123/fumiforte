@@ -3,6 +3,8 @@ import Login from "./pages/Login";
 import UserLayout from "./layouts/UserLayout";
 import Register from './pages/Register';
 import AdminLayout from "./layouts/AdminLayout";
+import WorkerLayout from "./layouts/WorkerLayout";
+import PruebasSesion from "./pages/PruebasSesion";
 import GestionarUsuario from "./pages/GestionarUsuario";
 import GestionarProveedor from "./pages/GestionarProveedor";
 import GestionarPlaga from "./pages/GestionarPlaga";
@@ -24,6 +26,11 @@ function App() {
         {/* Rutas dentro del diseño de usuario */}
         <Route path="/userlayout" element={<UserLayout />}>
           <Route path="solicitar-servicio-fumigacion" element={<SolicitarServicioFumigacion />} />
+        </Route>
+
+        {/* Rutas dentro del diseño de trabajador */}
+        <Route path="/workerlayout" element={<WorkerLayout />}>
+          <Route path="pruebas-sesion" element={<PruebasSesion />} />
         </Route>
 
         {/* Rutas dentro del diseño de administrador */}

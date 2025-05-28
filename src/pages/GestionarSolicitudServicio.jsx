@@ -65,7 +65,6 @@ const SolicitudCard = ({ solicitud }) => {
   // Enviar PUT al backend
   const handleSubmit = async (e) => {
   e.preventDefault();
-  console.log(formData);
   try {
     // Verificamos si requiere certificado y si NO tiene id_certificado
     if (
@@ -105,12 +104,12 @@ const SolicitudCard = ({ solicitud }) => {
     }
 
     // Luego actualizamos la solicitud
+    console.log(formData);
     const response = await fetch(`http://localhost:8081/solicitudes/${idSolicitudServicio}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
       body: JSON.stringify(formData),
     });
 

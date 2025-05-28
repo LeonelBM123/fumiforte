@@ -30,6 +30,8 @@ function Login() {
         // Accedemos al arreglo de authorities y verificamos si contiene "Gerente"
         if (data.authorities && data.authorities.includes("Gerente")) {
           navigate("/adminlayout");
+        } else if (data.authorities && data.authorities.includes("Trabajador")) {
+          navigate("/workerlayout");
         } else {
           navigate("/userlayout");
         }

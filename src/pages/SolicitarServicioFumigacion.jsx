@@ -23,7 +23,6 @@ function LocationSelector({ position, setPosition }) {
   return position ? <Marker position={position} /> : null;
 }
 
-// ...imports y configuración de Leaflet igual que antes
 
 function SolicitarServicioFumigacion() {
   const [form, setForm] = useState({

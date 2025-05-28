@@ -182,8 +182,8 @@ function GestionarCertificado() {
                   {certificados.map((certificado) => (
                     <tr key={certificado.idCertificado}>
                       <td>{certificado.idCertificado}</td>
-                      <td>{certificado.fechaEmision}</td>
-                      <td>{certificado.fechaVencimiento}</td>
+                      <td>{certificado.fechaEmision ?? "Por definir..."}</td>
+                      <td>{certificado.fechaVencimiento ?? "Por definir..."}</td>
                       <td>{certificado.estado}</td>
                       <td>
                         <button onClick={() => handleEditar(certificado)}>Editar</button>
