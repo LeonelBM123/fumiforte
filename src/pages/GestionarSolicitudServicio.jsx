@@ -64,26 +64,65 @@ const SolicitudCard = ({ solicitud }) => {
 
   // Enviar PUT al backend
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`http://localhost:8081/solicitudes/${idSolicitudServicio}`, {
-        method: "PUT",
+  e.preventDefault();
+  console.log(formData);
+  try {
+    // Verificamos si requiere certificado y si NO tiene id_certificado
+    if (
+      String(formData.requiereCertificado).toLowerCase() === "si" &&
+      formData.idCertificado === null
+    ) {
+      const confirmCert = window.confirm(
+        "Se creará un certificado ligado a esta solicitud. ¿Desea continuar?"
+      );
+
+      if (!confirmCert) {
+        return; // Si cancela, no seguimos
+      }
+
+      // Crear el certificado
+      const certResponse = await fetch("http://localhost:8081/gerente/crear_certificado", {
+        method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          fechaEmision: null,
+          fechaVencimiento: null,
+          estado: "Pendiente",
+        }),
       });
 
-      if (!response.ok) throw new Error("Error al actualizar la solicitud");
+      if (!certResponse.ok) {
+        throw new Error("Error al crear el certificado");
+      }
 
-      alert("Solicitud actualizada correctamente");
-      setShowModal(false);
-    } catch (error) {
+      const certData = await certResponse.json();
+
+      formData.idCertificado = certData.idCertificado;
+    }
+
+    // Luego actualizamos la solicitud
+    const response = await fetch(`http://localhost:8081/solicitudes/${idSolicitudServicio}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) throw new Error("Error al actualizar la solicitud");
+    alert("Solicitud actualizada correctamente");
+    setShowModal(false);
+  } catch (error) {
       console.error(error);
       alert("Ocurrió un error al guardar los cambios");
     }
   };
+
 
   return (
     <>
