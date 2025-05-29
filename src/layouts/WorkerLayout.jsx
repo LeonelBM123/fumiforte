@@ -18,7 +18,7 @@ function WorkerLayout() {
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   const handleMainView = () => {
-    navigate("/userlayout");
+    navigate("/workerlayout");
     setActiveSection(null);
   };
 

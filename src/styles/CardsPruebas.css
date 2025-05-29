@@ -1,0 +1,188 @@
+/* Grid general de sesiones */
+.sesiones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  justify-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Card de sesión */
+.sesion-card {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1rem 1.25rem;
+  max-width: 320px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* Título de la sesión */
+.sesion-card h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.75rem;
+}
+
+/* Texto informativo */
+.sesion-card p {
+  font-size: 0.875rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.sesion-card p strong {
+  color: #444;
+  font-weight: 600;
+}
+
+/* Botones de acción */
+.sesion-card .actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.action-button {
+  background: #4caf50;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  min-width: 100px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.action-button:hover {
+  background: #388e3c;
+}
+
+/* Botón adjuntar */
+.adjuntar-button {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.adjuntar-button:hover {
+  background-color: #f57c00;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+/* Modal */
+.modal {
+  background-color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+/* Formulario en modal */
+.modal label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+/* --- MEDIA QUERIES --- */
+@media (max-width: 768px) {
+  .sesiones-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .sesion-card {
+    max-width: 100%;
+    padding: 0.75rem 1rem;
+  }
+
+  .sesion-card h2 {
+    font-size: 1.1rem;
+  }
+
+  .sesion-card p {
+    font-size: 0.8rem;
+  }
+
+  .action-button {
+    padding: 6px 12px;
+    min-width: 90px;
+    font-size: 0.9rem;
+  }
+
+  .modal {
+    max-width: 90%;
+    padding: 1rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sesiones-grid {
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+  }
+
+  .sesion-card {
+    max-width: 100%;
+    padding: 0.75rem 1rem;
+  }
+
+  .sesion-card h2 {
+    font-size: 1rem;
+  }
+
+  .sesion-card p {
+    font-size: 0.75rem;
+  }
+
+  .action-button {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1rem;
+  }
+
+  .sesion-card .actions {
+    flex-direction: column;
+  }
+}
