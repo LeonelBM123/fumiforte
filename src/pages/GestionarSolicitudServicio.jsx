@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -14,9 +15,12 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
+
+
 const SolicitudCard = ({ solicitud }) => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({ ...solicitud });
+  const navigate = useNavigate();
 
   if (!solicitud) {
     return null;
@@ -60,6 +64,10 @@ const SolicitudCard = ({ solicitud }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAsignarTareas = () => {
+    navigate(`/adminlayout/gestionar-tarea-trabajadores/${idSolicitudServicio}`);
   };
 
   // Enviar PUT al backend
@@ -157,6 +165,13 @@ const SolicitudCard = ({ solicitud }) => {
         <div className="actions">
           <button className="action-button" onClick={() => setShowModal(true)}>
             Gestionar
+          </button>
+          <button
+            className="action-button"
+            style={{ marginLeft: "10px", backgroundColor: "#ffc107" }}
+            onClick={handleAsignarTareas}
+          >
+            Asignar Tareas
           </button>
         </div>
       </div>

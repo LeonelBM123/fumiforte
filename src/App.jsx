@@ -13,36 +13,39 @@ import GestionarInventario from "./pages/GestionarInventario";
 import GestionarCertificado from "./pages/GestionarCertificado";
 import SolicitarServicioFumigacion from "./pages/SolicitarServicioFumigacion";
 import SolicitudesList from "./pages/GestionarSolicitudServicio";
+import GestionarTareaTrabajadores from "./pages/GestionarTareaTrabajadores";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
 
-        {/* Rutas de inicio de sesion */}
+        {/* Rutas de inicio de sesión */}
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Rutas dentro del diseño de usuario */}
+        {/* Rutas de usuario */}
         <Route path="/userlayout" element={<UserLayout />}>
           <Route path="solicitar-servicio-fumigacion" element={<SolicitarServicioFumigacion />} />
         </Route>
 
-        {/* Rutas dentro del diseño de trabajador */}
+        {/* Rutas de trabajador */}
         <Route path="/workerlayout" element={<WorkerLayout />}>
           <Route path="pruebas-sesion" element={<PruebasSesion />} />
         </Route>
 
-        {/* Rutas dentro del diseño de administrador */}
+        {/* Rutas de administrador */}
         <Route path="/adminlayout" element={<AdminLayout />}>
           <Route path="gestionar-usuario" element={<GestionarUsuario />} />
           <Route path="gestionar-plaga" element={<GestionarPlaga />} />
-          <Route path="gestionar-proveedor" element={<GestionarProveedor/>} />
+          <Route path="gestionar-proveedor" element={<GestionarProveedor />} />
           <Route path="gestionar-inventario" element={<GestionarInventario />} />
           <Route path="gestionar-bitacora" element={<GestionarBitacora />} />
           <Route path="gestionar-certificado" element={<GestionarCertificado />} />
           <Route path="solicitudes" element={<SolicitudesList />} />
-        </Route>        
+          <Route path="gestionar-tarea-trabajadores/:idSolicitudServicio" element={<GestionarTareaTrabajadores />} />
+        </Route>
+
       </Routes>
     </BrowserRouter>
   );
