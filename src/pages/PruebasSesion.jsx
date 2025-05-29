@@ -1,141 +1,319 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import "../styles/CardsPruebas.css";
+import "leaflet/dist/leaflet.css";
+import "../styles/SolicitarServicioFumigacion.css";
 
+// Icono personalizado (ya lo tienes)
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+    "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png",
+  iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
 });
 
 const PruebasSesion = () => {
-  const [sesiones, setSesiones] = useState([]);
-  const [modalSesion, setModalSesion] = useState(null);
-  const [formulario, setFormulario] = useState({
-    observaciones: "",
-    pruebas: "",
-  });
+  const [idUsuario, setIdUsuario] = useState(null);
+  const [datosSesiones, setDatosSesiones] = useState([]);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    
-    const fetchSesiones = async () => {
-      const idTrabajador = localStorage.getItem("id_usuario");
-      try {
-        const response = await fetch(`http://localhost:8081/buscar/${idTrabajador}`);
-        const data = await response.json();
-        console.log("Sesiones recibidas:", data);
-        setSesiones(data);
-      } catch (error) {
-        console.error("Error al obtener sesiones:", error);
-      }
-    };
-    fetchSesiones();
-  }, []);
+  // Modal y detalle
+  const [modalOpen, setModalOpen] = useState(false);
+  const [detalleSolicitud, setDetalleSolicitud] = useState(null);
+  const [cargandoDetalle, setCargandoDetalle] = useState(false);
+  const [errorDetalle, setErrorDetalle] = useState(null);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormulario((prev) => ({ ...prev, [name]: value }));
+  // Estados para el modal "Agregar +"
+  const [modalAgregarOpen, setModalAgregarOpen] = useState(false);
+  const [observaciones, setObservaciones] = useState("");
+  const [pruebas, setPruebas] = useState("");
+  const [errorAgregar, setErrorAgregar] = useState(null);
+  const [cargandoAgregar, setCargandoAgregar] = useState(false);
+  const [sesionSeleccionada, setSesionSeleccionada] = useState(null);
+
+
+  // Estos dos estados para enviar el idTrabajador y idSesion
+  const [idTrabajadorSeleccionado, setIdTrabajadorSeleccionado] = useState(null);
+  const [idSesionSeleccionada, setIdSesionSeleccionada] = useState(null);
+
+  // Función para abrir el modal "Agregar +"
+  const abrirModalAgregar = (idTrabajador, idSesion) => {
+    setIdTrabajadorSeleccionado(idTrabajador);
+    setIdSesionSeleccionada(idSesion);
+    setObservaciones("");
+    setPruebas("");
+    setErrorAgregar(null);
+    setModalAgregarOpen(true);
   };
 
-  const handleSubmit = async () => {
-    const idTrabajador = localStorage.getItem("id_usuario");
-    const idSesion = modalSesion.idSesion;
+  const cerrarModalAgregar = () => {
+    setModalAgregarOpen(false);
+    setErrorAgregar(null);
+  };
+
+  // Función para enviar el formulario al backend
+  const enviarDatosAgregar = async () => {
+    if (!observaciones.trim() || !pruebas.trim()) {
+      setErrorAgregar("Por favor llena ambos campos.");
+      return;
+    }
+
+    setCargandoAgregar(true);
+    setErrorAgregar(null);
 
     try {
-      const response = await fetch(`http://localhost:8081/actualizar/${idTrabajador}/${idSesion}`, {
+      const url = `http://localhost:8081/participa/actualizar/${idTrabajadorSeleccionado}/${idSesionSeleccionada}`;
+
+      const body = {
+        observaciones,
+        pruebas,
+      };
+
+      const response = await fetch(url, {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formulario),
+        body: JSON.stringify(body),
       });
 
       if (!response.ok) {
-        throw new Error("Error al actualizar la sesión");
+        throw new Error("Error al enviar los datos");
       }
 
-      alert("Prueba registrada con éxito");
-      setModalSesion(null);
-      setFormulario({ observaciones: "", pruebas: "" });
-
-      // Recargar las sesiones para reflejar cambios
-      const refrescar = await fetch(`http://localhost:8081/buscar?idTrabajador=${idTrabajador}`);
-      const dataRefrescada = await refrescar.json();
-      setSesiones(dataRefrescada);
+      // Si quieres podrías refrescar datos o cerrar modal
+      setModalAgregarOpen(false);
+      alert("Datos enviados correctamente!");
     } catch (error) {
-      console.error("Error al enviar prueba:", error);
-      alert("Ocurrió un error al registrar la prueba");
+      setErrorAgregar(error.message);
+    } finally {
+      setCargandoAgregar(false);
     }
   };
 
-  return (
-    <div className="sesiones-grid">
-      {sesiones.map((item, idx) => {
-        const sesion = item.sesion;
-        const { fechaHora, lugarGps, solicitud } = sesion;
-        const [lat, lng] = lugarGps?.split(",").map(Number) || [0, 0];
+  useEffect(() => {
+    const fetchIdUsuario = async () => {
+      try {
+        const response = await fetch("http://localhost:8081/get_iduser", {
+          method: "GET",
+          credentials: "include",
+        });
 
-        return (
-          <div key={idx} className="sesion-card">
-            <h2>Solicitud #{solicitud.idSolicitudServicio}</h2>
-            <p><strong>Fecha y hora:</strong> {fechaHora}</p>
+        if (!response.ok) throw new Error("Error al obtener el ID del usuario");
 
-            <div className="map-container">
-              <MapContainer center={[lat, lng]} zoom={13} style={{ height: "200px", width: "100%", borderRadius: "8px" }}>
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <Marker position={[lat, lng]}>
-                  <Popup>
-                    Solicitud #{solicitud.idSolicitudServicio}
-                    <br />
-                    Fecha: {fechaHora}
-                  </Popup>
-                </Marker>
-              </MapContainer>
-            </div>
+        const data = await response.json();
 
-            <button onClick={() => setModalSesion(sesion)} className="action-button">
-              Registrar Prueba
-            </button>
-          </div>
+        if (!data || !data.userId) throw new Error("No se recibió un ID válido");
+
+        setIdUsuario(data.userId);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchIdUsuario();
+  }, []);
+
+  useEffect(() => {
+    const fetchDatosSesiones = async () => {
+      if (!idUsuario) return;
+
+      try {
+        const response = await fetch(
+          `http://localhost:8081/sesion/datos/${idUsuario}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
         );
-      })}
 
-      {/* Modal para registrar prueba */}
-      {modalSesion && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Registrar Prueba para la Solicitud #{modalSesion.solicitud.idSolicitudServicio}</h2>
+        if (!response.ok)
+          throw new Error("Error al obtener los datos de sesiones");
+
+        const data = await response.json();
+        setDatosSesiones(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchDatosSesiones();
+  }, [idUsuario]);
+
+  const parseCoords = (coordStr) => {
+    const parts = coordStr.split(",");
+    return [parseFloat(parts[0]), parseFloat(parts[1])];
+  };
+
+  const abrirModalConDetalle = async (idSolicitudServicio) => {
+    if (!idSolicitudServicio) {
+      alert("No se encontró el ID de solicitud para esta sesión.");
+      return;
+    }
+
+    setModalOpen(true);
+    setCargandoDetalle(true);
+    setErrorDetalle(null);
+    setDetalleSolicitud(null);
+
+    try {
+      const resp = await fetch(
+        `http://localhost:8081/solicitudes/${idSolicitudServicio}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+
+      if (!resp.ok) throw new Error("No se encontró la solicitud");
+
+      const data = await resp.json();
+      setDetalleSolicitud(data);
+    } catch (err) {
+      setErrorDetalle(err.message);
+    } finally {
+      setCargandoDetalle(false);
+    }
+  };
+
+  const cerrarModal = () => {
+    setModalOpen(false);
+    setDetalleSolicitud(null);
+    setErrorDetalle(null);
+  };
+
+  if (error) return <div>Error: {error}</div>;
+  if (idUsuario === null) return <div>Cargando ID de usuario...</div>;
+
+  return (
+    <div>
+      <h1>ID del usuario: {idUsuario}</h1>
+      <h2>Sesiones encontradas:</h2>
+
+      {datosSesiones.length === 0 ? (
+        <p>No se encontraron sesiones.</p>
+      ) : (
+        <div className="solicitudes-grid">
+          {datosSesiones.map((sesion, i) => {
+            const coords = parseCoords(sesion.ubicacionGps);
+
+            // console log para ver estructura y nombres de campos
+            console.log("Sesión individual:", sesion);
+
+            // Cambia aquí según el nombre correcto del ID que veas en consola:
+            const idSolicitud =
+              sesion.idSolicitudServicio ||
+              sesion.idSolicitud ||
+              sesion.solicitudId ||
+              null;
+
+            return (
+              <div className="solicitud-card" key={i}>
+                <h2>Sesión #{sesion.idSesion}</h2>
+
+                <div className="map-container">
+                  <MapContainer
+                    center={coords}
+                    zoom={15}
+                    scrollWheelZoom={false}
+                    style={{ height: "180px", width: "100%" }}
+                  >
+                    <TileLayer
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    />
+                    <Marker position={coords}>
+                      <Popup>
+                        <strong>ID Sesión:</strong> {sesion.idSesion} <br />
+                        <strong>Fecha:</strong> {sesion.fechaSesion} <br />
+                        <strong>Hora:</strong> {sesion.horaSesion} <br />
+                        <strong>Estado:</strong> {sesion.estadoSesion}
+                      </Popup>
+                    </Marker>
+                  </MapContainer>
+                </div>
+
+                <p>
+                  <strong>Fecha:</strong> {sesion.fechaSesion} |{" "}
+                  <strong>Hora:</strong> {sesion.horaSesion}
+                </p>
+                <p className="estado">{sesion.estadoSesion}</p>
+
+                <div className="actions">
+                  <button
+                    className="action-button"
+                    onClick={() => abrirModalConDetalle(idSolicitud)}
+                  >
+                    Detalles
+                  </button>
+                  <button
+                    className="action-button agregar-button"
+                    onClick={() => abrirModalAgregar(idUsuario, sesion.idSesion)}
+                  >
+                    Agregar +
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Modal para agregar observaciones y pruebas */}
+      {modalAgregarOpen && (
+        <div className="modal-overlay" onClick={cerrarModalAgregar}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2>Agregar Observaciones y Pruebas</h2>
 
             <label>
               Observaciones:
               <textarea
-                name="observaciones"
-                value={formulario.observaciones}
-                onChange={handleInputChange}
+                value={observaciones}
+                onChange={(e) => setObservaciones(e.target.value)}
+                rows={4}
               />
             </label>
 
             <label>
               Pruebas:
               <textarea
-                name="pruebas"
-                value={formulario.pruebas}
-                onChange={handleInputChange}
+                value={pruebas}
+                onChange={(e) => setPruebas(e.target.value)}
+                rows={4}
               />
             </label>
 
-            <button className="adjuntar-button">Adjuntar Pruebas</button>
+            {errorAgregar && <p className="error">{errorAgregar}</p>}
 
             <div className="modal-buttons">
-              <button onClick={handleSubmit} className="save-button">Confirmar</button>
-              <button onClick={() => setModalSesion(null)} className="close-button">Cancelar</button>
+              <button onClick={cerrarModalAgregar}>Cancelar</button>
+              <button onClick={enviarDatosAgregar} disabled={cargandoAgregar}>
+                {cargandoAgregar ? "Enviando..." : "Enviar"}
+              </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal para detalles */}
+      {modalOpen && (
+        <div className="modal-overlay" onClick={cerrarModal}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2>Detalles de la solicitud</h2>
+            {cargandoDetalle && <p>Cargando...</p>}
+            {errorDetalle && <p className="error">{errorDetalle}</p>}
+            {detalleSolicitud && (
+              <div>
+                <p><strong>ID:</strong> {detalleSolicitud.id}</p>
+                <p><strong>Cliente:</strong> {detalleSolicitud.cliente}</p>
+                <p><strong>Estado:</strong> {detalleSolicitud.estado}</p>
+                <p><strong>Descripción:</strong> {detalleSolicitud.descripcion}</p>
+                {/* Pon aquí más detalles que te interesen */}
+              </div>
+            )}
+            <button onClick={cerrarModal}>Cerrar</button>
           </div>
         </div>
       )}

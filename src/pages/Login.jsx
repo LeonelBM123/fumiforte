@@ -23,9 +23,6 @@ function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        //console.log("Datos de login recibidos:", data);
-        // Guarda el id del usuario en localStorage
-        //localStorage.setItem("id_usuario", data.id_usuario);
 
         // Accedemos al arreglo de authorities y verificamos si contiene "Gerente"
         if (data.authorities && data.authorities.includes("Gerente")) {
