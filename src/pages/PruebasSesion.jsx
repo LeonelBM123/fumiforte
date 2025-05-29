@@ -169,15 +169,15 @@ const PruebasSesion = () => {
 
       if (!resp.ok) throw new Error("No se encontró la solicitud");
 
-      const data = await resp.json();
-      setDetalleSolicitud(data);
+      const datasoli = await resp.json();
+      setDetalleSolicitud(datasoli);
     } catch (err) {
       setErrorDetalle(err.message);
     } finally {
       setCargandoDetalle(false);
     }
   };
-
+  
   const cerrarModal = () => {
     setModalOpen(false);
     setDetalleSolicitud(null);
@@ -198,16 +198,7 @@ const PruebasSesion = () => {
         <div className="solicitudes-grid">
           {datosSesiones.map((sesion, i) => {
             const coords = parseCoords(sesion.ubicacionGps);
-
-            // console log para ver estructura y nombres de campos
-            console.log("Sesión individual:", sesion);
-
-            // Cambia aquí según el nombre correcto del ID que veas en consola:
-            const idSolicitud =
-              sesion.idSolicitudServicio ||
-              sesion.idSolicitud ||
-              sesion.solicitudId ||
-              null;
+            const idSolicitud = sesion.idSolicitudServicio;
 
             return (
               <div className="solicitud-card" key={i}>
@@ -306,8 +297,8 @@ const PruebasSesion = () => {
             {errorDetalle && <p className="error">{errorDetalle}</p>}
             {detalleSolicitud && (
               <div>
-                <p><strong>ID:</strong> {detalleSolicitud.id}</p>
-                <p><strong>Cliente:</strong> {detalleSolicitud.cliente}</p>
+                <p><strong>ID:</strong> {detalleSolicitud.idSolicitudServicio}</p>
+                <p><strong>Direccion:</strong> {detalleSolicitud.direccionEscrita}</p>
                 <p><strong>Estado:</strong> {detalleSolicitud.estado}</p>
                 <p><strong>Descripción:</strong> {detalleSolicitud.descripcion}</p>
                 {/* Pon aquí más detalles que te interesen */}

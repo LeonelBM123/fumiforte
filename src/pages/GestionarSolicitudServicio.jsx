@@ -107,6 +107,7 @@ const SolicitudCard = ({ solicitud }) => {
     console.log(formData);
     const response = await fetch(`http://localhost:8081/solicitudes/${idSolicitudServicio}`, {
       method: "PUT",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
