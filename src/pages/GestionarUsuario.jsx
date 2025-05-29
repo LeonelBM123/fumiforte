@@ -33,7 +33,7 @@ function GestionarUsuario() {
   const obtenerUsuarios = async () => {
   try {
     setLoading(true);
-    const response = await fetch("http://localhost:8081/gerente/usuarios", {
+    const response = await fetch("https://fumifortebe.onrender.com/gerente/usuarios", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -85,7 +85,7 @@ function GestionarUsuario() {
 
     try {
     // Paso 1: Registrar usuario
-    const responseUsuario = await fetch("http://localhost:8081/registro", {
+    const responseUsuario = await fetch("https://fumifortebe.onrender.com/registro", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -122,7 +122,7 @@ function GestionarUsuario() {
     const nuevoUsuario = await responseUsuario.json();
 
     // Paso 2: Registrar trabajador (la especialidad es un campo extra que asumimos en el form)
-    const responseTrabajador = await fetch("http://localhost:8081/registro_trabajador", {
+    const responseTrabajador = await fetch("https://fumifortebe.onrender.com/registro_trabajador", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -183,7 +183,7 @@ function GestionarUsuario() {
     if (!usuarioAEliminar) return;
 
       try {
-      await axios.delete(`http://localhost:8081/usuarios/${usuarioAEliminar.idUsuario}`, {
+      await axios.delete(`https://fumifortebe.onrender.com/usuarios/${usuarioAEliminar.idUsuario}`, {
         withCredentials: true,
       });
       setMensaje("Usuario eliminado exitosamente.");
@@ -209,7 +209,7 @@ function GestionarUsuario() {
 
     try {
       const response = await axios.put(
-        `http://localhost:8081/usuarios/${idUsuario}`,
+        `https://fumifortebe.onrender.com/usuarios/${idUsuario}`,
         {
           nombreCompleto,
           telefono,

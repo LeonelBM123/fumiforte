@@ -37,7 +37,7 @@ const GestionarTareaTrabajadores = () => {
   // Cargar solicitud por id con credentials incluido
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/solicitudes/${idSolicitudServicio}`, {
+      .get(`https://fumifortebe.onrender.com/solicitudes/${idSolicitudServicio}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -49,7 +49,7 @@ const GestionarTareaTrabajadores = () => {
   // Cargar lista trabajadores con credentials incluido
   useEffect(() => {
     axios
-      .get("http://localhost:8081/gerente/trabajadores", {
+      .get("https://fumifortebe.onrender.com/gerente/trabajadores", {
         withCredentials: true,
       })
       .then((res) => {
@@ -104,7 +104,7 @@ const GestionarTareaTrabajadores = () => {
 
       
       const resSesion = await axios.post(
-        "http://localhost:8081/sesion/crear",
+        "https://fumifortebe.onrender.com/sesion/crear",
         sesionData,
         { withCredentials: true }
       );
@@ -137,7 +137,7 @@ const GestionarTareaTrabajadores = () => {
         // Hacer los POST uno por uno
         for (const p of participantes) {
         console.log("Enviando participante:", p); // DEBUG 🔍
-        await axios.post("http://localhost:8081/participa/crear", p, {
+        await axios.post("https://fumifortebe.onrender.com/participa/crear", p, {
             withCredentials: true,
         });
         }

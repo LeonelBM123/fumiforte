@@ -22,7 +22,7 @@ function GestionarBitacora() {
       });
 
       if (!response.ok) throw new Error(`HTTP status ${response.status}`);
-      const data = await response.json(); // <-- Faltaba esta línea
+      const data = await response.json();
       setBitacoras(data);
       
     } catch (error) {
