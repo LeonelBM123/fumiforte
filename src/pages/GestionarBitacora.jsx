@@ -60,7 +60,7 @@ function GestionarBitacora() {
                   <td>{b.accion}</td>
                   <td>{new Date(b.fechaHora).toLocaleString()}</td>
                   <td>{b.ip}</td>
-                  <td>{b.idUsuario}</td>
+                  {/* <td>{b.idUsuario}</td> */}
                 </tr>
               ))}
             </tbody>
