@@ -63,7 +63,7 @@ const PruebasSesion = () => {
     setErrorAgregar(null);
 
     try {
-      const url = `https://fumifortebe.onrender.com/participa/actualizar/${idTrabajadorSeleccionado}/${idSesionSeleccionada}`;
+      const url = `https://fumifortebe-gxhg.onrender.com/participa/actualizar/${idTrabajadorSeleccionado}/${idSesionSeleccionada}`;
 
       const body = {
         observaciones,
@@ -96,7 +96,7 @@ const PruebasSesion = () => {
   useEffect(() => {
     const fetchIdUsuario = async () => {
       try {
-        const response = await fetch("https://fumifortebe.onrender.com/get_iduser", {
+        const response = await fetch("https://fumifortebe-gxhg.onrender.com/get_iduser", {
           method: "GET",
           credentials: "include",
         });
@@ -122,7 +122,7 @@ const PruebasSesion = () => {
 
       try {
         const response = await fetch(
-          `https://fumifortebe.onrender.com/sesion/datos/${idUsuario}`,
+          `https://fumifortebe-gxhg.onrender.com/sesion/datos/${idUsuario}`,
           {
             method: "GET",
             credentials: "include",
@@ -160,7 +160,7 @@ const PruebasSesion = () => {
 
     try {
       const resp = await fetch(
-        `https://fumifortebe.onrender.com/solicitudes/${idSolicitudServicio}`,
+        `https://fumifortebe-gxhg.onrender.com/solicitudes/${idSolicitudServicio}`,
         {
           method: "GET",
           credentials: "include",
