@@ -255,43 +255,35 @@ const PruebasSesion = () => {
       {/* Modal para agregar observaciones y pruebas */}
       {modalAgregarOpen && (
         <div className="modal-overlay" onClick={cerrarModalAgregar}>
-          <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 420, width: '95%', padding: 24 }}>
-            <h2 style={{ marginBottom: 18, fontSize: '1.25rem' }}>Agregar Observaciones y Pruebas</h2>
-            <form
-              style={{ display: 'flex', flexDirection: 'column', gap: 14 }}
-              onSubmit={e => { e.preventDefault(); enviarDatosAgregar(); }}
-            >
-              <label style={{ fontWeight: 500, marginBottom: 2 }}>
-                Observaciones:
-                <textarea
-                  value={observaciones}
-                  onChange={(e) => setObservaciones(e.target.value)}
-                  rows={3}
-                  style={{ width: '100%', marginTop: 4, resize: 'vertical', fontSize: '1em', padding: 8, borderRadius: 6, border: '1px solid #ccc' }}
-                  placeholder="Describe tus observaciones..."
-                />
-              </label>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2>Agregar Observaciones y Pruebas</h2>
 
-              <label style={{ fontWeight: 500, marginBottom: 2 }}>
-                Pruebas:
-                <textarea
-                  value={pruebas}
-                  onChange={(e) => setPruebas(e.target.value)}
-                  rows={3}
-                  style={{ width: '100%', marginTop: 4, resize: 'vertical', fontSize: '1em', padding: 8, borderRadius: 6, border: '1px solid #ccc' }}
-                  placeholder="Describe las pruebas realizadas..."
-                />
-              </label>
+            <label>
+              Observaciones:
+              <textarea
+                value={observaciones}
+                onChange={(e) => setObservaciones(e.target.value)}
+                rows={4}
+              />
+            </label>
 
-              {errorAgregar && <p className="error" style={{ color: '#c62828', margin: 0 }}>{errorAgregar}</p>}
+            <label>
+              Pruebas:
+              <textarea
+                value={pruebas}
+                onChange={(e) => setPruebas(e.target.value)}
+                rows={4}
+              />
+            </label>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 8 }}>
-                <button type="button" onClick={cerrarModalAgregar} style={{ background: '#eee', color: '#333', border: 'none', borderRadius: 5, padding: '7px 18px', fontWeight: 500, cursor: 'pointer' }}>Cancelar</button>
-                <button type="submit" disabled={cargandoAgregar} style={{ background: '#388e3c', color: 'white', border: 'none', borderRadius: 5, padding: '7px 18px', fontWeight: 500, cursor: 'pointer' }}>
-                  {cargandoAgregar ? "Enviando..." : "Enviar"}
-                </button>
-              </div>
-            </form>
+            {errorAgregar && <p className="error">{errorAgregar}</p>}
+
+            <div className="modal-buttons">
+              <button onClick={cerrarModalAgregar}>Cancelar</button>
+              <button onClick={enviarDatosAgregar} disabled={cargandoAgregar}>
+                {cargandoAgregar ? "Enviando..." : "Enviar"}
+              </button>
+            </div>
           </div>
         </div>
       )}
