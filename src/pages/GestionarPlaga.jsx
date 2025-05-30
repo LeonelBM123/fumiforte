@@ -151,7 +151,7 @@ function GestionarPlaga() {
     }
   };
 
-   return (
+  return (
     <div className="gestionar-layout-container">
       <h1 style={{ marginBottom: "10px" }}>Gestionar Plaga</h1>
 
