@@ -5,16 +5,16 @@
   box-sizing: border-box;
 }
 
-html, body {
+body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--fumiforte-bg);
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  /* padding-top: 2rem; */
+  overflow-x: hidden;
 }
 
 /* Contenedor principal */
@@ -45,10 +45,6 @@ h1 {
   text-align: left;
 }
 
-/* Para evitar que todo el contenedor se pase */
-body {
-  overflow-x: hidden;
-}
 .formulario-registro h2 {
   text-align: center;
   color: #065f46;
@@ -137,7 +133,8 @@ table {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
 }
 
-table th, table td {
+table th,
+table td {
   padding: 1rem;
   text-align: center;
   border: 1px solid #d1fae5;
@@ -203,4 +200,30 @@ table button {
   gap: 1rem;
 }
 
+@media screen and (max-width: 600px) {
+  .gestionar-layout-container {
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 10px;
+  }
 
+  .formulario-registro {
+    padding: 1rem;
+  }
+
+  table th,
+  table td {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .modal-container {
+    width: 95%;
+    padding: 1rem;
+  }
+}
