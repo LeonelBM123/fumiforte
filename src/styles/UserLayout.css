@@ -99,6 +99,15 @@
   height: 40px;
   border-radius: 50%;
   cursor: pointer;
+  background-color: #126b0d; /* Fondo más claro */
+  border: 2px solid #09641a; /* Borde gris claro */
+  padding: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  transition: box-shadow 0.2s ease;
+}
+
+.profile-pic:hover {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Efecto hover más visible */
 }
 
 /* Menú desplegable del perfil */
