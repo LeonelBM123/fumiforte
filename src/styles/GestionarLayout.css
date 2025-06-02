@@ -14,12 +14,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  overflow-x: hidden;
+  overflow-x: auto; /* 🟢 Permite scroll si es necesario */
+  max-width: 100vw; /* 🟢 Prevenir desbordamiento total */
+
   overflow-y: auto;
 }
 
 /* Contenedor principal */
 .gestionar-layout-container {
+  width: 100%; /* 🟢 Nuevo: asegura que se ajuste al ancho disponible */
+  max-width: 100%; /* 🟢 Nuevo: evita que sea más ancho que el viewport */
+  box-sizing: border-box; /* Refuerzo */
   flex-grow: 1; /* ocupa el espacio disponible */
   padding: 1.5rem;
   background-color: #ffffff;
@@ -66,6 +71,7 @@ h1 {
 .formulario-registro form {
   display: flex;
   flex-direction: column;
+  width: 100%; /* 🟢 Asegura que no se desborde */
 }
 
 .formulario-registro input {
@@ -121,7 +127,8 @@ button:hover {
 }
 
 /* Tabla */
-.tabla-usuarios {
+.tabla-usuarios table {
+  min-width: 600px; /* 🟢 Permite que en pantallas pequeñas aparezca scroll horizontal en lugar de romperse */
   margin-top: 2rem;
   overflow-x: auto;
   border-radius: 12px;
@@ -207,6 +214,8 @@ table button {
     margin: 0.5rem;
     border-radius: 10px;
     width: 100%; /* Nuevo: evita que el contenedor sea más ancho que la pantalla */
+    max-width: 100vw; /* 🟢 Nuevo */
+    box-sizing: border-box; /* 🟢 Nuevo */
   }
 
   .formulario-registro {
@@ -214,15 +223,21 @@ table button {
     width: 100%; /* Nuevo */
   }
 
+  .formulario-registro input {
+    font-size: 0.9rem;
+  }
+
   table th,
   table td {
-    padding: 0.5rem;
-    font-size: 0.8rem;
+    padding: 0.4rem;
+    font-size: 0.75rem;
+    word-break: break-word; /* 🟢 Permite ajustar texto largo */
   }
 
   button {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
+    width: 100%; /* 🟢 Mejor accesibilidad en móvil */
   }
 
   .modal-container {
