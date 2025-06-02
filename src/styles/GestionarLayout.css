@@ -1,0 +1,206 @@
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--fumiforte-bg);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* padding-top: 2rem; */
+}
+
+/* Contenedor principal */
+.gestionar-layout-container {
+  flex-grow: 1; /* ocupa el espacio disponible */
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  overflow-x: auto;
+}
+
+.gestionar-layout-container h1,
+.gestionar-layout-container h2 {
+  word-break: break-word;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+/* Títulos */
+h1 {
+  color: #065f46;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  text-align: left;
+}
+
+/* Para evitar que todo el contenedor se pase */
+body {
+  overflow-x: hidden;
+}
+.formulario-registro h2 {
+  text-align: center;
+  color: #065f46;
+  margin-bottom: 1.5rem;
+}
+
+/* Formulario */
+.formulario-registro {
+  width: 100%;
+  padding: 2rem;
+  background-color: #f9fff9;
+  border-left: 6px solid #a3e635;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-top: 1rem;
+}
+
+.formulario-registro form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formulario-registro input {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid #a3e635;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+.formulario-registro input:focus {
+  outline: none;
+  border-color: #65a30d;
+  background-color: #f0fff0;
+}
+
+/* Botones */
+button {
+  padding: 0.6rem 1.2rem;
+  background-color: #65a30d;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+button:hover {
+  background-color: #4d7c0f;
+}
+
+/* Mensajes */
+.error,
+.success {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.error {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.success {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+/* Tabla */
+.tabla-usuarios {
+  margin-top: 2rem;
+  overflow-x: auto;
+  border-radius: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+}
+
+table th, table td {
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid #d1fae5;
+}
+
+table th {
+  background-color: #a3e635;
+  color: white;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+table td {
+  color: #065f46;
+}
+
+table tr:nth-child(even) {
+  background-color: #f6fdf6;
+}
+
+table tr:hover {
+  background-color: #e1f9e1;
+}
+
+/* Botones en la tabla */
+table button {
+  margin: 0.2rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+}
+
+/* Modales */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.modal-buttons {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+

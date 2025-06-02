@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import './palette.css';
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: var(--fumiforte-bg);
+  min-height: 100vh;
+  color: var(--fumiforte-green-deep);
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background: var(--fumiforte-bg);
+  overflow: hidden;
+}
+
+.register-content {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-box {
+  background: var(--fumiforte-white);
+  padding: 40px 28px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.10);
+  border-radius: 18px;
+  border: 1px solid var(--fumiforte-green-light);
+  min-width: 320px;
+  max-width: 400px;
+}
+
+.register-box h2 {
+  color: var(--fumiforte-yellow);
+  margin-bottom: 18px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.7rem;
+  letter-spacing: 0.5px;
+}
+
+.register-box form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.register-box input {
+  margin-bottom: 13px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--fumiforte-green);
+  border-radius: 7px;
+  font-size: 1rem;
+  background: var(--fumiforte-green-light);
+  transition: box-shadow 0.2s, border-color 0.2s;
+  box-shadow: none;
+  color: var(--fumiforte-yellow);
+}
+
+.register-box input:focus {
+  box-shadow: 0 0 0 2px var(--fumiforte-yellow);
+  border-color: var(--fumiforte-yellow-dark);
+  background: var(--fumiforte-white);
+  color: var(--fumiforte-yellow);
+}
+
+.register-box input::placeholder {
+  color: var(--fumiforte-green-deep);
+  opacity: 1;
+}
+
+.register-box button {
+  padding: 11px 0;
+  background: linear-gradient(90deg, var(--fumiforte-yellow) 60%, var(--fumiforte-yellow-dark) 100%);
+  color: var(--fumiforte-green-dark);
+  border: none;
+  border-radius: 7px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  box-shadow: 0 1px 4px var(--fumiforte-yellow-light);
+  transition: background 0.2s, transform 0.1s;
+}
+
+.register-box button:hover {
+  background: linear-gradient(90deg, var(--fumiforte-yellow-dark) 60%, var(--fumiforte-yellow-darker) 100%);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.error {
+  color: var(--fumiforte-error);
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+@media (max-width: 900px) {
+  .register-content {
+    padding: 24px 0;
+  }
+  .register-box {
+    margin: 0 0 24px 0;
+    max-width: 95vw;
+    min-width: 0;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}

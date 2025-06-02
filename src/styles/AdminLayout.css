@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import './palette.css';
+
+/* Estilos globales */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: var(--fumiforte-bg);
+  min-height: 100vh;
+  color: var(--fumiforte-green-deep);
+}
+
+/* Contenedor principal que abarca toda la pantalla */
+.admin-container {
+  min-height: 100vh;
+  background: var(--fumiforte-bg);
+  display: grid;
+  grid-template-areas: 
+    "topbar" "topbar" "topbar"
+    "sidebar" "main-area" "main-area"
+    ;
+  flex-direction: column;
+  /* Elimina cualquier padding/margin accidental */
+  padding: 0;
+  margin: 0;
+}
+
+/* Barra superior fija que ocupa todo el ancho */
+.topbar {
+  grid-area: topbar;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: var(--fumiforte-white);
+  box-shadow: 0 2px 12px 0 rgba(31, 38, 135, 0.10);
+  padding: 0;
+  height: 64px;
+  border-bottom: 1.5px solid var(--fumiforte-green-light);
+  z-index: 10;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  position: fixed;
+}
+
+/* Botón para mostrar/ocultar sidebar */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--fumiforte-yellow-dark);
+  cursor: pointer;
+  margin-right: 16px;
+  transition: color 0.2s;
+}
+
+.menu-toggle:hover {
+  color: var(--fumiforte-yellow);
+}
+
+/* Sección derecha de la topbar (perfil) */
+.topbar-right {
+  position: absolute;
+  right: 32px;
+  top: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Imagen de perfil */
+.profile-pic {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid var(--fumiforte-yellow);
+  cursor: pointer;
+  box-shadow: 0 1px 4px var(--fumiforte-yellow-light);
+  transition: border 0.2s;
+}
+
+.profile-pic:hover {
+  border: 2px solid var(--fumiforte-yellow-dark);
+}
+
+/* Menú desplegable del perfil */
+.dropdown-menu {
+  position: absolute;
+  right: 32px;
+  top: 60px;
+  background: var(--fumiforte-white);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px var(--fumiforte-green-light);
+  padding: 10px 0;
+  min-width: 160px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dropdown-menu button {
+  background: none;
+  border: none;
+  color: var(--fumiforte-green-deep);
+  font-size: 1rem;
+  padding: 10px 18px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.dropdown-menu button:hover {
+  background: var(--fumiforte-yellow-light);
+  color: var(--fumiforte-yellow-dark);
+}
+
+/* Barra lateral izquierda */
+.sidebar {
+  grid-area: sidebar;
+  /* position: fixed; */
+  top: 64px;
+  left: 0;
+  height: calc(100vh - 64px);
+  width: 250px;
+  background: var(--fumiforte-white);
+  box-shadow: 2px 0 12px 0 rgba(31, 38, 135, 0.10);
+  border-right: 1.5px solid var(--fumiforte-green-light);
+  padding: 32px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 9;
+  transition: transform 0.3s cubic-bezier(.4,2,.6,1), box-shadow 0.2s;
+  transform: translateX(0);
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    transform: translateX(-100%);
+    box-shadow: none;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 2px 0 12px 0 rgba(31, 38, 135, 0.10);
+    z-index: 1001;
+  }
+  .menu-toggle {
+    display: block;
+  }
+  .main-content {
+    margin-left: 0;
+    padding: 24px 8vw 24px 8vw;
+    position: relative;
+    z-index: 0;
+    margin-top: 64px;
+  }
+}
+
+/* Logo dentro del sidebar */
+.sidebar-logo {
+  width: 110px;
+  margin: 0 auto 32px auto;
+  display: block;
+  filter: drop-shadow(0 2px 8px var(--fumiforte-green-light));
+  cursor: pointer;
+}
+
+/* Agrupador de menús desplegables */
+.menu-group {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 0 18px;
+}
+
+/* Estilo de cada sección desplegable */
+.menu-group details {
+  background: var(--fumiforte-green-light);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 4px var(--fumiforte-green-light);
+  padding: 0 0 0 8px;
+}
+
+/* Título de cada sección */
+.menu-group summary {
+  color: var(--fumiforte-yellow-dark);
+  font-weight: 700;
+  font-size: 1.08rem;
+  cursor: pointer;
+  padding: 10px 0;
+  outline: none;
+}
+
+/* Botones dentro de cada sección */
+.menu-group button {
+  background: none;
+  border: none;
+  color: var(--fumiforte-green-deep);
+  font-size: 1rem;
+  padding: 10px 0 10px 18px;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s, color 0.2s;
+  border-radius: 6px;
+}
+
+.menu-group button:hover {
+  background: var(--fumiforte-yellow-light);
+  color: var(--fumiforte-yellow-dark);
+}
+
+/* Contenido principal desplazado por la sidebar y la topbar */
+.main-content {
+  grid-area:main-area;
+  margin-left: 250px;
+  padding: 36px 32px 32px 32px;
+  background: var(--fumiforte-bg);
+  min-height: calc(100vh - 64px);
+  transition: margin-left 0.3s cubic-bezier(.4,2,.6,1);
+  z-index: 1;
+  margin-top: 64px;
+}
+
+/* Responsividad */
+@media (max-width: 900px) {
+  .menu-toggle {
+    display: block;
+  }
+  .sidebar {
+    width: 80vw;
+    min-width: 180px;
+    max-width: 320px;
+    top: 64px;
+    left: 0;
+    height: calc(100vh - 64px);
+    padding-top: 24px;
+    z-index: 1000;
+  }
+  .main-content {
+    margin-left: 0;
+    padding: 24px 8vw 24px 8vw;
+    position: relative;
+    z-index: 0;
+    margin-top: 64px;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-content {
+    padding: 16px 2vw 16px 2vw;
+  }
+
+  .sidebar {
+    width: 100vw;
+    min-width: 0;
+    max-width: 100vw;
+  }
+
+  .topbar-right {
+    right: 12px;
+  }
+}

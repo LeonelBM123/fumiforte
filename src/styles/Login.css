@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import './palette.css';
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: var(--fumiforte-bg);
+  min-height: 100vh;
+  color: var(--fumiforte-green-deep);
+}
+
+.login-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--fumiforte-bg);
+}
+
+.glass-card {
+  background: var(--fumiforte-white);
+  box-shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.10);
+  border-radius: 18px;
+  border: 1px solid var(--fumiforte-green-light);
+  padding: 40px 28px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  min-width: 320px;
+  max-width: 350px;
+  margin-right: 40px;
+}
+
+.logo-modern {
+  width: 90px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 2px 8px var(--fumiforte-green));
+}
+
+.login-box-modern {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-box-modern h2 {
+  color: var(--fumiforte-yellow);
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 1.7rem;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  color: var(--fumiforte-green-deep);
+  margin-bottom: 20px;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.input-group {
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.login-box-modern input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--fumiforte-green);
+  border-radius: 7px;
+  background: var(--fumiforte-green-light);
+  font-size: 1rem;
+  margin-bottom: 0;
+  outline: none;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  box-shadow: none;
+  color: var(--fumiforte-yellow);
+}
+
+.login-box-modern input:focus {
+  box-shadow: 0 0 0 2px var(--fumiforte-yellow);
+  border-color: var(--fumiforte-yellow-dark);
+  background: var(--fumiforte-white);
+  color: var(--fumiforte-yellow);
+}
+
+.login-box-modern input::placeholder {
+  color: var(--fumiforte-green-deep);
+  opacity: 1;
+}
+
+.modern-btn {
+  width: 100%;
+  padding: 11px 0;
+  background: linear-gradient(90deg, var(--fumiforte-yellow) 60%, var(--fumiforte-yellow-dark) 100%);
+  color: var(--fumiforte-green-dark);
+  border: none;
+  border-radius: 7px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  box-shadow: 0 1px 4px var(--fumiforte-yellow-light);
+  transition: background 0.2s, transform 0.1s;
+}
+
+.modern-btn:hover {
+  background: linear-gradient(90deg, var(--fumiforte-yellow-dark) 60%, var(--fumiforte-yellow-darker) 100%);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.register-link-modern {
+  margin-top: 18px;
+  text-align: center;
+  color: var(--fumiforte-yellow);
+  font-size: 0.97rem;
+}
+
+.register-link-modern a {
+  color: var(--fumiforte-yellow-dark);
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.2s;
+}
+
+.register-link-modern a:hover {
+  color: var(--fumiforte-yellow-darker);
+  text-decoration: underline;
+}
+
+.error-modern {
+  color: var(--fumiforte-error);
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.carousel-modern {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 260px;
+  max-width: 350px;
+  height: 340px;
+  background: linear-gradient(135deg, var(--fumiforte-green) 60%, var(--fumiforte-green-dark) 100%);
+  border-radius: 22px;
+  margin-left: 28px;
+  box-shadow: 0 2px 12px var(--fumiforte-green);
+  z-index: 1;
+}
+
+.carousel-content {
+  text-align: center;
+  color: var(--fumiforte-yellow);
+  padding: 24px 12px;
+}
+
+.carousel-content h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--fumiforte-yellow);
+}
+
+.carousel-content p {
+  font-size: 1rem;
+  color: var(--fumiforte-green-deep);
+}
+
+@media (max-width: 900px) {
+  .login-bg {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 24px 0;
+  }
+  .glass-card, .carousel-modern {
+    margin: 0 0 24px 0;
+    max-width: 95vw;
+    min-width: 0;
+  }
+  .carousel-modern {
+    height: 140px;
+    border-radius: 12px;
+    margin-left: 0;
+  }
+}
