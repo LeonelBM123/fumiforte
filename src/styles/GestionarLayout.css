@@ -15,6 +15,7 @@ body {
   justify-content: center;
   align-items: flex-start;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Contenedor principal */
@@ -202,19 +203,21 @@ table button {
 
 @media screen and (max-width: 600px) {
   .gestionar-layout-container {
-    padding: 1rem;
+    padding: 0.5rem;
     margin: 0.5rem;
     border-radius: 10px;
+    width: 100%; /* Nuevo: evita que el contenedor sea más ancho que la pantalla */
   }
 
   .formulario-registro {
-    padding: 1rem;
+    padding: 0.5rem;
+    width: 100%; /* Nuevo */
   }
 
   table th,
   table td {
     padding: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   button {
@@ -225,5 +228,7 @@ table button {
   .modal-container {
     width: 95%;
     padding: 1rem;
+    max-height: 90vh; /* NUEVO: evita que el modal se desborde verticalmente */
+    overflow-y: auto; /* NUEVO: scroll interno si es muy alto */
   }
 }
