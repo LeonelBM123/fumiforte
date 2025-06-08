@@ -29,7 +29,7 @@ function GestionarProveedor() {
   const obtenerProveedores = async () => {
     try {
       setLoading(true);
-      const response = await fetch("https://fumifortebe.onrender.com/gerente/proveedores", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/gerente/proveedores", {
         method: "GET",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -72,7 +72,7 @@ function GestionarProveedor() {
     }
 
     try {
-      const response = await fetch("https://fumifortebe.onrender.com/nueva_proveedor", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/nueva_proveedor", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -122,7 +122,7 @@ function GestionarProveedor() {
     if (!proveedorAEliminar) return;
 
     try {
-      await axios.delete(`https://fumifortebe.onrender.com/proveedores/${proveedorAEliminar.idProveedor}`, {
+      await axios.delete(`https://fumifortebe-gxhg.onrender.com/proveedores/${proveedorAEliminar.idProveedor}`, {
         withCredentials: true,
       });
       setMensaje("Proveedor eliminado exitosamente.");
@@ -147,7 +147,7 @@ function GestionarProveedor() {
 
     try {
       const response = await axios.put(
-        `https://fumifortebe.onrender.com/proveedores/${cleanedForm.idProveedor}`,
+        `https://fumifortebe-gxhg.onrender.com/proveedores/${cleanedForm.idProveedor}`,
         cleanedForm,
         {
           withCredentials: true,

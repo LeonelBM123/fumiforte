@@ -41,7 +41,7 @@ function Register() {
 
 
     try {
-      const response = await fetch("https://fumifortebe.onrender.com/registro", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/registro", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +66,7 @@ function Register() {
       const nuevoUsuario = await response.json();
       const idUsuario = nuevoUsuario.idUsuario;
     
-      const clienteResponse = await fetch("https://fumifortebe.onrender.com/registro_cliente", {
+      const clienteResponse = await fetch("https://fumifortebe-gxhg.onrender.com/registro_cliente", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

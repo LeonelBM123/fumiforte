@@ -17,7 +17,11 @@ html, body {
 .admin-container {
   min-height: 100vh;
   background: var(--fumiforte-bg);
-  display: flex;
+  display: grid;
+  grid-template-areas: 
+    "topbar" "topbar" "topbar"
+    "sidebar" "main-area" "main-area"
+    ;
   flex-direction: column;
   /* Elimina cualquier padding/margin accidental */
   padding: 0;
@@ -26,6 +30,7 @@ html, body {
 
 /* Barra superior fija que ocupa todo el ancho */
 .topbar {
+  grid-area: topbar;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -117,7 +122,8 @@ html, body {
 
 /* Barra lateral izquierda */
 .sidebar {
-  position: fixed;
+  grid-area: sidebar;
+  /* position: fixed; */
   top: 64px;
   left: 0;
   height: calc(100vh - 64px);
@@ -212,6 +218,7 @@ html, body {
 
 /* Contenido principal desplazado por la sidebar y la topbar */
 .main-content {
+  grid-area:main-area;
   margin-left: 250px;
   padding: 36px 32px 32px 32px;
   background: var(--fumiforte-bg);
