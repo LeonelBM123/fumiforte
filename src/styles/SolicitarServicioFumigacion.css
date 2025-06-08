@@ -6,23 +6,22 @@ body {
   width: 100%;
   font-family: Arial, sans-serif;
   /* cambiar */
-  background-color: var(--fumiforte-bg);;
+  background-color: var(--fumiforte-bg);
 }
 
 .solicitud-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  position: relative;
+  min-height: 100vh;
+  width: 100%;
   background-color: var(--fumiforte-bg);
-  overflow: hidden;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .solicitud-content {
   display: flex;
   flex: 1;
-  height: 100%;
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -36,13 +35,16 @@ body {
   justify-content: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-left: 3px solid #a3e635;
-  width: 450px;
+  width: 100%;
+  max-width: 500px; /* MODIFICADO: para limitar en pantallas grandes */
+  box-sizing: border-box; /* MODIFICADO */
 }
 
 .solicitud-box h2 {
   color: #065f46;
   margin-bottom: 20px;
   text-align: center;
+  font-size: 1.5rem; /* MODIFICADO */
 }
 
 .solicitud-box form {
@@ -58,6 +60,8 @@ body {
   border-radius: 5px;
   font-size: 1rem;
   resize: none;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .solicitud-box button {
@@ -69,6 +73,8 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
+  width: 100%; /* MODIFICADO */
+  box-sizing: border-box;
 }
 
 .solicitud-box button:hover {
@@ -92,15 +98,27 @@ body {
 
 @media (max-width: 600px) {
   .solicitud-box {
-    width: 90%;
     padding: 20px;
   }
 
-  .solicitud-container {
-    padding: 10px;
+  .solicitud-box h2 {
+    font-size: 1.2rem; /* MODIFICADO */
   }
 
   .map-section {
     margin-bottom: 10px;
+  }
+
+  .map-section label {
+    font-size: 0.9rem; /* MODIFICADO */
+  }
+
+  .solicitud-box button {
+    font-size: 0.9rem; /* MODIFICADO */
+  }
+
+  .solicitud-box input,
+  .solicitud-box textarea {
+    font-size: 0.9rem; /* MODIFICADO */
   }
 }

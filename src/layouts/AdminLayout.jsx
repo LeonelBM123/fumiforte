@@ -102,7 +102,7 @@ function AdminLayout() {
         />
         <div className="menu-group">
           <details>
-            <summary>Gestión de Servicios</summary>
+            <summary>Servicios de Fumigacion</summary>
             <button onClick={() => handleNavigation("solicitudes")}>
               Ver Solicitudes de Servicio
             </button>
@@ -145,4 +145,3 @@ function AdminLayout() {
 }
 
 export default AdminLayout;
-

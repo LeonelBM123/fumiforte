@@ -1,4 +1,3 @@
-
 .user-container {
   display: flex;
   height: 100vh;
@@ -100,6 +99,15 @@
   height: 40px;
   border-radius: 50%;
   cursor: pointer;
+  background-color: #126b0d; /* Fondo más claro */
+  border: 2px solid #09641a; /* Borde gris claro */
+  padding: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  transition: box-shadow 0.2s ease;
+}
+
+.profile-pic:hover {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Efecto hover más visible */
 }
 
 /* Menú desplegable del perfil */
@@ -107,11 +115,11 @@
   position: absolute;
   top: 50px;
   right: 0;
-  background: black;
+  background: rgb(15, 98, 33);
   color: white;
   border: 1px solid #ccc;
   border-radius: 6px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 2px 8px rgba(6, 130, 37, 0.15);
   display: flex;
   flex-direction: column;
   z-index: 2000;
@@ -133,11 +141,12 @@
 /* Contenido principal desplazado por la sidebar y la topbar */
 .main-content {
   margin-left: 250px; /* Mismo que sidebar */
-  margin-top: 60px;   /* Mismo que topbar */
+  margin-top: 60px; /* Mismo que topbar */
   padding: 20px;
-  background-color: #f0fdf4;
-  height: calc(100vh - 60px);
+  background-color: #ffffff;
+  min-height: calc(100vh - 60px);
   overflow-y: auto;
+  box-sizing: border-box; /* BUENA PRÁCTICA */
 }
 
 /* Botón hamburguesa */
