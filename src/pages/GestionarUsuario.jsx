@@ -33,7 +33,7 @@ function GestionarUsuario() {
   const obtenerUsuarios = async () => {
   try {
     setLoading(true);
-    const response = await fetch("http://localhost:8081/gerente/usuarios", {
+    const response = await fetch("http://localhost:8081/listar_usuarios", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -183,7 +183,7 @@ function GestionarUsuario() {
     if (!usuarioAEliminar) return;
 
       try {
-      await axios.delete(`http://localhost:8081/usuarios/${usuarioAEliminar.idUsuario}`, {
+      await axios.delete(`http://localhost:8081/eliminar_usuario/${usuarioAEliminar.idUsuario}`, {
         withCredentials: true,
       });
       setMensaje("Usuario eliminado exitosamente.");

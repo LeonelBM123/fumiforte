@@ -301,7 +301,6 @@ const PruebasSesion = () => {
                 <p><strong>Direccion:</strong> {detalleSolicitud.direccionEscrita}</p>
                 <p><strong>Estado:</strong> {detalleSolicitud.estado}</p>
                 <p><strong>Descripción:</strong> {detalleSolicitud.descripcion}</p>
-                {/* Pon aquí más detalles que te interesen */}
               </div>
             )}
             <button onClick={cerrarModal}>Cerrar</button>

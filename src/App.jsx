@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import UserLayout from "./layouts/UserLayout";
-import Register from './pages/Register';
+import RegisterUser from './pages/RegisterUser';
 import AdminLayout from "./layouts/AdminLayout";
 import WorkerLayout from "./layouts/WorkerLayout";
 import PruebasSesion from "./pages/PruebasSesion";
@@ -14,6 +14,8 @@ import GestionarCertificado from "./pages/GestionarCertificado";
 import SolicitarServicioFumigacion from "./pages/SolicitarServicioFumigacion";
 import SolicitudesList from "./pages/GestionarSolicitudServicio";
 import GestionarTareaTrabajadores from "./pages/GestionarTareaTrabajadores";
+import UserDashboard from "./pages/UserDashboard";
+import WorkerDashboard from "./pages/WorkerDashboard";
 
 function App() {
   return (
@@ -22,20 +24,23 @@ function App() {
 
         {/* Rutas de inicio de sesión */}
         <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register_user" element={<RegisterUser />} />
 
         {/* Rutas de usuario */}
         <Route path="/userlayout" element={<UserLayout />}>
+          <Route index element={<UserDashboard />} /> {/* Ruta por defecto */}
           <Route path="solicitar-servicio-fumigacion" element={<SolicitarServicioFumigacion />} />
         </Route>
 
         {/* Rutas de trabajador */}
         <Route path="/workerlayout" element={<WorkerLayout />}>
+          <Route index element={<WorkerDashboard />} /> {/* Ruta por defecto */}
           <Route path="pruebas-sesion" element={<PruebasSesion />} />
         </Route>
 
         {/* Rutas de administrador */}
         <Route path="/adminlayout" element={<AdminLayout />}>
+          <Route index element={<SolicitudesList />} /> {/* Ruta por defecto */}
           <Route path="gestionar-usuario" element={<GestionarUsuario />} />
           <Route path="gestionar-plaga" element={<GestionarPlaga />} />
           <Route path="gestionar-proveedor" element={<GestionarProveedor />} />

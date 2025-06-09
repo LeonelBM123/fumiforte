@@ -75,7 +75,7 @@ function Login() {
           </form>
           {errorMsg && <p className="error-modern">{errorMsg}</p>}
           <p className="register-link-modern">
-            ¿No tienes cuenta? <a href="/register">Regístrate aquí</a>
+            ¿No tienes cuenta? <a href="/register_user">Regístrate aquí</a>
           </p>
         </div>
       </div>

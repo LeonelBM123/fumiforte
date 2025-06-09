@@ -102,6 +102,31 @@ html, body {
   transform: translateY(-1px) scale(1.02);
 }
 
+.register-box select {
+  margin-bottom: 13px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--fumiforte-green);
+  border-radius: 7px;
+  font-size: 1rem;
+  background: var(--fumiforte-green-light);
+  transition: box-shadow 0.2s, border-color 0.2s;
+  box-shadow: none;
+  color: var(--fumiforte-yellow);
+  appearance: none; /* Quita el estilo feo por defecto en algunos navegadores */
+}
+
+.register-box select:focus {
+  box-shadow: 0 0 0 2px var(--fumiforte-yellow);
+  border-color: var(--fumiforte-yellow-dark);
+  background: var(--fumiforte-white);
+  color: var(--fumiforte-yellow);
+}
+
+.register-box select option {
+  background: var(--fumiforte-white);
+  color: var(--fumiforte-green-deep);
+}
+
 .error {
   color: var(--fumiforte-error);
   margin-top: 10px;
