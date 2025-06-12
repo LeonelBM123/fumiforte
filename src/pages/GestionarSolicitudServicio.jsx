@@ -229,28 +229,6 @@ const SolicitudCard = ({ solicitud }) => {
               </label>
 
               <label>
-                Monto Pendiente Cotización:
-                <input
-                  type="number"
-                  name="montoPendienteCotizacion"
-                  value={formData.montoPendienteCotizacion || ""}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-
-              <label>
-                Cantidad de Sesiones:
-                <input
-                  type="number"
-                  name="cantidadSesiones"
-                  value={formData.cantidadSesiones || ""}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-
-              <label>
                 ¿Requiere Certificado?
                 <select
                   name="requiereCertificado"
