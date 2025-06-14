@@ -101,6 +101,16 @@ function UserLayout() {
               Solicitar Servicio de Fumigación
             </button>
           </details>
+          <details>
+            <summary>Pago</summary>
+            <button onClick={() => handleNavigation("")}>
+              Pagar Cotizacion
+            </button>
+            <button onClick={() => handleNavigation("")}>
+              Pagar Sesion
+            </button>
+          </details>
+          
         </div>
       </aside>
 

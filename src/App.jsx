@@ -14,6 +14,7 @@ import GestionarCertificado from "./pages/GestionarCertificado";
 import SolicitarServicioFumigacion from "./pages/SolicitarServicioFumigacion";
 import SolicitudesList from "./pages/GestionarSolicitudServicio";
 import GestionarTareaTrabajadores from "./pages/GestionarTareaTrabajadores";
+import PagoCotizacionSesionUser from "./pages/PagoCotizacionSesionUser";
 import UserDashboard from "./pages/UserDashboard";
 import WorkerDashboard from "./pages/WorkerDashboard";
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/userlayout" element={<UserLayout />}>
           <Route index element={<UserDashboard />} /> {/* Ruta por defecto */}
           <Route path="solicitar-servicio-fumigacion" element={<SolicitarServicioFumigacion />} />
+          <Route path="pagar-cotizacion-sesion" element={<PagoCotizacionSesionUser />} />
         </Route>
 
         {/* Rutas de trabajador */}
