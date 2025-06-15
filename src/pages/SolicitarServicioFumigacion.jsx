@@ -5,14 +5,15 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "../styles/SolicitarServicioFumigacion.css";
 
+// Configuración de íconos de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png",
+  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png",
   iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
   shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
 });
 
+// Componente para seleccionar la ubicación
 function LocationSelector({ position, setPosition }) {
   useMapEvents({
     click(e) {
@@ -23,16 +24,14 @@ function LocationSelector({ position, setPosition }) {
   return position ? <Marker position={position} /> : null;
 }
 
-
 function SolicitarServicioFumigacion() {
   const [form, setForm] = useState({
     descripcion: "",
     direccion: "",
-    requiere_certificado: "no"
+    requiere_certificado: "No", // Por defecto "No"
   });
   const [gps, setGps] = useState(null);
   const [error, setError] = useState("");
-  const [requiereCertificado, setRequiereCertificado] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -52,8 +51,8 @@ function SolicitarServicioFumigacion() {
     const datosSolicitud = {
       descripcion: form.descripcion,
       ubicacionGps: `${gps.lat},${gps.lng}`,
-      direccionEscrita: form.direccion, 
-      requiereCertificado: requiereCertificado ? "si" : "no",
+      direccionEscrita: form.direccion,
+      requiereCertificado: form.requiere_certificado, // ✅ Este valor ya es "Si" o "No"
     };
 
     try {
@@ -108,9 +107,12 @@ function SolicitarServicioFumigacion() {
               <label>
                 <input
                   type="checkbox"
-                  checked={form.requiere_certificado === "si"}
+                  checked={form.requiere_certificado === "Si"}
                   onChange={(e) =>
-                    setForm({ ...form, requiere_certificado: e.target.checked ? "si" : "no" })
+                    setForm({
+                      ...form,
+                      requiere_certificado: e.target.checked ? "Si" : "No",
+                    })
                   }
                 />
                 Requiere certificado
@@ -125,12 +127,11 @@ function SolicitarServicioFumigacion() {
                 scrollWheelZoom={true}
                 style={{ height: "300px", width: "100%" }}
               >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 <LocationSelector position={gps} setPosition={setGps} />
               </MapContainer>
             </div>
+
             <button type="submit">Enviar Solicitud</button>
             <button type="button" onClick={handleCancel}>
               Cancelar

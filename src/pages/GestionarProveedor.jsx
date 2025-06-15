@@ -13,7 +13,6 @@ function GestionarProveedor() {
     telefono: "",
     direccion: "",
     correo: "",
-    estado: "",
   });
   const [error, setError] = useState("");
   const [mensaje, setMensaje] = useState("");
@@ -55,16 +54,18 @@ function GestionarProveedor() {
     telefono: form.telefono.trim(),
     direccion: form.direccion.trim(),
     correo: form.correo.trim(),
-    estado: form.estado.trim(),
   });
 
-  const validarCampos = ({ nombre, telefono, direccion, correo, estado }) => {
-    return nombre && telefono && direccion && correo && estado;
+  const validarCampos = ({ nombre, telefono, direccion, correo }) => {
+    return nombre && telefono && direccion && correo;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const cleanedForm = limpiarCampos(form);
+    const cleanedForm = {
+      ...limpiarCampos(form),
+      estado: "Activo", // 👈 aquí se agrega el campo por defecto
+    };
 
     if (!validarCampos(cleanedForm)) {
       setError("Todos los campos son obligatorios.");
@@ -96,7 +97,6 @@ function GestionarProveedor() {
           telefono: "",
           direccion: "",
           correo: "",
-          estado: "",
         });
         setModo("lista");
         obtenerProveedores();
@@ -138,6 +138,7 @@ function GestionarProveedor() {
     const cleanedForm = {
       idProveedor: form.idProveedor,
       ...limpiarCampos(form),
+      estado: form.estado, // ya viene del modal
     };
 
     if (!validarCampos(cleanedForm)) {
@@ -227,7 +228,6 @@ function GestionarProveedor() {
             <input type="text" name="telefono" placeholder="Teléfono" value={form.telefono} onChange={handleChange} required />
             <input type="text" name="direccion" placeholder="Dirección" value={form.direccion} onChange={handleChange} required />
             <input type="email" name="correo" placeholder="Correo" value={form.correo} onChange={handleChange} required />
-            <input type="text" name="estado" placeholder="Estado" value={form.estado} onChange={handleChange} required />
             <button type="submit">Registrar</button>
             <button type="button" onClick={() => setModo("lista")}>Cancelar</button>
           </form>
