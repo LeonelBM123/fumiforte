@@ -94,7 +94,6 @@ const SolicitudCard = ({ solicitud }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify({
           fechaEmision: null,
           fechaVencimiento: null,

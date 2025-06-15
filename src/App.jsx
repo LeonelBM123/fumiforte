@@ -15,6 +15,8 @@ import SolicitarServicioFumigacion from "./pages/SolicitarServicioFumigacion";
 import SolicitudesList from "./pages/GestionarSolicitudServicio";
 import GestionarTareaTrabajadores from "./pages/GestionarTareaTrabajadores";
 import PagoCotizacionSesionUser from "./pages/PagoCotizacionSesionUser";
+import ListarPagosSesion from "./pages/ListaPagoSesion";
+import PagoSesionDirecto from "./pages/PagoSesionDirecto";
 import UserDashboard from "./pages/UserDashboard";
 import WorkerDashboard from "./pages/WorkerDashboard";
 
@@ -32,6 +34,8 @@ function App() {
           <Route index element={<UserDashboard />} /> {/* Ruta por defecto */}
           <Route path="solicitar-servicio-fumigacion" element={<SolicitarServicioFumigacion />} />
           <Route path="pagar-cotizacion-sesion" element={<PagoCotizacionSesionUser />} />
+          <Route path="listar-pagos-sesion" element={<ListarPagosSesion />} />
+          <Route path="pago-sesion" element={<PagoSesionDirecto />} />
         </Route>
 
         {/* Rutas de trabajador */}

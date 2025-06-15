@@ -1,0 +1,83 @@
+/* Contenedor principal de la sección */
+.contenedor-pagos {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Título general de la vista */
+.titulo-pagos {
+  text-align: center;
+  font-size: 24px;
+  color: #047857; /* Verde tailwind */
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Bloque individual por cada solicitud */
+.bloque-solicitud {
+  margin-bottom: 32px;
+}
+
+/* Título que indica "Solicitud #..." */
+.titulo-solicitud {
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151; /* Gris oscuro */
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+/* Tabla que lista las sesiones */
+.tabla-sesiones {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  border: 1px solid #d1d5db; /* Gris claro */
+}
+
+/* Cabecera de tabla */
+.tabla-sesiones thead {
+  background-color: #d1fae5; /* Verde claro tailwind */
+}
+
+/* Celdas de la tabla */
+.tabla-sesiones th,
+.tabla-sesiones td {
+  border: 1px solid #d1d5db;
+  padding: 8px 12px;
+  text-align: center;
+}
+
+/* Botón de pagar activo */
+.btn-pagar {
+  background-color: #047857;
+  color: white;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Hover cuando el botón está activo */
+.btn-pagar:hover:not(.btn-deshabilitado) {
+  background-color: #065f46;
+}
+
+/* Estilo para botón deshabilitado */
+.btn-deshabilitado {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Estilo del mensaje de error si ocurre */
+.error-message {
+  text-align: center;
+  color: red;
+  margin-top: 20px;
+  font-weight: bold;
+}

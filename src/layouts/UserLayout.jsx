@@ -106,7 +106,7 @@ function UserLayout() {
             <button onClick={() => handleNavigation("")}>
               Pagar Cotizacion
             </button>
-            <button onClick={() => handleNavigation("")}>
+            <button onClick={() => handleNavigation("listar-pagos-sesion")}>
               Pagar Sesion
             </button>
           </details>
