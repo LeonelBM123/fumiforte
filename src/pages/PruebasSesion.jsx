@@ -83,15 +83,32 @@ const PruebasSesion = () => {
         throw new Error("Error al enviar los datos");
       }
 
-      // Si quieres podrías refrescar datos o cerrar modal
+      const updateSesionUrl = `http://localhost:8081/sesion/cambiar_estado/${idSesionSeleccionada}`;
+      const estadoUpdateResponse = await fetch(updateSesionUrl, {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          estado: "Realizado"
+        }),
+      });
+
+      if (!estadoUpdateResponse.ok) {
+        throw new Error("No se pudo actualizar el estado de la sesión");
+      }
+
+      // Todo salió bien
       setModalAgregarOpen(false);
-      alert("Datos enviados correctamente!");
+      alert("Datos enviados y sesión actualizada a 'Realizado' correctamente!");
     } catch (error) {
       setErrorAgregar(error.message);
     } finally {
       setCargandoAgregar(false);
     }
   };
+
 
   useEffect(() => {
     const fetchIdUsuario = async () => {

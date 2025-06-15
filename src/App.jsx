@@ -19,6 +19,7 @@ import ListarPagosSesion from "./pages/ListaPagoSesion";
 import PagoSesionDirecto from "./pages/PagoSesionDirecto";
 import UserDashboard from "./pages/UserDashboard";
 import WorkerDashboard from "./pages/WorkerDashboard";
+import Calificaciones from "./pages/Calificaciones";
 
 function App() {
   return (
@@ -36,12 +37,14 @@ function App() {
           <Route path="pagar-cotizacion-sesion" element={<PagoCotizacionSesionUser />} />
           <Route path="listar-pagos-sesion" element={<ListarPagosSesion />} />
           <Route path="pago-sesion" element={<PagoSesionDirecto />} />
+          <Route path="Calificaciones" element={<Calificaciones />} />
         </Route>
 
         {/* Rutas de trabajador */}
         <Route path="/workerlayout" element={<WorkerLayout />}>
           <Route index element={<WorkerDashboard />} /> {/* Ruta por defecto */}
           <Route path="pruebas-sesion" element={<PruebasSesion />} />
+
         </Route>
 
         {/* Rutas de administrador */}

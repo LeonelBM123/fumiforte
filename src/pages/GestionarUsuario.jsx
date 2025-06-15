@@ -66,74 +66,27 @@ function GestionarUsuario() {
       return;
     }
 
-    const camposObligatorios = [
-      "nombreCompleto",
-      "contraseña",
-      "confirmarContraseña",
-      "telefono",
-      "direccion",
-      "correo",
-      "especialidad"
-    ];
+    const trabajadorData = {
+    nombreCompleto: form.nombreCompleto.trim(),
+    contraseña: form.contraseña,
+    telefono: form.telefono.trim(),
+    direccion: form.direccion.trim(),
+    correo: form.correo.trim(),
+    especialidad: form.especialidad.trim(),
+    rol: "Trabajador",
+    estado: "Activo",
+    fechaInicio: form.fechaInicio || new Date().toISOString().split("T")[0], // si tienes fechaInicio en el form o poner hoy por defecto
+  };
 
-    for (let campo of camposObligatorios) {
-      if (!form[campo] || form[campo].trim() === "") {
-        setError("Todos los campos son obligatorios.");
-        return;
-      }
-    }
-
-    try {
-    // Paso 1: Registrar usuario
-    const responseUsuario = await fetch("http://localhost:8081/registro", {
+  try {
+    const response = await fetch("http://localhost:8081/registrar_trabajador", {
       method: "POST",
-      credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nombreCompleto: form.nombreCompleto,
-        contraseña: form.contraseña,
-        telefono: form.telefono,
-        direccion: form.direccion,
-        correo: form.correo,
-        especialidad: form.especialidad,
-        rol: "Trabajador",
-        estado: "Activo",
-      }),
+      body: JSON.stringify(trabajadorData),
     });
 
-    if (!responseUsuario.ok) {
-      const errorText = await responseUsuario.text();
-      try {
-        const errorData = JSON.parse(errorText);
-        if (
-          errorData.message?.toLowerCase().includes("correo") ||
-          errorData.message?.toLowerCase().includes("duplicate")
-        ) {
-          setError("El correo ya está registrado.");
-        } else {
-          setError(errorData.message || "Error al registrar trabajador.");
-        }
-      } catch {
-        setError("Error al registrar trabajador.");
-      }
-      return; // Salimos porque hubo error
-    }
-
-    const nuevoUsuario = await responseUsuario.json();
-
-    // Paso 2: Registrar trabajador (la especialidad es un campo extra que asumimos en el form)
-    const responseTrabajador = await fetch("http://localhost:8081/registro_trabajador", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        idTrabajador: nuevoUsuario.idUsuario,
-        especialidad: form.especialidad,      
-      }),
-    });
-
-    if (!responseTrabajador.ok) {
-      const errorText = await responseTrabajador.text();
+    if (!response.ok) {
+      const errorText = await response.text();
       setError(errorText || "Error al registrar trabajador.");
       return;
     }
@@ -148,6 +101,7 @@ function GestionarUsuario() {
       direccion: "",
       correo: "",
       especialidad: "",
+      fechaInicio: "",
     });
     setModo("lista");
     obtenerUsuarios();

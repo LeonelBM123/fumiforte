@@ -135,20 +135,19 @@ const EnviarPasos = ({ datosFinales }) => {
             }
         }
 
-
-
         // 7. Chequear y crear certificado si no existe, luego ligar a la solicitud
-        // Obtener la solicitud para chequear idCertificado
         const solicitudRes = await fetch(
-          `http://localhost:8081/solicitudes/${datosFinales.idSolicitudServicio}`
-        , {
-        withCredentials: true
-        });
-        if (!solicitudRes.ok) throw new Error("Error al obtener la solicitud de servicio");
-        const solicitudData = await solicitudRes.json();
+          `http://localhost:8081/solicitudes/${datosFinales.idSolicitudServicio}`,
+          { withCredentials: true }
+        );
+        if (!solicitudRes.ok)
+          throw new Error("Error al obtener la solicitud de servicio");
 
-        if (!solicitudData.idCertificado) {
-          // Crear certificado nuevo
+        const solicitudData = await solicitudRes.json();
+        let idCertificadoFinal = solicitudData.idCertificado;
+
+        // Si no existe el certificado, se crea uno nuevo
+        if (!idCertificadoFinal) {
           const certResponse = await fetch("http://localhost:8081/gerente/crear_certificado", {
             method: "POST",
             credentials: "include",
@@ -159,13 +158,15 @@ const EnviarPasos = ({ datosFinales }) => {
               estado: "Pendiente",
             }),
           });
+
           if (!certResponse.ok) throw new Error("Error al crear certificado");
           const certData = await certResponse.json();
+          idCertificadoFinal = certData.idCertificado;
 
-          // Ahora hacer PUT para ligar el certificado a la solicitud
+          // Ligar el nuevo certificado a la solicitud
           const updateSolicitudPayload = {
             ...solicitudData,
-            idCertificado: certData.idCertificado,
+            idCertificado: idCertificadoFinal,
           };
 
           const putRes = await fetch(
@@ -177,8 +178,31 @@ const EnviarPasos = ({ datosFinales }) => {
               body: JSON.stringify(updateSolicitudPayload),
             }
           );
-          if (!putRes.ok) throw new Error("Error al actualizar la solicitud con certificado");
+          if (!putRes.ok)
+            throw new Error("Error al actualizar la solicitud con el certificado");
         }
+
+        // 8. Cambiar estado de la solicitud a "Aprobado", manteniendo el idCertificado (nuevo o anterior)
+        const updateEstadoPayload = {
+          ...solicitudData,
+          estado: "Aprobado",
+          idCertificado: idCertificadoFinal || null,
+          requiereCertificado: solicitudData.requiereCertificado,
+        };
+
+        const estadoRes = await fetch(
+          `http://localhost:8081/solicitudes/${datosFinales.idSolicitudServicio}`,
+          {
+            method: "PUT",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updateEstadoPayload),
+          }
+        );
+
+        if (!estadoRes.ok)
+          throw new Error("Error al cambiar el estado a Aprobado");
+
 
         setMensaje("✅ Todos los pasos realizados con éxito.");
       } catch (err) {

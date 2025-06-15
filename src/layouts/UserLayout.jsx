@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import "../styles/UserLayout.css";
 import logo from "../assets/fumiforte-logo.png";
@@ -10,7 +10,6 @@ function UserLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false); // NUEVO
   const navigate = useNavigate();
   const location = useLocation();
-
 
   const sidebarRef = useRef(null);
   const toggleButtonRef = useRef(null); // Ref para el botón de hamburguesa
@@ -41,7 +40,6 @@ function UserLayout() {
     alert("Función aún no implementada");
   };
 
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       const isSmallScreen = window.innerWidth <= 768;
@@ -63,12 +61,15 @@ function UserLayout() {
     };
   }, []);
 
-
   return (
     <div className="user-container">
       {/* Barra superior */}
       <header className="topbar">
-        <button ref={toggleButtonRef} className="hamburger" onClick={toggleSidebar}>
+        <button
+          ref={toggleButtonRef}
+          className="hamburger"
+          onClick={toggleSidebar}
+        >
           ☰
         </button>
         <div className="topbar-right">
@@ -97,8 +98,13 @@ function UserLayout() {
         <div className="menu-group">
           <details>
             <summary>Servicios de Fumigación</summary>
-            <button onClick={() => handleNavigation("solicitar-servicio-fumigacion")}>
+            <button
+              onClick={() => handleNavigation("solicitar-servicio-fumigacion")}
+            >
               Solicitar Servicio de Fumigación
+            </button>
+            <button onClick={() => handleNavigation("Calificaciones")}>
+              Calificar Servicio
             </button>
           </details>
           <details>
@@ -110,15 +116,11 @@ function UserLayout() {
               Pagar Sesion
             </button>
           </details>
-          
         </div>
       </aside>
 
       {sidebarOpen && (
-        <div
-          className="backdrop"
-          onClick={() => setSidebarOpen(false)}
-        ></div>
+        <div className="backdrop" onClick={() => setSidebarOpen(false)}></div>
       )}
 
       <main className="main-content">
