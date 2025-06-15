@@ -1,0 +1,78 @@
+.paso3-contenido {
+  padding: 30px;
+  max-width: 600px;
+  margin: auto;
+  background: #fefefe;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.titulo {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.campo {
+  margin-bottom: 20px;
+}
+
+.campo label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.campo input {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.botones-finales {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  flex-grow: 1;
+}
+
+.btn-atras {
+  background-color: #999;
+  color: white;
+}
+
+.btn-resumen {
+  background-color: #f1c40f;
+  color: black;
+}
+
+.btn-confirmar {
+  background-color: #27ae60;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.confirmacion-box {
+  background-color: #fffbe6;
+  border: 2px solid #ffe58f;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
