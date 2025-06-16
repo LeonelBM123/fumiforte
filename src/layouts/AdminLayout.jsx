@@ -111,9 +111,9 @@ function AdminLayout() {
             </button>
           </details>
           <details>
-            <summary>Autentificación y Seguridad</summary>
-            <button onClick={() => handleNavigation("gestionar-bitacora")}>
-              Gestionar Bitácora del sistema
+            <summary>Administrar Pagos</summary>
+            <button onClick={() => handleNavigation("administrar-pagos")}>
+              Administrar Pagos
             </button>
           </details>
           <details>
@@ -132,6 +132,12 @@ function AdminLayout() {
             </button>
             <button onClick={() => handleNavigation("gestionar-inventario")}>
               Gestionar Inventario
+            </button>
+          </details>
+          <details>
+            <summary>Autentificación y Seguridad</summary>
+            <button onClick={() => handleNavigation("gestionar-bitacora")}>
+              Gestionar Bitácora del sistema
             </button>
           </details>
         </div>

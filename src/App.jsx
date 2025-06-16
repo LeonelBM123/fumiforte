@@ -17,6 +17,7 @@ import GestionarTareaTrabajadores from "./pages/GestionarTareaTrabajadores";
 import PagoCotizacionSesionUser from "./pages/PagoCotizacionSesionUser";
 import ListarPagosSesion from "./pages/ListaPagoSesion";
 import PagoSesionDirecto from "./pages/PagoSesionDirecto";
+import AdministrarPagos from "./pages/AdministrarPagos";
 import UserDashboard from "./pages/UserDashboard";
 import WorkerDashboard from "./pages/WorkerDashboard";
 import Calificaciones from "./pages/Calificaciones";
@@ -58,6 +59,7 @@ function App() {
           <Route path="gestionar-certificado" element={<GestionarCertificado />} />
           <Route path="solicitudes" element={<SolicitudesList />} />
           <Route path="gestionar-tarea-trabajadores/:idSolicitudServicio" element={<GestionarTareaTrabajadores />} />
+          <Route path="administrar-pagos" element={<AdministrarPagos />} />
         </Route>
 
       </Routes>

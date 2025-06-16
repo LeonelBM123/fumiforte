@@ -74,31 +74,33 @@ const ListaPagoSesion = () => {
               </tr>
             </thead>
             <tbody>
-              {solicitud.sesiones.map((sesion) => (
+              {solicitud.sesiones
+              .filter((sesion) => sesion.montoPendienteSesion > 0)
+              .map((sesion) => (
                 <tr key={sesion.idSesion}>
                   <td>{sesion.idSesion}</td>
                   <td>{sesion.estado}</td>
                   <td>Bs. {sesion.montoPendienteSesion.toFixed(2)}</td>
                   <td>
                     <button
-                    className={`btn-pagar ${sesion.estado !== "Realizado" ? "btn-deshabilitado" : ""}`}
-                    disabled={sesion.estado !== "Realizado"}
-                    onClick={() =>
+                      className={`btn-pagar ${sesion.estado !== "Realizado" ? "btn-deshabilitado" : ""}`}
+                      disabled={sesion.estado !== "Realizado"}
+                      onClick={() =>
                         navigate("/userlayout/pago-sesion", {
-                        state: {
+                          state: {
                             idSesion: sesion.idSesion,
                             montoSesion: sesion.montoPendienteSesion,
                             idSolicitudServicio: solicitud.idSolicitudServicio,
-                            userId: userId
-                        }
+                            userId: userId,
+                          },
                         })
-                    }
+                      }
                     >
-                    Pagar
+                      Pagar
                     </button>
                   </td>
                 </tr>
-              ))}
+            ))}
             </tbody>
           </table>
         </div>

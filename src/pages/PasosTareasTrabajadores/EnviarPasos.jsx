@@ -19,7 +19,6 @@ const EnviarPasos = ({ datosFinales }) => {
         const idGerenteObtenido = userData.userId;
         if (!idGerenteObtenido) throw new Error("ID del gerente inválido");
 
-
         // 2. Crear Cotización
         const cotizacionPayload = {
           fecha: new Date().toISOString().split("T")[0],
@@ -29,10 +28,12 @@ const EnviarPasos = ({ datosFinales }) => {
         };
 
         await axios.post("http://localhost:8081/cotizar/crear_cotizacion", cotizacionPayload, {
-        withCredentials: true
+          withCredentials: true
         });
 
         // 3. Crear sesiones y asignar trabajadores
+        const sesionesConId = [];
+
         for (const sesionData of datosFinales.sesiones) {
           const sesionPayload = {
             fecha: sesionData.fecha,
@@ -43,99 +44,112 @@ const EnviarPasos = ({ datosFinales }) => {
             solicitudServicio: { idSolicitudServicio: datosFinales.idSolicitudServicio },
           };
 
+          // Crear sesión y guardar id
           const resSesion = await axios.post("http://localhost:8081/sesion/crear", sesionPayload, {
-            withCredentials: true
-            });
+            withCredentials: true,
+          });
           const idSesion = resSesion.data.idSesion;
 
-          // Guardar el idSesion para usos futuros si quieres
-          sesionData.idSesion = idSesion;
+          // Guardar la sesión con id para futuros usos
+          sesionesConId.push({
+            ...sesionData,
+            idSesion: idSesion,
+          });
 
-          // 4. Asignar trabajadores a la sesión
+          // Asignar trabajadores a esa sesión
           for (const idTrabajador of sesionData.trabajadores) {
             const participaPayload = {
-                idSesion: idSesion,
-                idTrabajador: idTrabajador,
+              idSesion: idSesion,
+              idTrabajador: idTrabajador,
             };
 
             await axios.post("http://localhost:8081/participa/crear", participaPayload, {
-            withCredentials: true
+              withCredentials: true,
             });
           }
         }
 
-        // 5. Crear pagos
-        const pagosCreados = []; // { idPago, tipo }
+        await axios.put(
+          `http://localhost:8081/solicitudes/actualizar_numero_sesiones/${datosFinales.idSolicitudServicio}`,
+          {
+            cantidadSesiones: sesionesConId.length,
+          },
+          {
+            withCredentials: true,
+          }
+        );
 
-        // Pago cotización si montoPendienteCotizacion > 0
+
+        // 4. Crear pagos
+        const pagosCreados = [];
+
+        // Pago cotización si corresponde
         if (datosFinales.montoPendienteCotizacion > 0) {
           const pagoCotizacionPayload = {
             fecha: null,
             monto: datosFinales.montoPendienteCotizacion,
             tipoPago: null,
             nroVoucher: null,
-            cliente: {
-                idCliente: datosFinales.idCliente
-            },
+            cliente: { idCliente: datosFinales.idCliente },
             estado: "Inpaga",
           };
 
           const resPagoCotizacion = await axios.post("http://localhost:8081/pagar/crear_pago", pagoCotizacionPayload, {
             withCredentials: true
-            });
+          });
+
           pagosCreados.push({
             idPago: resPagoCotizacion.data.idPago,
             tipo: "cotizacion",
           });
         }
 
-        // Pago por cada sesión
-        for (const sesionData of datosFinales.sesiones) {
+        // Pagos por cada sesión
+        for (const sesionData of sesionesConId) {
           if (sesionData.monto > 0) {
             const pagoSesionPayload = {
               fecha: null,
               monto: sesionData.monto,
               tipoPago: null,
               nroVoucher: null,
-              cliente: {
-                idCliente: datosFinales.idCliente
-              },
+              cliente: { idCliente: datosFinales.idCliente },
               estado: "Inpaga",
             };
 
             const resPagoSesion = await axios.post("http://localhost:8081/pagar/crear_pago", pagoSesionPayload, {
-            withCredentials: true
+              withCredentials: true
             });
+
             pagosCreados.push({
               idPago: resPagoSesion.data.idPago,
               tipo: "sesion",
-              idSesion: sesionData.idSesion || null,
+              idSesion: sesionData.idSesion, // ahora sí está garantizado
             });
           }
         }
 
-        // 6. Crear las tuplas en pagoCotizacion o pagoSesion
+        // 5. Crear las tuplas en pago_cotizacion o pago_sesion
         for (const pago of pagosCreados) {
-            if (pago.tipo === "cotizacion") {
-                const payloadCotizacion = {
-                    pago: { idPago: pago.idPago },
-                    idSolicitudServicio: datosFinales.idSolicitudServicio,
-                };
-                await axios.post("http://localhost:8081/pagar_cotizacion/crear_pago_cotizacion", payloadCotizacion, {
-                    withCredentials: true,
-                });
-            } else if (pago.tipo === "sesion") {
-                const payloadSesion = {
-                    pago: { idPago: pago.idPago },
-                    idSesion: pago.idSesion,
-                };
-                await axios.post("http://localhost:8081/pagar_sesion/crear_pago_sesion", payloadSesion, {
-                    withCredentials: true,
-                });
-            }
+          if (pago.tipo === "cotizacion") {
+            const payloadCotizacion = {
+              pago: { idPago: pago.idPago },
+              idSolicitudServicio: datosFinales.idSolicitudServicio,
+            };
+            await axios.post("http://localhost:8081/pagar_cotizacion/crear_pago_cotizacion", payloadCotizacion, {
+              withCredentials: true,
+            });
+          } else if (pago.tipo === "sesion") {
+            const payloadSesion = {
+              pago: { idPago: pago.idPago },
+              idSesion: pago.idSesion,
+            };
+            await axios.post("http://localhost:8081/pagar_sesion/crear_pago_sesion", payloadSesion, {
+              withCredentials: true,
+            });
+          }
         }
 
-        // 7. Chequear y crear certificado si no existe, luego ligar a la solicitud
+        // 6. Verificar y crear certificado si no hay
         const solicitudRes = await fetch(
           `http://localhost:8081/solicitudes/${datosFinales.idSolicitudServicio}`,
           { withCredentials: true }
@@ -146,7 +160,6 @@ const EnviarPasos = ({ datosFinales }) => {
         const solicitudData = await solicitudRes.json();
         let idCertificadoFinal = solicitudData.idCertificado;
 
-        // Si no existe el certificado, se crea uno nuevo
         if (!idCertificadoFinal) {
           const certResponse = await fetch("http://localhost:8081/gerente/crear_certificado", {
             method: "POST",
@@ -163,7 +176,7 @@ const EnviarPasos = ({ datosFinales }) => {
           const certData = await certResponse.json();
           idCertificadoFinal = certData.idCertificado;
 
-          // Ligar el nuevo certificado a la solicitud
+          // Ligar a la solicitud
           const updateSolicitudPayload = {
             ...solicitudData,
             idCertificado: idCertificadoFinal,
@@ -182,7 +195,7 @@ const EnviarPasos = ({ datosFinales }) => {
             throw new Error("Error al actualizar la solicitud con el certificado");
         }
 
-        // 8. Cambiar estado de la solicitud a "Aprobado", manteniendo el idCertificado (nuevo o anterior)
+        // 7. Cambiar estado a "Aprobado"
         const updateEstadoPayload = {
           ...solicitudData,
           estado: "Aprobado",
@@ -203,6 +216,16 @@ const EnviarPasos = ({ datosFinales }) => {
         if (!estadoRes.ok)
           throw new Error("Error al cambiar el estado a Aprobado");
 
+        // 8. Actualizar montoPendienteCotizacion
+        await axios.put(
+          `http://localhost:8081/solicitudes/actualizar_monto/${datosFinales.idSolicitudServicio}`,
+          {
+            montoPendienteCotizacion: datosFinales.montoPendienteCotizacion,
+          },
+          {
+            withCredentials: true,
+          }
+        );
 
         setMensaje("✅ Todos los pasos realizados con éxito.");
       } catch (err) {
