@@ -21,6 +21,7 @@ import AdministrarPagos from "./pages/AdministrarPagos";
 import UserDashboard from "./pages/UserDashboard";
 import WorkerDashboard from "./pages/WorkerDashboard";
 import Calificaciones from "./pages/Calificaciones";
+import GestionarHistorial from "./pages/GestionarHistorial";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
           <Route path="gestionar-inventario" element={<GestionarInventario />} />
           <Route path="gestionar-bitacora" element={<GestionarBitacora />} />
           <Route path="gestionar-certificado" element={<GestionarCertificado />} />
+          <Route path="gestionar-historial" element={<GestionarHistorial />} />
           <Route path="solicitudes" element={<SolicitudesList />} />
           <Route path="gestionar-tarea-trabajadores/:idSolicitudServicio" element={<GestionarTareaTrabajadores />} />
           <Route path="administrar-pagos" element={<AdministrarPagos />} />

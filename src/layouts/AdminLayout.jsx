@@ -109,6 +109,9 @@ function AdminLayout() {
             <button onClick={() => handleNavigation("gestionar-certificado")}>
               Gestionar Certificados
             </button>
+            <button onClick={() => handleNavigation("gestionar-historial")}>
+              Gestionar Historial de Sesiones
+            </button>
           </details>
           <details>
             <summary>Administrar Pagos</summary>
