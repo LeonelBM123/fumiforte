@@ -63,7 +63,7 @@ const PruebasSesion = () => {
     setErrorAgregar(null);
 
     try {
-      const url = `http://localhost:8081/participa/actualizar/${idTrabajadorSeleccionado}/${idSesionSeleccionada}`;
+      const url = `https://fumifortebe-gxhg.onrender.com/participa/actualizar/${idTrabajadorSeleccionado}/${idSesionSeleccionada}`;
 
       const body = {
         observaciones,
@@ -83,7 +83,7 @@ const PruebasSesion = () => {
         throw new Error("Error al enviar los datos");
       }
 
-      const updateSesionUrl = `http://localhost:8081/sesion/cambiar_estado/${idSesionSeleccionada}`;
+      const updateSesionUrl = `https://fumifortebe-gxhg.onrender.com/sesion/cambiar_estado/${idSesionSeleccionada}`;
       const estadoUpdateResponse = await fetch(updateSesionUrl, {
         method: "PUT",
         credentials: "include",
@@ -113,7 +113,7 @@ const PruebasSesion = () => {
   useEffect(() => {
     const fetchIdUsuario = async () => {
       try {
-        const response = await fetch("http://localhost:8081/get_iduser", {
+        const response = await fetch("https://fumifortebe-gxhg.onrender.com/get_iduser", {
           method: "GET",
           credentials: "include",
         });
@@ -139,7 +139,7 @@ const PruebasSesion = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:8081/sesion/datos/${idUsuario}`,
+          `https://fumifortebe-gxhg.onrender.com/sesion/datos/${idUsuario}`,
           {
             method: "GET",
             credentials: "include",
@@ -177,7 +177,7 @@ const PruebasSesion = () => {
 
     try {
       const resp = await fetch(
-        `http://localhost:8081/solicitudes/${idSolicitudServicio}`,
+        `https://fumifortebe-gxhg.onrender.com/solicitudes/${idSolicitudServicio}`,
         {
           method: "GET",
           credentials: "include",

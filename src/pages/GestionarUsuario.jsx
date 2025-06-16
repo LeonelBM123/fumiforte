@@ -33,7 +33,7 @@ function GestionarUsuario() {
   const obtenerUsuarios = async () => {
   try {
     setLoading(true);
-    const response = await fetch("http://localhost:8081/listar_usuarios", {
+    const response = await fetch("https://fumifortebe-gxhg.onrender.com/listar_usuarios", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -79,7 +79,7 @@ function GestionarUsuario() {
   };
 
   try {
-    const response = await fetch("http://localhost:8081/registrar_trabajador", {
+    const response = await fetch("https://fumifortebe-gxhg.onrender.com/registrar_trabajador", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(trabajadorData),
@@ -137,7 +137,7 @@ function GestionarUsuario() {
     if (!usuarioAEliminar) return;
 
       try {
-      await axios.delete(`http://localhost:8081/eliminar_usuario/${usuarioAEliminar.idUsuario}`, {
+      await axios.delete(`https://fumifortebe-gxhg.onrender.com/eliminar_usuario/${usuarioAEliminar.idUsuario}`, {
         withCredentials: true,
       });
       setMensaje("Usuario eliminado exitosamente.");
@@ -163,7 +163,7 @@ function GestionarUsuario() {
 
     try {
       const response = await axios.put(
-        `http://localhost:8081/usuarios/${idUsuario}`,
+        `https://fumifortebe-gxhg.onrender.com/usuarios/${idUsuario}`,
         {
           nombreCompleto,
           telefono,

@@ -56,7 +56,7 @@ function SolicitarServicioFumigacion() {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/solicitud_servicio", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/solicitud_servicio", {
         method: "POST",
         credentials: "include",
         headers: {

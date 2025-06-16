@@ -13,7 +13,7 @@ function GestionarBitacora() {
   const obtenerBitacoras = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:8081/gerente/bitacoras", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/gerente/bitacoras", {
         method: "GET",
         credentials: "include",
         headers: {

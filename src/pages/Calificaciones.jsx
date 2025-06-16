@@ -37,7 +37,7 @@ const SolicitudCardCliente = ({ solicitud }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8081/calificaciones/calificar/${idSolicitudServicio}`, {
+      const response = await fetch(`https://fumifortebe-gxhg.onrender.com/calificaciones/calificar/${idSolicitudServicio}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -134,7 +134,7 @@ const SolicitudesCliente = () => {
   useEffect(() => {
     const fetchSolicitudes = async () => {
       try {
-        const response = await fetch("http://localhost:8081/clienteSolicitudes", {
+        const response = await fetch("https://fumifortebe-gxhg.onrender.com/clienteSolicitudes", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",

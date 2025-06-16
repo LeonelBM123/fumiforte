@@ -19,7 +19,7 @@ const PagoCotizacionSesionUser = () => {
     const obtenerMontos = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8081/solicitudes/monto_pendiente/${userId}/${idSolicitudServicio}`
+          `https://fumifortebe-gxhg.onrender.com/solicitudes/monto_pendiente/${userId}/${idSolicitudServicio}`
         );
         const data = await res.json();
         console.log("DATA RECIBIDA DEL BACKEND:", data);

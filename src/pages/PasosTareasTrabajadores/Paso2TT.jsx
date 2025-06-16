@@ -11,7 +11,7 @@ const Paso2TT = ({ datosPrevios, setDatosCompletos, cambiarPaso }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8081/listar_trabajadores_activos")
+      .get("https://fumifortebe-gxhg.onrender.com/listar_trabajadores_activos")
       .then((res) => setTrabajadores(res.data))
       .catch((err) => console.error("Error al obtener trabajadores:", err));
   }, []);

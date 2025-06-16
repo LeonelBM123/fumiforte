@@ -30,7 +30,7 @@ function GestionarInventario() {
   const obtenerProductos = async () => {
     try {
       setLoading(true); // Iniciar carga
-      const response = await axios.get("http://localhost:8081/gerente/productos", {
+      const response = await axios.get("https://fumifortebe-gxhg.onrender.com/gerente/productos", {
         withCredentials: true,
       });
       setProductos(response.data);
@@ -68,7 +68,7 @@ function GestionarInventario() {
     }
 
     try {
-      const response = await axios.post("http://localhost:8081/nuevo_producto", cleanedForm, {
+      const response = await axios.post("https://fumifortebe-gxhg.onrender.com/nuevo_producto", cleanedForm, {
         withCredentials: true,
         headers: { "Content-Type": "application/json" },
       });
@@ -106,7 +106,7 @@ function GestionarInventario() {
     if (!productoAEliminar) return;
 
     try {
-      await axios.delete(`http://localhost:8081/productos/${productoAEliminar.idProducto}`, {
+      await axios.delete(`https://fumifortebe-gxhg.onrender.com/productos/${productoAEliminar.idProducto}`, {
         withCredentials: true,
       });
       setMensaje("Producto eliminado exitosamente.");
@@ -131,7 +131,7 @@ function GestionarInventario() {
 
     try {
       const response = await axios.put(
-        `http://localhost:8081/productos/${cleanedForm.idProducto}`,
+        `https://fumifortebe-gxhg.onrender.com/productos/${cleanedForm.idProducto}`,
         cleanedForm,
         {
           withCredentials: true,

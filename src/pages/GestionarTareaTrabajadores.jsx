@@ -16,7 +16,7 @@ const GestionarTareaTrabajadores = () => {
   const [solicitud, setSolicitud] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8081/solicitud_servicio_detallado/${idSolicitudServicio}`)
+    fetch(`https://fumifortebe-gxhg.onrender.com/solicitud_servicio_detallado/${idSolicitudServicio}`)
       .then((r) => r.json())
       .then((data) => {
         setSolicitud(data);

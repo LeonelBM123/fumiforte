@@ -9,7 +9,7 @@ const EnviarPasos = ({ datosFinales }) => {
     const enviarDatos = async () => {
       try {
         // 1. Obtener ID del usuario (Gerente)
-        const userRes = await fetch("http://localhost:8081/get_iduser", {
+        const userRes = await fetch("https://fumifortebe-gxhg.onrender.com/get_iduser", {
           method: "GET",
           credentials: "include",
         });
@@ -27,7 +27,7 @@ const EnviarPasos = ({ datosFinales }) => {
           gerente: { idGerente: idGerenteObtenido },
         };
 
-        await axios.post("http://localhost:8081/cotizar/crear_cotizacion", cotizacionPayload, {
+        await axios.post("https://fumifortebe-gxhg.onrender.com/cotizar/crear_cotizacion", cotizacionPayload, {
           withCredentials: true
         });
 
@@ -45,7 +45,7 @@ const EnviarPasos = ({ datosFinales }) => {
           };
 
           // Crear sesión y guardar id
-          const resSesion = await axios.post("http://localhost:8081/sesion/crear", sesionPayload, {
+          const resSesion = await axios.post("https://fumifortebe-gxhg.onrender.com/sesion/crear", sesionPayload, {
             withCredentials: true,
           });
           const idSesion = resSesion.data.idSesion;
@@ -63,14 +63,14 @@ const EnviarPasos = ({ datosFinales }) => {
               idTrabajador: idTrabajador,
             };
 
-            await axios.post("http://localhost:8081/participa/crear", participaPayload, {
+            await axios.post("https://fumifortebe-gxhg.onrender.com/participa/crear", participaPayload, {
               withCredentials: true,
             });
           }
         }
 
         await axios.put(
-          `http://localhost:8081/solicitudes/actualizar_numero_sesiones/${datosFinales.idSolicitudServicio}`,
+          `https://fumifortebe-gxhg.onrender.com/solicitudes/actualizar_numero_sesiones/${datosFinales.idSolicitudServicio}`,
           {
             cantidadSesiones: sesionesConId.length,
           },
@@ -94,7 +94,7 @@ const EnviarPasos = ({ datosFinales }) => {
             estado: "Inpaga",
           };
 
-          const resPagoCotizacion = await axios.post("http://localhost:8081/pagar/crear_pago", pagoCotizacionPayload, {
+          const resPagoCotizacion = await axios.post("https://fumifortebe-gxhg.onrender.com/pagar/crear_pago", pagoCotizacionPayload, {
             withCredentials: true
           });
 
@@ -116,7 +116,7 @@ const EnviarPasos = ({ datosFinales }) => {
               estado: "Inpaga",
             };
 
-            const resPagoSesion = await axios.post("http://localhost:8081/pagar/crear_pago", pagoSesionPayload, {
+            const resPagoSesion = await axios.post("https://fumifortebe-gxhg.onrender.com/pagar/crear_pago", pagoSesionPayload, {
               withCredentials: true
             });
 
@@ -135,7 +135,7 @@ const EnviarPasos = ({ datosFinales }) => {
               pago: { idPago: pago.idPago },
               idSolicitudServicio: datosFinales.idSolicitudServicio,
             };
-            await axios.post("http://localhost:8081/pagar_cotizacion/crear_pago_cotizacion", payloadCotizacion, {
+            await axios.post("https://fumifortebe-gxhg.onrender.com/pagar_cotizacion/crear_pago_cotizacion", payloadCotizacion, {
               withCredentials: true,
             });
           } else if (pago.tipo === "sesion") {
@@ -143,7 +143,7 @@ const EnviarPasos = ({ datosFinales }) => {
               pago: { idPago: pago.idPago },
               idSesion: pago.idSesion,
             };
-            await axios.post("http://localhost:8081/pagar_sesion/crear_pago_sesion", payloadSesion, {
+            await axios.post("https://fumifortebe-gxhg.onrender.com/pagar_sesion/crear_pago_sesion", payloadSesion, {
               withCredentials: true,
             });
           }
@@ -151,7 +151,7 @@ const EnviarPasos = ({ datosFinales }) => {
 
         // 6. Verificar y crear certificado si no hay
         const solicitudRes = await fetch(
-          `http://localhost:8081/solicitudes/${datosFinales.idSolicitudServicio}`,
+          `https://fumifortebe-gxhg.onrender.com/solicitudes/${datosFinales.idSolicitudServicio}`,
           { withCredentials: true }
         );
         if (!solicitudRes.ok)
@@ -161,7 +161,7 @@ const EnviarPasos = ({ datosFinales }) => {
         let idCertificadoFinal = solicitudData.idCertificado;
 
         if (!idCertificadoFinal) {
-          const certResponse = await fetch("http://localhost:8081/gerente/crear_certificado", {
+          const certResponse = await fetch("https://fumifortebe-gxhg.onrender.com/gerente/crear_certificado", {
             method: "POST",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
@@ -183,7 +183,7 @@ const EnviarPasos = ({ datosFinales }) => {
           };
 
           const putRes = await fetch(
-            `http://localhost:8081/solicitudes/${datosFinales.idSolicitudServicio}`,
+            `https://fumifortebe-gxhg.onrender.com/solicitudes/${datosFinales.idSolicitudServicio}`,
             {
               method: "PUT",
               credentials: "include",
@@ -204,7 +204,7 @@ const EnviarPasos = ({ datosFinales }) => {
         };
 
         const estadoRes = await fetch(
-          `http://localhost:8081/solicitudes/${datosFinales.idSolicitudServicio}`,
+          `https://fumifortebe-gxhg.onrender.com/solicitudes/${datosFinales.idSolicitudServicio}`,
           {
             method: "PUT",
             credentials: "include",
@@ -218,7 +218,7 @@ const EnviarPasos = ({ datosFinales }) => {
 
         // 8. Actualizar montoPendienteCotizacion
         await axios.put(
-          `http://localhost:8081/solicitudes/actualizar_monto/${datosFinales.idSolicitudServicio}`,
+          `https://fumifortebe-gxhg.onrender.com/solicitudes/actualizar_monto/${datosFinales.idSolicitudServicio}`,
           {
             montoPendienteCotizacion: datosFinales.montoPendienteCotizacion,
           },
