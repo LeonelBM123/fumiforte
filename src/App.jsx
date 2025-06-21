@@ -19,8 +19,11 @@ import ListarPagosCotizacion from "./pages/ListaPagoCotizacion";
 import ListarPagosSesion from "./pages/ListaPagoSesion";
 import PagoSesionDirecto from "./pages/PagoSesionDirecto";
 import PagoCotizacionDirecto from "./pages/PagoCotizacionDirecto";
+import AdministrarPagos from "./pages/AdministrarPagos";
 import UserDashboard from "./pages/UserDashboard";
 import WorkerDashboard from "./pages/WorkerDashboard";
+import Calificaciones from "./pages/Calificaciones";
+import GestionarHistorial from "./pages/GestionarHistorial";
 
 function App() {
   return (
@@ -40,12 +43,14 @@ function App() {
           <Route path="pago-sesion" element={<PagoSesionDirecto />} />
           <Route path="listar-pagos-cotizacion" element={<ListarPagosCotizacion />} />
           <Route path="pago-cotizacion" element={<PagoCotizacionDirecto />} />
+          <Route path="Calificaciones" element={<Calificaciones />} />
         </Route>
 
         {/* Rutas de trabajador */}
         <Route path="/workerlayout" element={<WorkerLayout />}>
           <Route index element={<WorkerDashboard />} /> {/* Ruta por defecto */}
           <Route path="pruebas-sesion" element={<PruebasSesion />} />
+
         </Route>
 
         {/* Rutas de administrador */}
@@ -57,8 +62,10 @@ function App() {
           <Route path="gestionar-inventario" element={<GestionarInventario />} />
           <Route path="gestionar-bitacora" element={<GestionarBitacora />} />
           <Route path="gestionar-certificado" element={<GestionarCertificado />} />
+          <Route path="gestionar-historial" element={<GestionarHistorial />} />
           <Route path="solicitudes" element={<SolicitudesList />} />
           <Route path="gestionar-tarea-trabajadores/:idSolicitudServicio" element={<GestionarTareaTrabajadores />} />
+          <Route path="administrar-pagos" element={<AdministrarPagos />} />
         </Route>
 
       </Routes>

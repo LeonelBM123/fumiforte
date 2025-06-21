@@ -91,7 +91,7 @@ const UserDashboard = () => {
   const [userId, setUserId] = useState(null);
   const [solicitudes, setSolicitudes] = useState(null);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // <-- IMPORTANTE
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchIdUsuario = async () => {
