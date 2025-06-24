@@ -24,6 +24,7 @@ import UserDashboard from "./pages/UserDashboard";
 import WorkerDashboard from "./pages/WorkerDashboard";
 import Calificaciones from "./pages/Calificaciones";
 import GestionarHistorial from "./pages/GestionarHistorial";
+import AdminCalendar from "./pages/AdminCalendar";
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
           <Route path="solicitudes" element={<SolicitudesList />} />
           <Route path="gestionar-tarea-trabajadores/:idSolicitudServicio" element={<GestionarTareaTrabajadores />} />
           <Route path="administrar-pagos" element={<AdministrarPagos />} />
+          <Route path="admin-calendar" element={<AdminCalendar />} />
         </Route>
 
       </Routes>

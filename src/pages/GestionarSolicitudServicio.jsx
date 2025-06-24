@@ -15,16 +15,12 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
-
-
 const SolicitudCard = ({ solicitud }) => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({ ...solicitud });
   const navigate = useNavigate();
 
-  if (!solicitud) {
-    return null;
-  }
+  if (!solicitud) return null;
 
   const {
     idSolicitudServicio,
@@ -60,7 +56,6 @@ const SolicitudCard = ({ solicitud }) => {
     );
   }
 
-  // Maneja cambios en inputs del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -70,77 +65,56 @@ const SolicitudCard = ({ solicitud }) => {
     navigate(`/adminlayout/gestionar-tarea-trabajadores/${idSolicitudServicio}`);
   };
 
-  // Enviar PUT al backend
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    // Verificamos si requiere certificado y si NO tiene id_certificado
-    if (
-      String(formData.requiereCertificado).toLowerCase() === "si" &&
-      formData.idCertificado === null
-    ) {
-      const confirmCert = window.confirm(
-        "Se creará un certificado ligado a esta solicitud. ¿Desea continuar?"
-      );
+    e.preventDefault();
+    try {
+      if (
+        String(formData.requiereCertificado).toLowerCase() === "si" &&
+        formData.idCertificado === null
+      ) {
+        const confirmCert = window.confirm(
+          "Se creará un certificado ligado a esta solicitud. ¿Desea continuar?"
+        );
+        if (!confirmCert) return;
 
-      if (!confirmCert) {
-        return; // Si cancela, no seguimos
+        const certResponse = await fetch("http://localhost:8081/gerente/crear_certificado", {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fechaEmision: null,
+            fechaVencimiento: null,
+            estado: "Pendiente",
+          }),
+        });
+
+        if (!certResponse.ok) throw new Error("Error al crear el certificado");
+        const certData = await certResponse.json();
+        formData.idCertificado = certData.idCertificado;
       }
 
-      // Crear el certificado
-      const certResponse = await fetch("http://localhost:8081/gerente/crear_certificado", {
-        method: "POST",
+      const response = await fetch(`http://localhost:8081/solicitudes/${idSolicitudServicio}`, {
+        method: "PUT",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fechaEmision: null,
-          fechaVencimiento: null,
-          estado: "Pendiente",
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
-      if (!certResponse.ok) {
-        throw new Error("Error al crear el certificado");
-      }
-
-      const certData = await certResponse.json();
-
-      formData.idCertificado = certData.idCertificado;
-    }
-
-    // Luego actualizamos la solicitud
-    console.log(formData);
-    const response = await fetch(`http://localhost:8081/solicitudes/${idSolicitudServicio}`, {
-      method: "PUT",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (!response.ok) throw new Error("Error al actualizar la solicitud");
-    alert("Solicitud actualizada correctamente");
-    setShowModal(false);
-  } catch (error) {
+      if (!response.ok) throw new Error("Error al actualizar la solicitud");
+      alert("Solicitud actualizada correctamente");
+      setShowModal(false);
+    } catch (error) {
       console.error(error);
       alert("Ocurrió un error al guardar los cambios");
     }
   };
 
-
   return (
     <>
       <div className="solicitud-card">
         <h2>Solicitud #{idSolicitudServicio}</h2>
-        <p className="estado">
-          <strong>Estado:</strong> {estado}
-        </p>
-        <p>
-          <strong>Dirección:</strong> {direccionEscrita}
-        </p>
+        <p className="estado"><strong>Estado:</strong> {estado}</p>
+        <p><strong>Dirección:</strong> {direccionEscrita}</p>
         <div className="map-container">
           <MapContainer
             center={[lat, lng]}
@@ -150,9 +124,7 @@ const SolicitudCard = ({ solicitud }) => {
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <Marker position={[lat, lng]}>
-              <Popup>
-                {direccionEscrita} <br /> Estado: {estado}
-              </Popup>
+              <Popup>{direccionEscrita} <br /> Estado: {estado}</Popup>
             </Marker>
           </MapContainer>
         </div>
@@ -161,10 +133,9 @@ const SolicitudCard = ({ solicitud }) => {
           <strong>Certificado:</strong>{" "}
           {String(requiereCertificado).toLowerCase() === "si" ? "Sí" : "No"}
         </p>
+
         <div className="actions">
-          <button className="action-button" onClick={() => setShowModal(true)}>
-            Gestionar
-          </button>
+          <button className="action-button" onClick={() => setShowModal(true)}>Gestionar</button>
           <button
             className="action-button"
             style={{ marginLeft: "10px", backgroundColor: "#ffc107" }}
@@ -190,7 +161,6 @@ const SolicitudCard = ({ solicitud }) => {
                   required
                 />
               </label>
-
               <label>
                 Dirección Escrita:
                 <input
@@ -201,7 +171,6 @@ const SolicitudCard = ({ solicitud }) => {
                   required
                 />
               </label>
-
               <label>
                 Ubicación GPS:
                 <input
@@ -212,7 +181,6 @@ const SolicitudCard = ({ solicitud }) => {
                   required
                 />
               </label>
-
               <label>
                 Estado:
                 <select
@@ -226,7 +194,6 @@ const SolicitudCard = ({ solicitud }) => {
                   <option value="Rechazado">Rechazado</option>
                 </select>
               </label>
-
               <label>
                 ¿Requiere Certificado?
                 <select
@@ -240,9 +207,7 @@ const SolicitudCard = ({ solicitud }) => {
               </label>
 
               <div className="modal-buttons">
-                <button type="submit" className="save-button">
-                  Guardar Cambios
-                </button>
+                <button type="submit" className="save-button">Guardar Cambios</button>
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
@@ -262,20 +227,17 @@ const SolicitudCard = ({ solicitud }) => {
 const SolicitudesList = () => {
   const [solicitudes, setSolicitudes] = useState([]);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSolicitudes = async () => {
       try {
         const response = await fetch("http://localhost:8081/solicitudes", {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
         });
-        if (!response.ok) {
-          throw new Error("Error al obtener las solicitudes.");
-        }
+        if (!response.ok) throw new Error("Error al obtener las solicitudes.");
         const data = await response.json();
         setSolicitudes(data);
       } catch (err) {
@@ -291,16 +253,28 @@ const SolicitudesList = () => {
   }
 
   return (
-    <div className="solicitudes-grid">
-      {Array.isArray(solicitudes) &&
-        solicitudes.map((solicitud) =>
-          solicitud ? (
-            <SolicitudCard
-              key={solicitud.idSolicitudServicio}
-              solicitud={solicitud}
-            />
-          ) : null
-        )}
+    <div>
+      <div className="title-bar-solicitudes">
+        <h2 className="titulo-solicitudes">Lista de Solicitudes</h2>
+        <button
+          className="btn-ir-calendario"
+          onClick={() => navigate("/adminlayout/admin-calendar")}
+        >
+          Mostrar Calendario de Actividades
+        </button>
+      </div>
+
+      <div className="solicitudes-grid">
+        {Array.isArray(solicitudes) &&
+          solicitudes.map((solicitud) =>
+            solicitud ? (
+              <SolicitudCard
+                key={solicitud.idSolicitudServicio}
+                solicitud={solicitud}
+              />
+            ) : null
+          )}
+      </div>
     </div>
   );
 };
