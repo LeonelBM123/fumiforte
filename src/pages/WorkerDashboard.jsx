@@ -193,6 +193,20 @@ function WorkerDashboard() {
           eventPropGetter={eventStyleGetter}
           tooltipAccessor={(event) => `ID: ${event.idSesion}`}
           onSelectEvent={handleEventClick}
+          messages={{
+            allDay: "Todo el día",
+            previous: "Anterior",
+            next: "Siguiente",
+            today: "Hoy",
+            month: "Mes",
+            week: "Semana",
+            day: "Día",
+            agenda: "Agenda",
+            date: "Fecha",
+            time: "Hora",
+            event: "Evento",
+            noEventsInRange: "No hay eventos en este rango.",
+          }}
         />
       </div>
 
@@ -215,7 +229,7 @@ function WorkerDashboard() {
             <p><strong>Monto Pendiente:</strong> {detalleSesion.montoPendienteSesion}</p>
             <p><strong>Nro Sesión:</strong> {detalleSesion.nroSesion}</p>
             <hr />
-            <h3>Solicitud relacionada</h3>
+            <h3>Solicitud #{detalleSesion.solicitudServicio.idSolicitudServicio}</h3>
             <p><strong>Descripción:</strong> {detalleSesion.solicitudServicio.descripcion}</p>
             <p><strong>Dirección:</strong> {detalleSesion.solicitudServicio.direccionEscrita}</p>
             <p><strong>Estado:</strong> {detalleSesion.solicitudServicio.estado}</p>

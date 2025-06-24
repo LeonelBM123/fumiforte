@@ -41,7 +41,6 @@
   transition: background-color 0.3s ease;
 }
 
-
 .btn-exportar:hover {
   background-color: #43a047;
 }
@@ -121,8 +120,15 @@
   position: relative;
   max-height: 90vh;
   overflow-y: auto;
+  
+  /* Mejoras para el contenido del modal */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+  line-height: 1.4;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Botón cerrar un poco más visible con hover */
 .btn-cerrar {
   position: absolute;
   top: 12px;
@@ -131,11 +137,73 @@
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
+  color: #888;
+  transition: color 0.3s ease;
 }
 
+.btn-cerrar:hover {
+  color: #444;
+}
+
+/* Títulos dentro del modal */
+.modal h2 {
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 6px;
+  font-size: 1.6rem;
+}
+
+.modal h3 {
+  margin-top: 24px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #3a5068;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+  font-size: 1.2rem;
+}
+
+/* Párrafos y labels */
+.modal p {
+  margin: 6px 0;
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.modal p strong {
+  display: inline-block;
+  min-width: 130px; /* para alinear etiquetas */
+  font-weight: 600;
+  color: #333;
+}
+
+/* Separadores */
+.modal hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+}
+
+/* Lista de trabajadores */
+.modal ul {
+  padding-left: 20px;
+  margin: 8px 0 0 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.modal ul li {
+  margin-bottom: 6px;
+}
+
+/* Estilo mapa */
 .mapa {
   margin-top: 15px;
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
 }
-
