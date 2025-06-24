@@ -1,0 +1,141 @@
+.calendario-container {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  width: 80vw;           /* más reducido */
+  max-width: 900px;      /* límite cómodo */
+  padding-left: 20px;    
+  padding-right: 20px;
+  margin: 30px auto;
+}
+
+.titulo-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* más natural para botón y título */
+  flex-wrap: nowrap; /* para que no se parta */
+  margin-bottom: 20px;
+  padding-right: 0; /* quitamos el padding */
+}
+
+.titulo-calendario {
+  font-size: 1.8rem;
+  color: #333;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-exportar {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.3s ease;
+}
+
+
+.btn-exportar:hover {
+  background-color: #43a047;
+}
+
+.leyendas {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+  gap: 12px;          
+  font-size: 0.85rem; 
+  flex-wrap: wrap;
+}
+
+.cuadro {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  border-radius: 3px;
+}
+
+.verde {
+  background-color: #4caf50;
+}
+
+.naranja {
+  background-color: #ff9800;
+}
+
+.rbc-toolbar {
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px; 
+  margin-bottom: 8px; 
+  padding: 0;
+}
+
+.rbc-toolbar .rbc-btn-group {
+  justify-content: center;
+  display: flex;
+  gap: 4px;
+}
+
+.rbc-toolbar-label {
+  text-align: center;
+  margin: 0 10px; /* solo margen horizontal */
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.rbc-event {
+  border-radius: 6px !important;
+  white-space: pre-wrap !important;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 4px !important;
+  text-align: left;
+  font-size: 0.75rem;
+}
+
+.rbc-today {
+  background-color: #e3f2fd !important;
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  border-radius: 12px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.btn-cerrar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.mapa {
+  margin-top: 15px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
