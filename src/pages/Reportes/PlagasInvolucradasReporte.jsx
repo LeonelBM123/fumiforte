@@ -31,7 +31,7 @@ function PlagasInvolucradasReporte() {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/plagasinvolucradas", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/reporte/plagasinvolucradas", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

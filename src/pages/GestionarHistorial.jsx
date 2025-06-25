@@ -110,7 +110,7 @@ function GestionarHistorial() {
   const obtenerHistoriales = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:8081/gerente/hitorial_sesiones", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/gerente/hitorial_sesiones", {
         method: "GET",
         credentials: "include",
         headers: {
@@ -150,7 +150,7 @@ function GestionarHistorial() {
   const handleConfirmarEdicion = async () => {
     try {
       await axios.put(
-        `http://localhost:8081/gerente/actualizar_certificado/${form.idCertificado}`,
+        `https://fumifortebe-gxhg.onrender.com/gerente/actualizar_certificado/${form.idCertificado}`,
         {
           fechaEmision: form.fechaEmision,
           fechaVencimiento: form.fechaVencimiento,
@@ -172,7 +172,7 @@ function GestionarHistorial() {
   const confirmarEliminarCertificado = async () => {
     try {
       await axios.delete(
-        `http://localhost:8081/gerente/eliminar_certificado/${form.idCertificado}`,
+        `https://fumifortebe-gxhg.onrender.com/gerente/eliminar_certificado/${form.idCertificado}`,
         { withCredentials: true }
       );
       setMensaje("Certificado eliminado correctamente");
@@ -199,7 +199,7 @@ function GestionarHistorial() {
       setMensaje("");
       setLoading(true);
 
-      const response = await fetch("http://localhost:8081/gerente/crear_certificado", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/gerente/crear_certificado", {
         method: "POST",
         credentials: "include",
         headers: {

@@ -96,7 +96,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchIdUsuario = async () => {
       try {
-        const response = await fetch("http://localhost:8081/get_iduser", {
+        const response = await fetch("https://fumifortebe-gxhg.onrender.com/get_iduser", {
           method: "GET",
           credentials: "include",
         });
@@ -121,7 +121,7 @@ const UserDashboard = () => {
 
     const fetchSolicitudes = async () => {
       try {
-        const response = await fetch(`http://localhost:8081/solicitudes/cliente/${userId}`, {
+        const response = await fetch(`https://fumifortebe-gxhg.onrender.com/solicitudes/cliente/${userId}`, {
           credentials: "include",
         });
 

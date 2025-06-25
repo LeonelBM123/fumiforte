@@ -39,7 +39,7 @@ function SesionReporte() {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/sesiones", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/reporte/sesiones", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)

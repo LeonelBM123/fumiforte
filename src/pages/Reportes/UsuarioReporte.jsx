@@ -23,7 +23,7 @@ function UsuarioReporte() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/usuario", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/reporte/usuario", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -11,7 +11,7 @@ const ListaPagoCotizacion = () => {
   useEffect(() => {
     const fetchIdUsuario = async () => {
       try {
-        const response = await fetch("http://localhost:8081/get_iduser", {
+        const response = await fetch("https://fumifortebe-gxhg.onrender.com/get_iduser", {
           method: "GET",
           credentials: "include",
         });
@@ -35,7 +35,7 @@ const ListaPagoCotizacion = () => {
     const fetchSolicitudes = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8081/solicitudes/monto_pendiente_cotizacion/${userId}`
+          `https://fumifortebe-gxhg.onrender.com/solicitudes/monto_pendiente_cotizacion/${userId}`
         );
 
         if (!response.ok) throw new Error("Error al obtener solicitudes");

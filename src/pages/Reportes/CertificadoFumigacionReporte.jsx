@@ -24,7 +24,7 @@ function CertificadoFumigacionReporte() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/certificados", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/reporte/certificados", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

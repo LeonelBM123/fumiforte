@@ -39,7 +39,7 @@ function DetalleCompraReporte() {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/detallecompra", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/reporte/detallecompra", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

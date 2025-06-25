@@ -19,7 +19,7 @@ function ProductoReporte() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/producto", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/reporte/producto", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -70,7 +70,7 @@ function RegisterUser() {
     console.log(usuarioData);
 
     try {
-      const response = await fetch("http://localhost:8081/registrar_cliente", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/registrar_cliente", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

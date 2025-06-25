@@ -30,7 +30,7 @@ function ProductosUsadosReporte() {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/productosusados", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/reporte/productosusados", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

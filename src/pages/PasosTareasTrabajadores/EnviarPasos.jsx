@@ -8,7 +8,7 @@ const EnviarPasos = ({ datosFinales }) => {
   useEffect(() => {
     const enviarDatos = async () => {
       try {
-        const res = await axios.post("http://localhost:8081/enviar_datos_completos_SS", datosFinales, {
+        const res = await axios.post("https://fumifortebe-gxhg.onrender.com/enviar_datos_completos_SS", datosFinales, {
           withCredentials: true,
         });
         setMensaje("✅ Todos los pasos realizados con éxito.");

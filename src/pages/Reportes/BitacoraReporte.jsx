@@ -40,7 +40,7 @@ function BitacoraReporte() {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/bitacora", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/reporte/bitacora", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

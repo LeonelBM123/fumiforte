@@ -43,7 +43,7 @@ const AdminCalendar = () => {
   useEffect(() => {
     const fetchParticipaciones = async () => {
       try {
-        const response = await fetch("http://localhost:8081/participa/listar", {
+        const response = await fetch("https://fumifortebe-gxhg.onrender.com/participa/listar", {
           method: "GET",
           credentials: "include",
         });

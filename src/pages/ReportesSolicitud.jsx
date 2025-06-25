@@ -119,7 +119,7 @@ const ReportesSolicitud = () => {
   useEffect(() => {
     const fetchSolicitudes = async () => {
       try {
-        const response = await fetch("http://localhost:8081/solicitudes", {
+        const response = await fetch("https://fumifortebe-gxhg.onrender.com/solicitudes", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

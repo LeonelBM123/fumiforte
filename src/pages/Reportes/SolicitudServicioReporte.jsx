@@ -27,7 +27,7 @@ function SolicitudServicioReporte() {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/Solicitud", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/reporte/Solicitud", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

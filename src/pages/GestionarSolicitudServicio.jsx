@@ -77,7 +77,7 @@ const SolicitudCard = ({ solicitud }) => {
         );
         if (!confirmCert) return;
 
-        const certResponse = await fetch("http://localhost:8081/gerente/crear_certificado", {
+        const certResponse = await fetch("https://fumifortebe-gxhg.onrender.com/gerente/crear_certificado", {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -93,7 +93,7 @@ const SolicitudCard = ({ solicitud }) => {
         formData.idCertificado = certData.idCertificado;
       }
 
-      const response = await fetch(`http://localhost:8081/solicitudes/${idSolicitudServicio}`, {
+      const response = await fetch(`https://fumifortebe-gxhg.onrender.com/solicitudes/${idSolicitudServicio}`, {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -232,7 +232,7 @@ const SolicitudesList = () => {
   useEffect(() => {
     const fetchSolicitudes = async () => {
       try {
-        const response = await fetch("http://localhost:8081/solicitudes", {
+        const response = await fetch("https://fumifortebe-gxhg.onrender.com/solicitudes", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",

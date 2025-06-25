@@ -43,7 +43,7 @@ function WorkerDashboard() {
   useEffect(() => {
     const fetchIdUsuario = async () => {
       try {
-        const response = await fetch("http://localhost:8081/get_iduser", {
+        const response = await fetch("https://fumifortebe-gxhg.onrender.com/get_iduser", {
           method: "GET",
           credentials: "include",
         });
@@ -68,7 +68,7 @@ function WorkerDashboard() {
 
       try {
         const response = await fetch(
-          `http://localhost:8081/sesion/datos/${idUsuario}`,
+          `https://fumifortebe-gxhg.onrender.com/sesion/datos/${idUsuario}`,
           {
             method: "GET",
             credentials: "include",
@@ -127,7 +127,7 @@ function WorkerDashboard() {
 
   const handleEventClick = async (event) => {
     try {
-      const res = await fetch(`http://localhost:8081/sesion/${event.idSesion}`, {
+      const res = await fetch(`https://fumifortebe-gxhg.onrender.com/sesion/${event.idSesion}`, {
         method: "GET",
         credentials: "include",
       });

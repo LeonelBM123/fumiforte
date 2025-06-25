@@ -32,7 +32,7 @@ function PagoCotizacionReporte() {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/pago-cotizacion", {
+      const response = await fetch("https://fumifortebe-gxhg.onrender.com/reporte/pago-cotizacion", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

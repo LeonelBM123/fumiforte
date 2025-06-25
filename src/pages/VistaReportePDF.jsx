@@ -13,7 +13,7 @@ const VistaReportePDF = () => {
     const fetchDatos = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8081/gerente/reporte_servicio/${idSolicitudServicio}`,
+          `https://fumifortebe-gxhg.onrender.com/gerente/reporte_servicio/${idSolicitudServicio}`,
           {
             credentials: "include",
           }

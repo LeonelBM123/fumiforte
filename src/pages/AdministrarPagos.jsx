@@ -15,7 +15,7 @@ const AdministrarPagos = () => {
   }, []);
 
   const cargarPagos = () => {
-    axios.get('http://localhost:8081/pagar/listar_pagos_ext', { withCredentials: true })
+    axios.get('https://fumifortebe-gxhg.onrender.com/pagar/listar_pagos_ext', { withCredentials: true })
       .then(res => setPagos(res.data))
       .catch(err => console.error(err));
   };
@@ -32,7 +32,7 @@ const AdministrarPagos = () => {
 
   const actualizarMontoCotizacion = async (idSolicitud) => {
     try {
-      await axios.put(`http://localhost:8081/solicitudes/actualizar_monto/${idSolicitud}`, {
+      await axios.put(`https://fumifortebe-gxhg.onrender.com/solicitudes/actualizar_monto/${idSolicitud}`, {
         montoPendienteCotizacion: "0"
       });
     } catch (error) {
@@ -43,7 +43,7 @@ const AdministrarPagos = () => {
 
   const actualizarMontoSesion = async (idSesion) => {
     try {
-      await axios.put(`http://localhost:8081/sesion/actualizar_monto/${idSesion}`, {
+      await axios.put(`https://fumifortebe-gxhg.onrender.com/sesion/actualizar_monto/${idSesion}`, {
         monto: "0"
       });
     } catch (error) {
@@ -55,7 +55,7 @@ const AdministrarPagos = () => {
   const actualizarPago = async (pagoActualizado) => {
     try {
       await axios.put(
-        `http://localhost:8081/pagar/actualizar_pago/${pagoSeleccionado.idPago}`,
+        `https://fumifortebe-gxhg.onrender.com/pagar/actualizar_pago/${pagoSeleccionado.idPago}`,
         pagoActualizado,
         { withCredentials: true, headers: { 'Content-Type': 'application/json' } }
       );

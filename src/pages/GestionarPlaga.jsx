@@ -26,7 +26,7 @@ function GestionarPlaga() {
   const obtenerPlagas = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:8081/gerente/plagas", {
+      const response = await axios.get("https://fumifortebe-gxhg.onrender.com/gerente/plagas", {
         withCredentials: true,
       });
 
@@ -64,7 +64,7 @@ function GestionarPlaga() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8081/nueva_plaga",
+        "https://fumifortebe-gxhg.onrender.com/nueva_plaga",
         cleanedForm,
         {
           withCredentials: true,
@@ -103,7 +103,7 @@ function GestionarPlaga() {
     if (!plagaAEliminar) return;
 
     try {
-      await axios.delete(`http://localhost:8081/plagas/${plagaAEliminar.idPlaga}`, {
+      await axios.delete(`https://fumifortebe-gxhg.onrender.com/plagas/${plagaAEliminar.idPlaga}`, {
         withCredentials: true,
       });
       setMensaje("Plaga eliminada exitosamente.");
@@ -128,7 +128,7 @@ function GestionarPlaga() {
 
     try {
       const response = await axios.put(
-        `http://localhost:8081/plagas/${cleanedForm.idPlaga}`,
+        `https://fumifortebe-gxhg.onrender.com/plagas/${cleanedForm.idPlaga}`,
         cleanedForm,
         {
           withCredentials: true,
