@@ -27,6 +27,8 @@ import GestionarHistorial from "./pages/GestionarHistorial";
 import AdminCalendar from "./pages/AdminCalendar";
 import ReportesLayout from "./pages/Reportes/ReportesLayout";
 import UsuarioReporte from "./pages/Reportes/UsuarioReporte";
+import CertificadoFumigacionReporte from "./pages/Reportes/CertificadoFumigacionReporte";
+import BitacoraReporte from "./pages/Reportes/BitacoraReporte";
 
 function App() {
   return (
@@ -73,9 +75,11 @@ function App() {
 
           <Route path="generar-reporte-layout" element={<ReportesLayout />}>
             <Route path="usuario-reporte" element={<UsuarioReporte />} />
+            <Route path="certificado_fumigacion-reporte" element={<CertificadoFumigacionReporte />} />
+            <Route path="bitacora-reporte" element={<BitacoraReporte />} />
             {/* Aquí irían los demás reportes también */}
           </Route>
-          
+
         </Route>
 
       </Routes>

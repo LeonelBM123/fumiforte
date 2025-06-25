@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import "../../styles/ReportesLayout.css";
 import "../../styles/Reportes.css";
 
-function CertificadoFumigacionReporte() {
-  const navigate = useNavigate();
-
+function BitacoraReporte() {
   const [formData, setFormData] = useState({
-    estado: ""
+    fechaInicio: "",
+    fechaFin: ""
   });
 
   const handleInputChange = (e) => {
@@ -17,14 +15,17 @@ function CertificadoFumigacionReporte() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const safeValue = (val) =>
-    val === null || val === undefined || val === "" ? "Por Definir" : val;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validar que si fechaInicio y fechaFin existen, fechaInicio <= fechaFin
+    if (formData.fechaInicio && formData.fechaFin && formData.fechaInicio > formData.fechaFin) {
+      alert("La fecha inicio no puede ser mayor a la fecha fin");
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:8081/reporte/certificados", {
+      const response = await fetch("http://localhost:8081/reporte/bitacora", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -38,22 +39,23 @@ function CertificadoFumigacionReporte() {
 
       // Crear PDF
       const doc = new jsPDF();
-      doc.text("Reporte de Certificados de Fumigación", 14, 20);
+      doc.text("Reporte de Bitácora", 14, 20);
 
+      // Ajusta las columnas según la data que recibas
       const tableData = data.map((item) => [
-        safeValue(item.idCertificado),
-        safeValue(item.fechaEmision),
-        safeValue(item.fechaVencimiento),
-        safeValue(item.estado)
+        item.idBitacora,
+        item.fecha,
+        item.descripcion,
+        item.usuario,
       ]);
 
       autoTable(doc, {
-        startY: 35,
-        head: [["ID", "Fecha Emisión", "Fecha Vencimiento", "Estado"]],
-        body: tableData
+        startY: 30,
+        head: [["ID", "Fecha", "Descripción", "Usuario"]],
+        body: tableData,
       });
 
-      doc.save("reporte_certificados.pdf");
+      doc.save("reporte_bitacora.pdf");
     } catch (error) {
       console.error("Error al generar el reporte:", error);
       alert("No se pudo generar el reporte.");
@@ -64,13 +66,23 @@ function CertificadoFumigacionReporte() {
     <div className="usuario-reporte-container">
       <form className="reporte-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Estado</label>
-          <select name="estado" value={formData.estado} onChange={handleInputChange}>
-            <option value="">Todos</option>
-            <option value="Vigente">Vigente</option>
-            <option value="Vencido">Vencido</option>
-            <option value="Pendiente">Pendiente</option>
-          </select>
+          <label>Fecha Inicio</label>
+          <input
+            type="date"
+            name="fechaInicio"
+            value={formData.fechaInicio}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Fecha Fin</label>
+          <input
+            type="date"
+            name="fechaFin"
+            value={formData.fechaFin}
+            onChange={handleInputChange}
+          />
         </div>
 
         <button type="submit" className="modern-btn">Generar Reporte</button>
@@ -79,4 +91,4 @@ function CertificadoFumigacionReporte() {
   );
 }
 
-export default CertificadoFumigacionReporte;
+export default BitacoraReporte;
