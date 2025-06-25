@@ -8,8 +8,7 @@ function SesionReporte() {
   const [formData, setFormData] = useState({
     idSolicitud: "",
     fecha: "",
-    estado: "",
-    montoPendienteSesion: ""
+    estado: ""
   });
 
   const handleInputChange = (e) => {
@@ -23,35 +22,26 @@ function SesionReporte() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación básica: si idSolicitud no es número válido, alertar
+    if (!formData.fecha) {
+      alert("La fecha es obligatoria para generar el reporte.");
+      return;
+    }
+
     if (formData.idSolicitud && isNaN(Number(formData.idSolicitud))) {
       alert("ID Solicitud debe ser un número válido");
       return;
     }
 
-    // Formatear fecha para backend (si viene)
-    const fechaFormateada = formData.fecha
-      ? `${formData.fecha}`
-      : null;
-
     const body = {
-      idSolicitud: formData.idSolicitud
-        ? Number(formData.idSolicitud)
-        : null,
-      fecha: fechaFormateada || null,
-      estado: formData.estado || null,
-      montoPendienteSesion:
-        formData.montoPendienteSesion === ""
-          ? null
-          : formData.montoPendienteSesion
+      id_solicitud: formData.idSolicitud ? Number(formData.idSolicitud) : null,
+      fecha: formData.fecha,
+      estado: formData.estado || null
     };
 
     try {
       const response = await fetch("http://localhost:8081/reporte/sesiones", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
       });
 
@@ -71,24 +61,29 @@ function SesionReporte() {
 
       const tableData = data.map((item) => [
         safeValue(item.idSesion),
-        safeValue(item.idSolicitud),
-        safeValue(item.fechaSesion),
+        safeValue(item.idSolicitudServicio),
+        safeValue(item.fecha),
+        safeValue(item.hora),
         safeValue(item.estado),
-        // Para monto pendiente mostrar texto si quieres:
-        item.montoPendienteSesion === "pagado"
-          ? "Pagado"
-          : item.montoPendienteSesion === "impaga"
-          ? "Impaga"
-          : safeValue(item.montoPendienteSesion)
+        safeValue(item.montoPendienteSesion),
+        safeValue(item.nroSesion)
       ]);
 
       autoTable(doc, {
-        startY: 35,
-        head: [
-          ["ID Sesión", "ID Solicitud", "Fecha Sesión", "Estado", "Monto Pendiente"]
-        ],
-        body: tableData
-      });
+  startY: 35,
+  head: [
+    [
+      "ID Sesión",
+      "ID Solicitud",
+      "Fecha",
+      "Hora",
+      "Estado",
+      "Monto Pendiente",
+      "Nº Sesión"
+    ]
+  ],
+  body: tableData
+});
 
       doc.save("reporte_sesiones.pdf");
     } catch (error) {
@@ -99,7 +94,7 @@ function SesionReporte() {
 
   return (
     <div className="usuario-reporte-container">
-      <h1>Generar Reporte de Sesión</h1>
+      <h1>Generar Reporte de Sesiones</h1>
       <form className="reporte-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>ID Solicitud</label>
@@ -113,39 +108,23 @@ function SesionReporte() {
         </div>
 
         <div className="form-group">
-          <label>Fecha</label>
+          <label>Fecha <span style={{ color: "red" }}>*</span></label>
           <input
             type="date"
             name="fecha"
             value={formData.fecha}
             onChange={handleInputChange}
+            required
           />
         </div>
 
         <div className="form-group">
           <label>Estado</label>
-          <select
-            name="estado"
-            value={formData.estado}
-            onChange={handleInputChange}
-          >
+          <select name="estado" value={formData.estado} onChange={handleInputChange}>
             <option value="">Todos</option>
             <option value="Pendiente">Pendiente</option>
             <option value="Completada">Completada</option>
             <option value="Cancelada">Cancelada</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label>Monto Pendiente Sesión</label>
-          <select
-            name="montoPendienteSesion"
-            value={formData.montoPendienteSesion}
-            onChange={handleInputChange}
-          >
-            <option value="">Todos</option>
-            <option value="pagado">Pagado</option>
-            <option value="impaga">Impaga</option>
           </select>
         </div>
 

@@ -7,8 +7,7 @@ import "../../styles/Reportes.css";
 function SolicitudServicioReporte() {
   const [formData, setFormData] = useState({
     estado: "",
-    requiereCertificado: "",
-    montoPendienteCotizacion: ""
+    requiereCertificado: ""
   });
 
   const handleInputChange = (e) => {
@@ -24,9 +23,7 @@ function SolicitudServicioReporte() {
 
     const body = {
       estado: formData.estado || null,
-      requiereCertificado: formData.requiereCertificado || null,
-      montoPendienteCotizacion:
-        formData.montoPendienteCotizacion === "" ? null : formData.montoPendienteCotizacion
+      requiereCertificado: formData.requiereCertificado || null
     };
 
     try {
@@ -53,42 +50,49 @@ function SolicitudServicioReporte() {
       doc.text(`Fecha de generación: ${fechaGeneracion}`, 14, 27);
 
       const tableData = data.map((item) => [
-  safeValue(item.idSolicitudServicio),
-  safeValue(item.descripcion),
-  safeValue(item.ubicacionGps),
-  safeValue(item.direccionEscrita),
-  safeValue(item.estado),
-  safeValue(item.montoPendienteCotizacion),
-  safeValue(item.cantidadSesiones),
-  safeValue(item.requiereCertificado),
-  safeValue(item.idCliente),
-  safeValue(item.idGerente),
-  safeValue(item.idCertificado)
-]);
+        safeValue(item.idSolicitudServicio),
+        safeValue(item.descripcion),
+        safeValue(item.ubicacionGps),
+        safeValue(item.direccionEscrita),
+        safeValue(item.estado),
+        safeValue(item.cantidadSesiones),
+        safeValue(item.requiereCertificado),
+        safeValue(item.idCliente),
+        safeValue(item.idGerente),
+        safeValue(item.idCertificado)
+      ]);
 
-autoTable(doc, {
-  startY: 35,
-  head: [[
-    "ID", "Descripción", "Ubicación GPS", "Dirección", "Estado", 
-    "Monto Pendiente", "Sesiones", "Certificado", 
-    "ID Cliente", "ID Gerente", "ID Certificado"
-  ]],
-  body: tableData,
-  columnStyles: {
-    0: { cellWidth: 15 },
-    1: { cellWidth: 40 },
-    2: { cellWidth: 40 },
-    3: { cellWidth: 35 },
-    4: { cellWidth: 20 },
-    5: { cellWidth: 25 },
-    6: { cellWidth: 20 },
-    7: { cellWidth: 25 },
-    8: { cellWidth: 20 },
-    9: { cellWidth: 20 },
-    10: { cellWidth: 25 }
-  },
-  margin: { left: 10 } 
-});
+      autoTable(doc, {
+        startY: 35,
+        head: [
+          [
+            "ID",
+            "Descripción",
+            "Ubicación GPS",
+            "Dirección",
+            "Estado",
+            "Sesiones",
+            "Certificado",
+            "ID Cliente",
+            "ID Gerente",
+            "ID Certificado"
+          ]
+        ],
+        body: tableData,
+        columnStyles: {
+          0: { cellWidth: 15 },
+          1: { cellWidth: 40 },
+          2: { cellWidth: 40 },
+          3: { cellWidth: 35 },
+          4: { cellWidth: 20 },
+          5: { cellWidth: 20 },  
+          6: { cellWidth: 25 },  
+          7: { cellWidth: 20 },  
+          8: { cellWidth: 20 },  
+          9: { cellWidth: 25 }   
+        },
+        margin: { left: 10 }
+      });
 
       doc.save("reporte_solicitudes.pdf");
     } catch (error) {
@@ -125,19 +129,6 @@ autoTable(doc, {
             <option value="">Todos</option>
             <option value="Si">Si</option>
             <option value="No">No</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label>Monto Pendiente Cotización</label>
-          <select
-            name="montoPendienteCotizacion"
-            value={formData.montoPendienteCotizacion}
-            onChange={handleInputChange}
-          >
-            <option value="">Todos</option>
-            <option value="pagado">Pagado</option>
-            <option value="impaga">Impaga</option>
           </select>
         </div>
 
