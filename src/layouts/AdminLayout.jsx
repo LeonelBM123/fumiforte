@@ -57,7 +57,7 @@ function AdminLayout() {
   setChatInput("");
 
   try {
-    const response = await fetch("TU_ENDPOINT_IA", {
+    const response = await fetch("https://leonelbm123.app.n8n.cloud/webhook/376172fa-3eab-47b3-9404-5b56d5674550/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
