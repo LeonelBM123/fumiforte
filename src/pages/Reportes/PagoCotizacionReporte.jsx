@@ -21,7 +21,6 @@ function PagoCotizacionReporte() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🚨 Validación obligatoria de fecha
     if (!formData.fecha) {
       alert("La fecha es obligatoria para generar el reporte.");
       return;
@@ -57,14 +56,31 @@ function PagoCotizacionReporte() {
 
       const tableData = data.map((item) => [
         safeValue(item.idPago),
-        safeValue(item.fechaPago),
+        safeValue(item.fecha),
         safeValue(item.tipoPago),
-        safeValue(item.monto)
+        safeValue(item.monto),
+        safeValue(item.nroVoucher),
+        safeValue(item.estado),
+        safeValue(item.idCliente),
+        safeValue(item.idPagoSesion),
+        safeValue(item.idSesion)
       ]);
 
       autoTable(doc, {
         startY: 35,
-        head: [["ID Pago", "Fecha Pago", "Tipo de Pago", "Monto"]],
+        head: [
+          [
+            "ID Pago",
+            "Fecha Pago",
+            "Tipo de Pago",
+            "Monto",
+            "Nro Voucher",
+            "Estado",
+            "ID Cliente",
+            "ID Pago Sesión",
+            "ID Sesión"
+          ]
+        ],
         body: tableData
       });
 

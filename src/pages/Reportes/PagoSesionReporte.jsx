@@ -18,10 +18,16 @@ function PagoSesionReporte() {
   const safeValue = (val) =>
     val === null || val === undefined || val === "" ? "Por Definir" : val;
 
+  // Formatear fecha para mejor legibilidad (yyyy-mm-dd → dd/mm/yyyy)
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "Por Definir";
+    const [year, month, day] = dateStr.split("-");
+    return `${day}/${month}/${year}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🚨 Validación obligatoria de fecha
     if (!formData.fecha) {
       alert("La fecha es obligatoria para generar el reporte.");
       return;
@@ -51,24 +57,41 @@ function PagoSesionReporte() {
       }
 
       const doc = new jsPDF();
-      doc.text("Reporte de Pago de Cotización", 14, 20);
+      doc.text("Reporte de Pago de Sesión", 14, 20);
       const fechaGeneracion = new Date().toLocaleDateString();
       doc.text(`Fecha de generación: ${fechaGeneracion}`, 14, 27);
 
       const tableData = data.map((item) => [
         safeValue(item.idPago),
-        safeValue(item.fecha),
+        formatDate(item.fecha),
         safeValue(item.tipoPago),
-        safeValue(item.monto)
+        safeValue(item.monto),
+        safeValue(item.nroVoucher),
+        safeValue(item.idCliente),
+        safeValue(item.estado),
+        safeValue(item.idPagoSesion),
+        safeValue(item.idSesion)
       ]);
 
       autoTable(doc, {
         startY: 35,
-        head: [["ID Pago", "Fecha Pago", "Tipo de Pago", "Monto"]],
+        head: [
+          [
+            "ID Pago",
+            "Fecha Pago",
+            "Tipo de Pago",
+            "Monto",
+            "Nº Voucher",
+            "ID Cliente",
+            "Estado Pago",
+            "ID Pago Sesión",
+            "ID Sesión"
+          ]
+        ],
         body: tableData
       });
 
-      doc.save("reporte_pago_cotizacion.pdf");
+      doc.save("reporte_pago_sesion.pdf");
     } catch (error) {
       console.error("Error al generar el reporte:", error);
       alert("No se pudo generar el reporte.");

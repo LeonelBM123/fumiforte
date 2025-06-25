@@ -14,9 +14,6 @@ function ReportesLayout() {
     "SESION",
     "PAGO_COTIZACION",
     "PAGO_SESION",
-    "PLAGAS_INVOLUCRADAS",
-    "PRODUCTOS_USADOS",
-    "DETALLE_COMPRA",
     "PRODUCTO"
   ];
 
