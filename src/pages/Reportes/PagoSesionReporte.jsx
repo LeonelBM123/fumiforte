@@ -21,13 +21,19 @@ function PagoSesionReporte() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // 🚨 Validación obligatoria de fecha
+    if (!formData.fecha) {
+      alert("La fecha es obligatoria para generar el reporte.");
+      return;
+    }
+
     const body = {
-      fecha: formData.fecha ? `${formData.fecha}` : null,
-      tipoPago: formData.tipoPago || null
+      fecha: formData.fecha,
+      tipo_pago: formData.tipoPago || ""
     };
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/pagosesion", {
+      const response = await fetch("http://localhost:8081/reporte/pago-sesion", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -51,7 +57,7 @@ function PagoSesionReporte() {
 
       const tableData = data.map((item) => [
         safeValue(item.idPago),
-        safeValue(item.fechaPago),
+        safeValue(item.fecha),
         safeValue(item.tipoPago),
         safeValue(item.monto)
       ]);
@@ -80,6 +86,7 @@ function PagoSesionReporte() {
             name="fecha"
             value={formData.fecha}
             onChange={handleInputChange}
+            required
           />
         </div>
 
