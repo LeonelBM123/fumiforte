@@ -21,13 +21,19 @@ function PagoCotizacionReporte() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // 🚨 Validación obligatoria de fecha
+    if (!formData.fecha) {
+      alert("La fecha es obligatoria para generar el reporte.");
+      return;
+    }
+
     const body = {
-      fecha: formData.fecha ? `${formData.fecha}` : null,
-      tipoPago: formData.tipoPago || null
+      fecha: formData.fecha,
+      tipo_pago: formData.tipoPago || ""
     };
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/pagocotizacion", {
+      const response = await fetch("http://localhost:8081/reporte/pago-cotizacion", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -80,6 +86,7 @@ function PagoCotizacionReporte() {
             name="fecha"
             value={formData.fecha}
             onChange={handleInputChange}
+            required
           />
         </div>
 
