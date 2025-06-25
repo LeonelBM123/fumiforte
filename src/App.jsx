@@ -29,6 +29,14 @@ import ReportesLayout from "./pages/Reportes/ReportesLayout";
 import UsuarioReporte from "./pages/Reportes/UsuarioReporte";
 import CertificadoFumigacionReporte from "./pages/Reportes/CertificadoFumigacionReporte";
 import BitacoraReporte from "./pages/Reportes/BitacoraReporte";
+import SolicitudServicioReporte from "./pages/Reportes/SolicitudServicioReporte";
+import SesionReporte from "./pages/Reportes/SesionReporte";
+import PagoCotizacionReporte from "./pages/Reportes/PagoCotizacionReporte";
+import PagoSesionReporte from "./pages/Reportes/PagoSesionReporte";
+import PlagasInvolucradasReporte from "./pages/Reportes/PlagasInvolucradasReporte";
+import ProductosUsadosReporte from "./pages/Reportes/ProductosUsadosReporte";
+import DetalleCompraReporte from "./pages/Reportes/DetalleCompraReporte";
+import ProductoReporte from "./pages/Reportes/ProductoReporte";
 
 function App() {
   return (
@@ -77,6 +85,14 @@ function App() {
             <Route path="usuario-reporte" element={<UsuarioReporte />} />
             <Route path="certificado_fumigacion-reporte" element={<CertificadoFumigacionReporte />} />
             <Route path="bitacora-reporte" element={<BitacoraReporte />} />
+            <Route path="solicitud_servicio-reporte" element={<SolicitudServicioReporte />} />
+            <Route path="sesion-reporte" element={<SesionReporte />} />
+            <Route path="pago_cotizacion-reporte" element={<PagoCotizacionReporte />} />
+            <Route path="pago_sesion-reporte" element={<PagoSesionReporte />} />
+            <Route path="plagas_involucradas-reporte" element={<PlagasInvolucradasReporte />} />
+            <Route path="productos_usados-reporte" element={<ProductosUsadosReporte />} />
+            <Route path="detalle_compra-reporte" element={<DetalleCompraReporte />} />
+            <Route path="producto-reporte" element={<ProductoReporte />} />
             {/* Aquí irían los demás reportes también */}
           </Route>
 
