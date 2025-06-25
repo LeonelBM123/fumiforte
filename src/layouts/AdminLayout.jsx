@@ -42,6 +42,48 @@ function AdminLayout() {
     setSidebarOpen(!sidebarOpen);
   };
 
+  //Boton de ia
+  const [showChat, setShowChat] = useState(false);
+  const [chatInput, setChatInput] = useState("");
+  const [chatMessages, setChatMessages] = useState([]);
+  const handleSendMessage = async (e) => {
+  e.preventDefault();
+
+  const userMessage = chatInput.trim();
+  if (!userMessage) return;
+
+  // Agrega mensaje del usuario
+  setChatMessages((prev) => [...prev, { sender: "user", text: userMessage }]);
+  setChatInput("");
+
+  try {
+    const response = await fetch("TU_ENDPOINT_IA", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sessionId: "8095d486346b4e618c5d72bad23a38e6",
+        action: "sendMessage",
+        chatInput: userMessage,
+      }),
+    });
+
+    const data = await response.json();
+
+    setChatMessages((prev) => [
+      ...prev,
+      { sender: "bot", text: data.response || "Sin respuesta" },
+    ]);
+  } catch (error) {
+    console.error("Error al enviar mensaje:", error);
+    setChatMessages((prev) => [
+      ...prev,
+      { sender: "bot", text: "Error al conectarse al servidor" },
+    ]);
+  }
+};
+  //Fin Boton de ia
   // Cierre automático al hacer clic fuera en móvil
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -155,6 +197,40 @@ function AdminLayout() {
       <main className="main-content">
         <Outlet key={location.pathname} />
       </main>
+      {/* inicio foton ia */}
+      <button
+  className="chatbot-float-button"
+  onClick={() => setShowChat(!showChat)}
+>
+  💬
+</button>
+
+{/* Ventana flotante de chat */}
+{showChat && (
+  <div className="chatbot-container">
+    <div className="chatbot-header">
+      <span>Asistente IA</span>
+      <button onClick={() => setShowChat(false)}>✖</button>
+    </div>
+    <div className="chatbot-messages">
+      {chatMessages.map((msg, idx) => (
+        <div key={idx} className={`message ${msg.sender}`}>
+          {msg.text}
+        </div>
+      ))}
+    </div>
+    <form onSubmit={handleSendMessage} className="chatbot-input-form">
+      <input
+        type="text"
+        value={chatInput}
+        onChange={(e) => setChatInput(e.target.value)}
+        placeholder="Escribe tu mensaje..."
+      />
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+)}
+      {/* Fin foton ia */}
     </div>
   );
 }
