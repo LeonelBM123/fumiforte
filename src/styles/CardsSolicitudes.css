@@ -196,6 +196,41 @@
   background-color: #d32f2f;
 }
 
+
+.title-bar-solicitudes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.titulo-solicitudes {
+  font-size: 1.6rem;
+  color: #065f46;
+  margin: 0;
+}
+
+.btn-ir-calendario {
+  background-color: #2d771e;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-ir-calendario:hover {
+  background-color: #81db19;
+}
+
+
+
 /* --- MEDIA QUERIES para responsive --- */
 @media (max-width: 768px) {
   .solicitudes-grid {

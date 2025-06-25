@@ -1,0 +1,20 @@
+.reportes-layout-container {
+  background-color: #fff;
+  min-height: 30vh;
+  padding: 20px;
+  box-sizing: border-box; 
+  overflow: hidden; 
+}
+
+.select-bar {
+  margin-bottom: 20px;
+}
+
+.select-bar select {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}

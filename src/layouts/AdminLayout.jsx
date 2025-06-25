@@ -146,6 +146,9 @@ function AdminLayout() {
               Gestionar Bitácora del sistema
             </button>
           </details>
+            <button className="modern-btn" onClick={() => handleNavigation("generar-reporte-layout")}>
+              GENERAR REPORTES
+            </button>
         </div>
       </aside>
 

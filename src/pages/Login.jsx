@@ -23,7 +23,7 @@ function Login() {
 
       if (response.ok) {
         const data = await response.json();
-
+        console.log(data);
         // Accedemos al arreglo de authorities y verificamos si contiene "Gerente"
         if (data.authorities && data.authorities.includes("Gerente")) {
           navigate("/adminlayout");

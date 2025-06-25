@@ -1,0 +1,64 @@
+.usuario-reporte-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.06);
+  max-width: 500px;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.reporte-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--fumiforte-yellow-dark, #ffc727);
+  box-shadow: 0 0 0 2px rgba(255, 199, 39, 0.3);
+}
+
+.modern-btn {
+  width: 100%;
+  padding: 11px 0;
+  background: linear-gradient(90deg, var(--fumiforte-yellow) 60%, var(--fumiforte-yellow-dark) 100%);
+  color: var(--fumiforte-green-dark);
+  border: none;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 10px;
+  box-shadow: 0 1px 4px var(--fumiforte-yellow-light);
+  transition: background 0.2s, transform 0.1s;
+}
+
+.modern-btn:hover {
+  background: linear-gradient(90deg, var(--fumiforte-yellow-dark) 60%, var(--fumiforte-yellow-darker) 100%);
+  transform: translateY(-1px) scale(1.02);
+}
