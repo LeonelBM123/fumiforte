@@ -24,6 +24,10 @@ import UserDashboard from "./pages/UserDashboard";
 import WorkerDashboard from "./pages/WorkerDashboard";
 import Calificaciones from "./pages/Calificaciones";
 import GestionarHistorial from "./pages/GestionarHistorial";
+import ReportesSolicitud from "./pages/ReportesSolicitud";
+import VistaReportePDF from "./pages/VistaReportePDF";
+import VistaReporteExcel from "./pages/VistaReporteExcel";
+
 
 function App() {
   return (
@@ -66,6 +70,9 @@ function App() {
           <Route path="solicitudes" element={<SolicitudesList />} />
           <Route path="gestionar-tarea-trabajadores/:idSolicitudServicio" element={<GestionarTareaTrabajadores />} />
           <Route path="administrar-pagos" element={<AdministrarPagos />} />
+          <Route path="reportes-solicitud" element={<ReportesSolicitud />} />
+          <Route path="reportes/pdf/:idSolicitudServicio" element={<VistaReportePDF />} />
+          <Route path="reportes/excel/:idSolicitudServicio" element={<VistaReporteExcel />} />
         </Route>
 
       </Routes>

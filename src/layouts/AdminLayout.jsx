@@ -112,6 +112,9 @@ function AdminLayout() {
             <button onClick={() => handleNavigation("gestionar-historial")}>
               Gestionar Historial de Sesiones
             </button>
+            <button onClick={() => handleNavigation("reportes-solicitud")}>
+              Generar Reportes de Servicio
+            </button>
           </details>
           <details>
             <summary>Administrar Pagos</summary>
