@@ -100,6 +100,7 @@ function DetalleCompraReporte() {
 
   return (
     <div className="usuario-reporte-container">
+      <h1>Generar Reporte de Detalles de Compra</h1>
       <form className="reporte-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Fecha</label>

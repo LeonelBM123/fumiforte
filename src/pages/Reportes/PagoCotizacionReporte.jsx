@@ -71,6 +71,7 @@ function PagoCotizacionReporte() {
 
   return (
     <div className="usuario-reporte-container">
+      <h1>Generar Reporte de Pagos Cotización</h1>
       <form className="reporte-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Fecha</label>

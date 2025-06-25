@@ -99,6 +99,7 @@ function SesionReporte() {
 
   return (
     <div className="usuario-reporte-container">
+      <h1>Generar Reporte de Sesión</h1>
       <form className="reporte-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>ID Solicitud</label>

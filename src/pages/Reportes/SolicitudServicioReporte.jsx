@@ -30,7 +30,7 @@ function SolicitudServicioReporte() {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/reporte/solicitudes", {
+      const response = await fetch("http://localhost:8081/reporte/Solicitud", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -47,23 +47,48 @@ function SolicitudServicioReporte() {
         return;
       }
 
-      const doc = new jsPDF();
+      const doc = new jsPDF({ orientation: "landscape" });
       doc.text("Reporte de Solicitudes de Servicio", 14, 20);
       const fechaGeneracion = new Date().toLocaleDateString();
       doc.text(`Fecha de generación: ${fechaGeneracion}`, 14, 27);
 
       const tableData = data.map((item) => [
-        safeValue(item.idSolicitudServicio),
-        safeValue(item.estado),
-        safeValue(item.requiereCertificado ? "Sí" : "No"),
-        safeValue(item.montoPendienteCotizacion)
-      ]);
+  safeValue(item.idSolicitudServicio),
+  safeValue(item.descripcion),
+  safeValue(item.ubicacionGps),
+  safeValue(item.direccionEscrita),
+  safeValue(item.estado),
+  safeValue(item.montoPendienteCotizacion),
+  safeValue(item.cantidadSesiones),
+  safeValue(item.requiereCertificado),
+  safeValue(item.idCliente),
+  safeValue(item.idGerente),
+  safeValue(item.idCertificado)
+]);
 
-      autoTable(doc, {
-        startY: 35,
-        head: [["ID", "Estado", "Requiere Certificado", "Monto Pendiente"]],
-        body: tableData
-      });
+autoTable(doc, {
+  startY: 35,
+  head: [[
+    "ID", "Descripción", "Ubicación GPS", "Dirección", "Estado", 
+    "Monto Pendiente", "Sesiones", "Certificado", 
+    "ID Cliente", "ID Gerente", "ID Certificado"
+  ]],
+  body: tableData,
+  columnStyles: {
+    0: { cellWidth: 15 },
+    1: { cellWidth: 40 },
+    2: { cellWidth: 40 },
+    3: { cellWidth: 35 },
+    4: { cellWidth: 20 },
+    5: { cellWidth: 25 },
+    6: { cellWidth: 20 },
+    7: { cellWidth: 25 },
+    8: { cellWidth: 20 },
+    9: { cellWidth: 20 },
+    10: { cellWidth: 25 }
+  },
+  margin: { left: 10 } 
+});
 
       doc.save("reporte_solicitudes.pdf");
     } catch (error) {
@@ -74,6 +99,7 @@ function SolicitudServicioReporte() {
 
   return (
     <div className="usuario-reporte-container">
+      <h1>Generar Reporte de Solicitud Servicio</h1>
       <form className="reporte-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Estado</label>
