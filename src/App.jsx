@@ -25,6 +25,8 @@ import WorkerDashboard from "./pages/WorkerDashboard";
 import Calificaciones from "./pages/Calificaciones";
 import GestionarHistorial from "./pages/GestionarHistorial";
 import AdminCalendar from "./pages/AdminCalendar";
+import ReportesLayout from "./pages/Reportes/ReportesLayout";
+import UsuarioReporte from "./pages/Reportes/UsuarioReporte";
 
 function App() {
   return (
@@ -68,6 +70,12 @@ function App() {
           <Route path="gestionar-tarea-trabajadores/:idSolicitudServicio" element={<GestionarTareaTrabajadores />} />
           <Route path="administrar-pagos" element={<AdministrarPagos />} />
           <Route path="admin-calendar" element={<AdminCalendar />} />
+
+          <Route path="generar-reporte-layout" element={<ReportesLayout />}>
+            <Route path="usuario-reporte" element={<UsuarioReporte />} />
+            {/* Aquí irían los demás reportes también */}
+          </Route>
+          
         </Route>
 
       </Routes>

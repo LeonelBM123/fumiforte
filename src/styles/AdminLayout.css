@@ -139,6 +139,26 @@ html, body {
   transform: translateX(0);
 }
 
+.modern-btn {
+  width: 100%;
+  padding: 11px 0;
+  background: linear-gradient(90deg, var(--fumiforte-yellow) 60%, var(--fumiforte-yellow-dark) 100%);
+  color: var(--fumiforte-green-dark);
+  border: none;
+  border-radius: 7px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  box-shadow: 0 1px 4px var(--fumiforte-yellow-light);
+  transition: background 0.2s, transform 0.1s;
+}
+
+.modern-btn:hover {
+  background: linear-gradient(90deg, var(--fumiforte-yellow-dark) 60%, var(--fumiforte-yellow-darker) 100%);
+  transform: translateY(-1px) scale(1.02);
+}
+
 @media (max-width: 900px) {
   .sidebar {
     transform: translateX(-100%);
