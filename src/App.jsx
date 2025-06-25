@@ -24,6 +24,9 @@ import UserDashboard from "./pages/UserDashboard";
 import WorkerDashboard from "./pages/WorkerDashboard";
 import Calificaciones from "./pages/Calificaciones";
 import GestionarHistorial from "./pages/GestionarHistorial";
+import ReportesSolicitud from "./pages/ReportesSolicitud";
+import VistaReportePDF from "./pages/VistaReportePDF";
+import VistaReporteExcel from "./pages/VistaReporteExcel";
 import AdminCalendar from "./pages/AdminCalendar";
 import ReportesLayout from "./pages/Reportes/ReportesLayout";
 import UsuarioReporte from "./pages/Reportes/UsuarioReporte";
@@ -79,23 +82,24 @@ function App() {
           <Route path="solicitudes" element={<SolicitudesList />} />
           <Route path="gestionar-tarea-trabajadores/:idSolicitudServicio" element={<GestionarTareaTrabajadores />} />
           <Route path="administrar-pagos" element={<AdministrarPagos />} />
+          <Route path="reportes-solicitud" element={<ReportesSolicitud />} />
+          <Route path="reportes/pdf/:idSolicitudServicio" element={<VistaReportePDF />} />
+          <Route path="reportes/excel/:idSolicitudServicio" element={<VistaReporteExcel />} />
           <Route path="admin-calendar" element={<AdminCalendar />} />
-
           <Route path="generar-reporte-layout" element={<ReportesLayout />}>
-            <Route path="usuario-reporte" element={<UsuarioReporte />} />
-            <Route path="certificado_fumigacion-reporte" element={<CertificadoFumigacionReporte />} />
-            <Route path="bitacora-reporte" element={<BitacoraReporte />} />
-            <Route path="solicitud_servicio-reporte" element={<SolicitudServicioReporte />} />
-            <Route path="sesion-reporte" element={<SesionReporte />} />
-            <Route path="pago_cotizacion-reporte" element={<PagoCotizacionReporte />} />
-            <Route path="pago_sesion-reporte" element={<PagoSesionReporte />} />
-            <Route path="plagas_involucradas-reporte" element={<PlagasInvolucradasReporte />} />
-            <Route path="productos_usados-reporte" element={<ProductosUsadosReporte />} />
-            <Route path="detalle_compra-reporte" element={<DetalleCompraReporte />} />
-            <Route path="producto-reporte" element={<ProductoReporte />} />
-            {/* Aquí irían los demás reportes también */}
+          <Route path="usuario-reporte" element={<UsuarioReporte />} />
+          <Route path="certificado_fumigacion-reporte" element={<CertificadoFumigacionReporte />} />
+          <Route path="bitacora-reporte" element={<BitacoraReporte />} />
+          <Route path="solicitud_servicio-reporte" element={<SolicitudServicioReporte />} />
+          <Route path="sesion-reporte" element={<SesionReporte />} />
+          <Route path="pago_cotizacion-reporte" element={<PagoCotizacionReporte />} />
+          <Route path="pago_sesion-reporte" element={<PagoSesionReporte />} />
+          <Route path="plagas_involucradas-reporte" element={<PlagasInvolucradasReporte />} />
+          <Route path="productos_usados-reporte" element={<ProductosUsadosReporte />} />
+          <Route path="detalle_compra-reporte" element={<DetalleCompraReporte />} />
+          <Route path="producto-reporte" element={<ProductoReporte />} />
+          {/* Aquí irían los demás reportes también */}
           </Route>
-
         </Route>
 
       </Routes>
