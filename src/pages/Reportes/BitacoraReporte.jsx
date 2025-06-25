@@ -15,14 +15,29 @@ function BitacoraReporte() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const safeValue = (val) =>
+    val === null || val === undefined || val === "" ? "Por Definir" : val;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar que si fechaInicio y fechaFin existen, fechaInicio <= fechaFin
-    if (formData.fechaInicio && formData.fechaFin && formData.fechaInicio > formData.fechaFin) {
-      alert("La fecha inicio no puede ser mayor a la fecha fin");
+    const { fechaInicio, fechaFin } = formData;
+
+    // Validaciones obligatorias
+    if (!fechaInicio || !fechaFin) {
+      alert("Debes seleccionar ambas fechas: inicio y fin.");
       return;
     }
+
+    if (fechaInicio > fechaFin) {
+      alert("La fecha de inicio no puede ser mayor a la fecha de fin.");
+      return;
+    }
+
+    const body = {
+      desde: `${fechaInicio}T00:00:00`,
+      hasta: `${fechaFin}T23:59:59`
+    };
 
     try {
       const response = await fetch("http://localhost:8081/reporte/bitacora", {
@@ -30,29 +45,37 @@ function BitacoraReporte() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(body)
       });
 
       if (!response.ok) throw new Error("Error al generar el reporte");
 
       const data = await response.json();
 
+      if (!data || data.length === 0) {
+        alert("No se encontraron registros para el rango de fechas seleccionado.");
+        return;
+      }
+
       // Crear PDF
       const doc = new jsPDF();
       doc.text("Reporte de Bitácora", 14, 20);
 
-      // Ajusta las columnas según la data que recibas
+      const fechaGeneracion = new Date().toLocaleDateString();
+      doc.text(`Fecha de generación: ${fechaGeneracion}`, 14, 27);
+
       const tableData = data.map((item) => [
-        item.idBitacora,
-        item.fecha,
-        item.descripcion,
-        item.usuario,
+        safeValue(item.idBitacora),
+        safeValue(item.accion),
+        safeValue(item.fechaHora),
+        safeValue(item.ip),
+        safeValue(item.idUsuario)
       ]);
 
       autoTable(doc, {
-        startY: 30,
-        head: [["ID", "Fecha", "Descripción", "Usuario"]],
-        body: tableData,
+        startY: 35,
+        head: [["ID", "Acción", "Fecha/Hora", "IP", "Usuario"]],
+        body: tableData
       });
 
       doc.save("reporte_bitacora.pdf");
@@ -72,6 +95,7 @@ function BitacoraReporte() {
             name="fechaInicio"
             value={formData.fechaInicio}
             onChange={handleInputChange}
+            required
           />
         </div>
 
@@ -82,6 +106,7 @@ function BitacoraReporte() {
             name="fechaFin"
             value={formData.fechaFin}
             onChange={handleInputChange}
+            required
           />
         </div>
 

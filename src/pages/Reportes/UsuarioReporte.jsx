@@ -39,6 +39,9 @@ function UsuarioReporte() {
       const doc = new jsPDF();
       doc.text("Reporte de Usuarios", 14, 20);
 
+      const fechaGeneracion = new Date().toLocaleDateString();
+      doc.text(`Fecha de generación: ${fechaGeneracion}`, 14, 27);
+
       const tableData = data.map((usuario) => [
         usuario.idUsuario,
         usuario.nombreCompleto,

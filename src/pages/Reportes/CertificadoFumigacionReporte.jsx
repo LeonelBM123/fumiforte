@@ -40,6 +40,9 @@ function CertificadoFumigacionReporte() {
       const doc = new jsPDF();
       doc.text("Reporte de Certificados de Fumigación", 14, 20);
 
+      const fechaGeneracion = new Date().toLocaleDateString();
+      doc.text(`Fecha de generación: ${fechaGeneracion}`, 14, 27);
+
       const tableData = data.map((item) => [
         safeValue(item.idCertificado),
         safeValue(item.fechaEmision),
