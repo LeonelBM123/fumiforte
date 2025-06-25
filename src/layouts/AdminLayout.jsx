@@ -73,7 +73,7 @@ function AdminLayout() {
 
     setChatMessages((prev) => [
       ...prev,
-      { sender: "bot", text: data.response || "Sin respuesta" },
+      { sender: "bot", text: data.messages || "Sin respuesta" },
     ]);
   } catch (error) {
     console.error("Error al enviar mensaje:", error);
